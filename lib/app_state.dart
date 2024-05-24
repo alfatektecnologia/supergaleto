@@ -32,6 +32,31 @@ class FFAppState extends ChangeNotifier {
         }
       }
     });
+    await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_Adm') != null) {
+        try {
+          final serializedData =
+              await secureStorage.getString('ff_Adm') ?? '{}';
+          _Adm = ManagerStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
+    });
+    await _safeInitAsync(() async {
+      _pratelheira = (await secureStorage.getStringList('ff_pratelheira'))
+              ?.map((x) {
+                try {
+                  return ItemAssandoStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _pratelheira;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -84,6 +109,89 @@ class FFAppState extends ChangeNotifier {
 
   void insertAtIndexInCart(int index, ProdutoStruct value) {
     _cart.insert(index, value);
+  }
+
+  ManagerStruct _Adm = ManagerStruct();
+  ManagerStruct get Adm => _Adm;
+  set Adm(ManagerStruct value) {
+    _Adm = value;
+    secureStorage.setString('ff_Adm', value.serialize());
+  }
+
+  void deleteAdm() {
+    secureStorage.delete(key: 'ff_Adm');
+  }
+
+  void updateAdmStruct(Function(ManagerStruct) updateFn) {
+    updateFn(_Adm);
+    secureStorage.setString('ff_Adm', _Adm.serialize());
+  }
+
+  String _photoProdutoUrl = '';
+  String get photoProdutoUrl => _photoProdutoUrl;
+  set photoProdutoUrl(String value) {
+    _photoProdutoUrl = value;
+  }
+
+  ProdutoStruct _Produto = ProdutoStruct();
+  ProdutoStruct get Produto => _Produto;
+  set Produto(ProdutoStruct value) {
+    _Produto = value;
+  }
+
+  void updateProdutoStruct(Function(ProdutoStruct) updateFn) {
+    updateFn(_Produto);
+  }
+
+  String _photoFromFirebase = '';
+  String get photoFromFirebase => _photoFromFirebase;
+  set photoFromFirebase(String value) {
+    _photoFromFirebase = value;
+  }
+
+  List<ItemAssandoStruct> _pratelheira = [];
+  List<ItemAssandoStruct> get pratelheira => _pratelheira;
+  set pratelheira(List<ItemAssandoStruct> value) {
+    _pratelheira = value;
+    secureStorage.setStringList(
+        'ff_pratelheira', value.map((x) => x.serialize()).toList());
+  }
+
+  void deletePratelheira() {
+    secureStorage.delete(key: 'ff_pratelheira');
+  }
+
+  void addToPratelheira(ItemAssandoStruct value) {
+    _pratelheira.add(value);
+    secureStorage.setStringList(
+        'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromPratelheira(ItemAssandoStruct value) {
+    _pratelheira.remove(value);
+    secureStorage.setStringList(
+        'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromPratelheira(int index) {
+    _pratelheira.removeAt(index);
+    secureStorage.setStringList(
+        'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
+  }
+
+  void updatePratelheiraAtIndex(
+    int index,
+    ItemAssandoStruct Function(ItemAssandoStruct) updateFn,
+  ) {
+    _pratelheira[index] = updateFn(_pratelheira[index]);
+    secureStorage.setStringList(
+        'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInPratelheira(int index, ItemAssandoStruct value) {
+    _pratelheira.insert(index, value);
+    secureStorage.setStringList(
+        'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
   }
 }
 

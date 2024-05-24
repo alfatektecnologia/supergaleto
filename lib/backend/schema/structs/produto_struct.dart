@@ -17,6 +17,8 @@ class ProdutoStruct extends FFFirebaseStruct {
     double? valor,
     DateTime? dataInclusao,
     bool? isAtivo,
+    double? valorVenda,
+    String? categoria,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _nome = nome,
         _produtoId = produtoId,
@@ -25,6 +27,8 @@ class ProdutoStruct extends FFFirebaseStruct {
         _valor = valor,
         _dataInclusao = dataInclusao,
         _isAtivo = isAtivo,
+        _valorVenda = valorVenda,
+        _categoria = categoria,
         super(firestoreUtilData);
 
   // "nome" field.
@@ -70,6 +74,19 @@ class ProdutoStruct extends FFFirebaseStruct {
   set isAtivo(bool? val) => _isAtivo = val;
   bool hasIsAtivo() => _isAtivo != null;
 
+  // "valorVenda" field.
+  double? _valorVenda;
+  double get valorVenda => _valorVenda ?? 0.0;
+  set valorVenda(double? val) => _valorVenda = val;
+  void incrementValorVenda(double amount) => _valorVenda = valorVenda + amount;
+  bool hasValorVenda() => _valorVenda != null;
+
+  // "categoria" field.
+  String? _categoria;
+  String get categoria => _categoria ?? '';
+  set categoria(String? val) => _categoria = val;
+  bool hasCategoria() => _categoria != null;
+
   static ProdutoStruct fromMap(Map<String, dynamic> data) => ProdutoStruct(
         nome: data['nome'] as String?,
         produtoId: data['produtoId'] as String?,
@@ -78,6 +95,8 @@ class ProdutoStruct extends FFFirebaseStruct {
         valor: castToType<double>(data['valor']),
         dataInclusao: data['dataInclusao'] as DateTime?,
         isAtivo: data['isAtivo'] as bool?,
+        valorVenda: castToType<double>(data['valorVenda']),
+        categoria: data['categoria'] as String?,
       );
 
   static ProdutoStruct? maybeFromMap(dynamic data) =>
@@ -91,6 +110,8 @@ class ProdutoStruct extends FFFirebaseStruct {
         'valor': _valor,
         'dataInclusao': _dataInclusao,
         'isAtivo': _isAtivo,
+        'valorVenda': _valorVenda,
+        'categoria': _categoria,
       }.withoutNulls;
 
   @override
@@ -122,6 +143,14 @@ class ProdutoStruct extends FFFirebaseStruct {
         'isAtivo': serializeParam(
           _isAtivo,
           ParamType.bool,
+        ),
+        'valorVenda': serializeParam(
+          _valorVenda,
+          ParamType.double,
+        ),
+        'categoria': serializeParam(
+          _categoria,
+          ParamType.String,
         ),
       }.withoutNulls;
 
@@ -162,6 +191,16 @@ class ProdutoStruct extends FFFirebaseStruct {
           ParamType.bool,
           false,
         ),
+        valorVenda: deserializeParam(
+          data['valorVenda'],
+          ParamType.double,
+          false,
+        ),
+        categoria: deserializeParam(
+          data['categoria'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -176,12 +215,23 @@ class ProdutoStruct extends FFFirebaseStruct {
         fotoUrl == other.fotoUrl &&
         valor == other.valor &&
         dataInclusao == other.dataInclusao &&
-        isAtivo == other.isAtivo;
+        isAtivo == other.isAtivo &&
+        valorVenda == other.valorVenda &&
+        categoria == other.categoria;
   }
 
   @override
-  int get hashCode => const ListEquality().hash(
-      [nome, produtoId, descricao, fotoUrl, valor, dataInclusao, isAtivo]);
+  int get hashCode => const ListEquality().hash([
+        nome,
+        produtoId,
+        descricao,
+        fotoUrl,
+        valor,
+        dataInclusao,
+        isAtivo,
+        valorVenda,
+        categoria
+      ]);
 }
 
 ProdutoStruct createProdutoStruct({
@@ -192,6 +242,8 @@ ProdutoStruct createProdutoStruct({
   double? valor,
   DateTime? dataInclusao,
   bool? isAtivo,
+  double? valorVenda,
+  String? categoria,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -205,6 +257,8 @@ ProdutoStruct createProdutoStruct({
       valor: valor,
       dataInclusao: dataInclusao,
       isAtivo: isAtivo,
+      valorVenda: valorVenda,
+      categoria: categoria,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

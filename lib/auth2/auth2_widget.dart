@@ -754,72 +754,29 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .passwordCreateTextController
                                                                   .text,
                                                             );
-                                                            setState(() {
-                                                              FFAppState()
-                                                                      .user =
-                                                                  UserStruct(
-                                                                name: _model
-                                                                    .etNameTextController
-                                                                    .text,
-                                                                userId:
-                                                                    currentUserUid,
-                                                                email:
-                                                                    currentUserEmail,
-                                                                isAdmin: false,
-                                                              );
-                                                            });
                                                             if (currentUserUid !=
                                                                 '') {
-                                                              ScaffoldMessenger
-                                                                      .of(context)
-                                                                  .showSnackBar(
-                                                                SnackBar(
-                                                                  content: Text(
-                                                                    'has user id',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryBackground,
-                                                                    ),
-                                                                  ),
-                                                                  duration: const Duration(
-                                                                      milliseconds:
-                                                                          4000),
-                                                                  backgroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .secondary,
-                                                                ),
-                                                              );
+                                                              setState(() {
+                                                                FFAppState()
+                                                                        .user =
+                                                                    UserStruct(
+                                                                  name: _model
+                                                                      .etNameTextController
+                                                                      .text,
+                                                                  userId:
+                                                                      currentUserUid,
+                                                                  email:
+                                                                      currentUserEmail,
+                                                                  isAdmin:
+                                                                      false,
+                                                                );
+                                                              });
 
                                                               context.goNamedAuth(
                                                                   'Home',
                                                                   context
                                                                       .mounted);
                                                             } else {
-                                                              ScaffoldMessenger
-                                                                      .of(context)
-                                                                  .showSnackBar(
-                                                                SnackBar(
-                                                                  content: Text(
-                                                                    'Usuário não autenticado',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryBackground,
-                                                                    ),
-                                                                  ),
-                                                                  duration: const Duration(
-                                                                      milliseconds:
-                                                                          4000),
-                                                                  backgroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .secondary,
-                                                                ),
-                                                              );
                                                               return;
                                                             }
                                                           },

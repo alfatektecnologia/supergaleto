@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'sacola_model.dart';
 export 'sacola_model.dart';
 
@@ -35,6 +36,8 @@ class _SacolaWidgetState extends State<SacolaWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -55,16 +58,40 @@ class _SacolaWidgetState extends State<SacolaWidget> {
             context.pop();
           },
         ),
-        title: Text(
-          ' ',
-          style: FlutterFlowTheme.of(context).headlineMedium.override(
-                fontFamily: 'Roboto',
-                color: Colors.white,
-                fontSize: 22.0,
-                letterSpacing: 0.0,
-              ),
+        title: Align(
+          alignment: const AlignmentDirectional(-1.0, -1.0),
+          child: Text(
+            ' SACOLA',
+            textAlign: TextAlign.start,
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Roboto',
+                  color: Colors.white,
+                  fontSize: 22.0,
+                  letterSpacing: 0.0,
+                ),
+          ),
         ),
         actions: [
+          Visibility(
+            visible: FFAppState().user.isAdmin,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+              child: InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () async {
+                  context.pushNamed('Admin');
+                },
+                child: Icon(
+                  Icons.settings_outlined,
+                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  size: 24.0,
+                ),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
             child: InkWell(

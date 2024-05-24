@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -5,7 +6,9 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:badges/badges.dart' as badges;
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'home_model.dart';
@@ -27,6 +30,28 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HomeModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.checkAdmin = await queryUsersRecordOnce(
+        queryBuilder: (usersRecord) => usersRecord.where(
+          'uid',
+          isEqualTo: currentUserUid,
+        ),
+        singleRecord: true,
+      ).then((s) => s.firstOrNull);
+      if (currentUserUid == _model.checkAdmin?.uid) {
+        if (_model.checkAdmin?.isAdmin == true) {
+          setState(() {
+            FFAppState().updateUserStruct(
+              (e) => e
+                ..name = _model.checkAdmin?.displayName
+                ..isAdmin = _model.checkAdmin?.isAdmin,
+            );
+          });
+        }
+      }
+    });
   }
 
   @override
@@ -129,9 +154,46 @@ class _HomeWidgetState extends State<HomeWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
-                    await actions.closeApp(
-                      context,
-                    );
+                    var confirmDialogResponse = await showDialog<bool>(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Alerta!'),
+                              content:
+                                  const Text('Deseja realmente sair do aplicativo?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext, false),
+                                  child: const Text('Cancelar'),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext, true),
+                                  child: const Text('Sair'),
+                                ),
+                              ],
+                            );
+                          },
+                        ) ??
+                        false;
+                    if (confirmDialogResponse) {
+                      await actions.closeApp(
+                        context,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'confirmado',
+                            style: TextStyle(
+                              color: FlutterFlowTheme.of(context).primaryText,
+                            ),
+                          ),
+                          duration: const Duration(milliseconds: 4000),
+                          backgroundColor: const Color(0xFF2343BF),
+                        ),
+                      );
+                    }
                   },
                   child: Icon(
                     Icons.logout_sharp,
@@ -375,34 +437,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       width: 300.0,
                                                       height: 200.0,
                                                       fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            1.01, -1.1),
-                                                    child: InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        setState(() {
-                                                          FFAppState().addToCart(
-                                                              ProdutoStruct());
-                                                        });
-                                                      },
-                                                      child: Icon(
-                                                        Icons.add_shopping_cart,
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                        size: 24.0,
-                                                      ),
                                                     ),
                                                   ),
                                                 ],

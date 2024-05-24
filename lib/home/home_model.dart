@@ -8,6 +8,8 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  UsersRecord? checkAdmin;
   // State field(s) for ListView widget.
 
   PagingController<DocumentSnapshot?, CategoriasRecord>?

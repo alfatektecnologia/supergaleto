@@ -105,6 +105,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Success01Payment',
           path: '/success01Payment',
           builder: (context, params) => const Success01PaymentWidget(),
+        ),
+        FFRoute(
+          name: 'Admin',
+          path: '/admin',
+          builder: (context, params) => const AdminWidget(),
+        ),
+        FFRoute(
+          name: 'Churrasqueira',
+          path: '/churrasqueira',
+          builder: (context, params) => const ChurrasqueiraWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
