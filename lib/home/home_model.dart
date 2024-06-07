@@ -5,17 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class HomeModel extends FlutterFlowModel<HomeWidget> {
+  ///  Local state fields for this page.
+
+  String? categoria = 'Aves';
+
+  List<ProdutosRecord> initialSettings = [];
+  void addToInitialSettings(ProdutosRecord item) => initialSettings.add(item);
+  void removeFromInitialSettings(ProdutosRecord item) =>
+      initialSettings.remove(item);
+  void removeAtIndexFromInitialSettings(int index) =>
+      initialSettings.removeAt(index);
+  void insertAtIndexInInitialSettings(int index, ProdutosRecord item) =>
+      initialSettings.insert(index, item);
+  void updateInitialSettingsAtIndex(
+          int index, Function(ProdutosRecord) updateFn) =>
+      initialSettings[index] = updateFn(initialSettings[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
   // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
   UsersRecord? checkAdmin;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<ProdutosRecord>? initialSetAves;
   // State field(s) for ListView widget.
 
   PagingController<DocumentSnapshot?, CategoriasRecord>?
       listViewPagingController1;
   Query? listViewPagingQuery1;
   List<StreamSubscription?> listViewStreamSubscriptions1 = [];
+
+  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  List<ProdutosRecord>? resultProdByCategory;
 
   @override
   void initState(BuildContext context) {}
@@ -52,6 +73,7 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
     return controller
       ..addPageRequestListener(
         (nextPageMarker) => queryCategoriasRecordPage(
+          queryBuilder: (_) => listViewPagingQuery1 ??= query,
           nextPageMarker: nextPageMarker,
           streamSubscriptions: listViewStreamSubscriptions1,
           controller: controller,

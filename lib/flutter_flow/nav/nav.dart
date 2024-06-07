@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
-import '/backend/schema/structs/index.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -94,12 +93,27 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'Details',
           path: '/details',
-          builder: (context, params) => const DetailsWidget(),
+          asyncParams: {
+            'produto': getDoc(['produtos'], ProdutosRecord.fromSnapshot),
+          },
+          builder: (context, params) => DetailsWidget(
+            produto: params.getParam(
+              'produto',
+              ParamType.Document,
+            ),
+          ),
         ),
         FFRoute(
           name: 'Sacola',
           path: '/sacola',
-          builder: (context, params) => const SacolaWidget(),
+          builder: (context, params) => SacolaWidget(
+            itensSacola: params.getParam(
+              'itensSacola',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: SacolaStruct.fromSerializableMap,
+            ),
+          ),
         ),
         FFRoute(
           name: 'Success01Payment',

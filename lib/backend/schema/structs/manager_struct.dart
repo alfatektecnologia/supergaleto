@@ -12,12 +12,10 @@ class ManagerStruct extends FFFirebaseStruct {
     UserStruct? user,
     SacolaStruct? sacola,
     ChurrasqueiraStruct? churrasqueira,
-    ProductLabelsAndHintsStruct? productLabels,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _user = user,
         _sacola = sacola,
         _churrasqueira = churrasqueira,
-        _productLabels = productLabels,
         super(firestoreUtilData);
 
   // "user" field.
@@ -45,21 +43,10 @@ class ManagerStruct extends FFFirebaseStruct {
       updateFn(_churrasqueira ??= ChurrasqueiraStruct());
   bool hasChurrasqueira() => _churrasqueira != null;
 
-  // "productLabels" field.
-  ProductLabelsAndHintsStruct? _productLabels;
-  ProductLabelsAndHintsStruct get productLabels =>
-      _productLabels ?? ProductLabelsAndHintsStruct();
-  set productLabels(ProductLabelsAndHintsStruct? val) => _productLabels = val;
-  void updateProductLabels(Function(ProductLabelsAndHintsStruct) updateFn) =>
-      updateFn(_productLabels ??= ProductLabelsAndHintsStruct());
-  bool hasProductLabels() => _productLabels != null;
-
   static ManagerStruct fromMap(Map<String, dynamic> data) => ManagerStruct(
         user: UserStruct.maybeFromMap(data['user']),
         sacola: SacolaStruct.maybeFromMap(data['sacola']),
         churrasqueira: ChurrasqueiraStruct.maybeFromMap(data['churrasqueira']),
-        productLabels:
-            ProductLabelsAndHintsStruct.maybeFromMap(data['productLabels']),
       );
 
   static ManagerStruct? maybeFromMap(dynamic data) =>
@@ -69,7 +56,6 @@ class ManagerStruct extends FFFirebaseStruct {
         'user': _user?.toMap(),
         'sacola': _sacola?.toMap(),
         'churrasqueira': _churrasqueira?.toMap(),
-        'productLabels': _productLabels?.toMap(),
       }.withoutNulls;
 
   @override
@@ -84,10 +70,6 @@ class ManagerStruct extends FFFirebaseStruct {
         ),
         'churrasqueira': serializeParam(
           _churrasqueira,
-          ParamType.DataStruct,
-        ),
-        'productLabels': serializeParam(
-          _productLabels,
           ParamType.DataStruct,
         ),
       }.withoutNulls;
@@ -112,12 +94,6 @@ class ManagerStruct extends FFFirebaseStruct {
           false,
           structBuilder: ChurrasqueiraStruct.fromSerializableMap,
         ),
-        productLabels: deserializeStructParam(
-          data['productLabels'],
-          ParamType.DataStruct,
-          false,
-          structBuilder: ProductLabelsAndHintsStruct.fromSerializableMap,
-        ),
       );
 
   @override
@@ -128,20 +104,17 @@ class ManagerStruct extends FFFirebaseStruct {
     return other is ManagerStruct &&
         user == other.user &&
         sacola == other.sacola &&
-        churrasqueira == other.churrasqueira &&
-        productLabels == other.productLabels;
+        churrasqueira == other.churrasqueira;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([user, sacola, churrasqueira, productLabels]);
+  int get hashCode => const ListEquality().hash([user, sacola, churrasqueira]);
 }
 
 ManagerStruct createManagerStruct({
   UserStruct? user,
   SacolaStruct? sacola,
   ChurrasqueiraStruct? churrasqueira,
-  ProductLabelsAndHintsStruct? productLabels,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -152,8 +125,6 @@ ManagerStruct createManagerStruct({
       sacola: sacola ?? (clearUnsetFields ? SacolaStruct() : null),
       churrasqueira:
           churrasqueira ?? (clearUnsetFields ? ChurrasqueiraStruct() : null),
-      productLabels: productLabels ??
-          (clearUnsetFields ? ProductLabelsAndHintsStruct() : null),
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,
@@ -230,14 +201,6 @@ Map<String, dynamic> getManagerFirestoreData(
     firestoreData,
     manager.hasChurrasqueira() ? manager.churrasqueira : null,
     'churrasqueira',
-    forFieldValue,
-  );
-
-  // Handle nested data for "productLabels" field.
-  addProductLabelsAndHintsStructData(
-    firestoreData,
-    manager.hasProductLabels() ? manager.productLabels : null,
-    'productLabels',
     forFieldValue,
   );
 

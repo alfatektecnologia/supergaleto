@@ -756,21 +756,19 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                             );
                                                             if (currentUserUid !=
                                                                 '') {
-                                                              setState(() {
-                                                                FFAppState()
-                                                                        .user =
-                                                                    UserStruct(
-                                                                  name: _model
-                                                                      .etNameTextController
-                                                                      .text,
-                                                                  userId:
-                                                                      currentUserUid,
-                                                                  email:
-                                                                      currentUserEmail,
-                                                                  isAdmin:
-                                                                      false,
-                                                                );
-                                                              });
+                                                              FFAppState()
+                                                                      .user =
+                                                                  UserStruct(
+                                                                name: _model
+                                                                    .etNameTextController
+                                                                    .text,
+                                                                userId:
+                                                                    currentUserUid,
+                                                                email:
+                                                                    currentUserEmail,
+                                                                isAdmin: false,
+                                                              );
+                                                              setState(() {});
 
                                                               context.goNamedAuth(
                                                                   'Home',

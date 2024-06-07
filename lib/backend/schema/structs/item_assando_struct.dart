@@ -12,9 +12,11 @@ class ItemAssandoStruct extends FFFirebaseStruct {
   ItemAssandoStruct({
     String? produtoName,
     int? quantidade,
+    String? fotoUrl,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _produtoName = produtoName,
         _quantidade = quantidade,
+        _fotoUrl = fotoUrl,
         super(firestoreUtilData);
 
   // "produtoName" field.
@@ -30,10 +32,17 @@ class ItemAssandoStruct extends FFFirebaseStruct {
   void incrementQuantidade(int amount) => _quantidade = quantidade + amount;
   bool hasQuantidade() => _quantidade != null;
 
+  // "fotoUrl" field.
+  String? _fotoUrl;
+  String get fotoUrl => _fotoUrl ?? '';
+  set fotoUrl(String? val) => _fotoUrl = val;
+  bool hasFotoUrl() => _fotoUrl != null;
+
   static ItemAssandoStruct fromMap(Map<String, dynamic> data) =>
       ItemAssandoStruct(
         produtoName: data['produtoName'] as String?,
         quantidade: castToType<int>(data['quantidade']),
+        fotoUrl: data['fotoUrl'] as String?,
       );
 
   static ItemAssandoStruct? maybeFromMap(dynamic data) => data is Map
@@ -43,6 +52,7 @@ class ItemAssandoStruct extends FFFirebaseStruct {
   Map<String, dynamic> toMap() => {
         'produtoName': _produtoName,
         'quantidade': _quantidade,
+        'fotoUrl': _fotoUrl,
       }.withoutNulls;
 
   @override
@@ -54,6 +64,10 @@ class ItemAssandoStruct extends FFFirebaseStruct {
         'quantidade': serializeParam(
           _quantidade,
           ParamType.int,
+        ),
+        'fotoUrl': serializeParam(
+          _fotoUrl,
+          ParamType.String,
         ),
       }.withoutNulls;
 
@@ -69,6 +83,11 @@ class ItemAssandoStruct extends FFFirebaseStruct {
           ParamType.int,
           false,
         ),
+        fotoUrl: deserializeParam(
+          data['fotoUrl'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -78,16 +97,19 @@ class ItemAssandoStruct extends FFFirebaseStruct {
   bool operator ==(Object other) {
     return other is ItemAssandoStruct &&
         produtoName == other.produtoName &&
-        quantidade == other.quantidade;
+        quantidade == other.quantidade &&
+        fotoUrl == other.fotoUrl;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([produtoName, quantidade]);
+  int get hashCode =>
+      const ListEquality().hash([produtoName, quantidade, fotoUrl]);
 }
 
 ItemAssandoStruct createItemAssandoStruct({
   String? produtoName,
   int? quantidade,
+  String? fotoUrl,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -96,6 +118,7 @@ ItemAssandoStruct createItemAssandoStruct({
     ItemAssandoStruct(
       produtoName: produtoName,
       quantidade: quantidade,
+      fotoUrl: fotoUrl,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

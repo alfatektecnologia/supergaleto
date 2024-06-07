@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'admin_model.dart';
 export 'admin_model.dart';
 
@@ -37,6 +38,8 @@ class _AdminWidgetState extends State<AdminWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -206,7 +209,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                         options: ['Cadastrar', 'Listar'].toList(),
                         onChanged: (val) => setState(() {}),
                         controller: _model.radioButtonValueController ??=
-                            FormFieldController<String>(null),
+                            FormFieldController<String>('Cadastrar'),
                         optionHeight: 32.0,
                         textStyle:
                             FlutterFlowTheme.of(context).labelMedium.override(
@@ -225,7 +228,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                         radioButtonColor: FlutterFlowTheme.of(context).primary,
                         inactiveRadioButtonColor:
                             FlutterFlowTheme.of(context).secondaryText,
-                        toggleable: false,
+                        toggleable: true,
                         horizontalAlignment: WrapAlignment.start,
                         verticalAlignment: WrapCrossAlignment.start,
                       ),
@@ -242,22 +245,42 @@ class _AdminWidgetState extends State<AdminWidget> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: wrapWithModel(
-                      model: _model.produtoCardModel,
-                      updateCallback: () => setState(() {}),
-                      updateOnChange: true,
-                      child: ProdutoCardWidget(
-                        imageUrl: 'https://cdn2.thecatapi.com/images/1gu.png',
-                        label1: 'Nome',
-                        hint1: 'nome do produto',
-                        label2: 'Descrição',
-                        hint2: 'Descrição do produto',
-                        label4: 'Preço de venda',
-                        hint4: 'Preço de venda',
-                        label3: 'Preço de compra',
-                        hint3: 'Preço e compra',
-                        nroLinhas2: 4,
-                        btSalvar: (onClick) async {},
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              FFAppState().photoProdutoUrl,
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context).primaryText,
+                              ),
+                            ),
+                            duration: const Duration(milliseconds: 4000),
+                            backgroundColor: const Color(0xFFC315C3),
+                          ),
+                        );
+                      },
+                      child: wrapWithModel(
+                        model: _model.produtoCardModel,
+                        updateCallback: () => setState(() {}),
+                        updateOnChange: true,
+                        child: ProdutoCardWidget(
+                          imageUrl: FFAppState().photoFromFirebase,
+                          label1: 'Nome',
+                          hint1: 'nome do produto',
+                          label2: 'Descrição',
+                          hint2: 'Descrição do produto',
+                          label4: 'Preço de venda',
+                          hint4: 'Preço de venda',
+                          label3: 'Preço de compra',
+                          hint3: 'Preço e compra',
+                          nroLinhas2: 4,
+                          btSalvar: (onClick) async {},
+                        ),
                       ),
                     ),
                   ),

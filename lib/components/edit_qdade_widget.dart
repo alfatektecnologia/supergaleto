@@ -1,30 +1,24 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'edit_component_model.dart';
-export 'edit_component_model.dart';
+import 'edit_qdade_model.dart';
+export 'edit_qdade_model.dart';
 
-class EditComponentWidget extends StatefulWidget {
-  const EditComponentWidget({
+class EditQdadeWidget extends StatefulWidget {
+  const EditQdadeWidget({
     super.key,
-    String? label,
-    String? hint,
-    required this.icon,
-    required this.texto,
-  })  : label = label ?? 'label',
-        hint = hint ?? 'Hint';
+    required this.textoDigitado,
+  });
 
-  final String label;
-  final String hint;
-  final Future Function(Widget? onClick)? icon;
-  final Future Function(String texto2callback)? texto;
+  final Future Function(String? textoQdade)? textoDigitado;
 
   @override
-  State<EditComponentWidget> createState() => _EditComponentWidgetState();
+  State<EditQdadeWidget> createState() => _EditQdadeWidgetState();
 }
 
-class _EditComponentWidgetState extends State<EditComponentWidget> {
-  late EditComponentModel _model;
+class _EditQdadeWidgetState extends State<EditQdadeWidget> {
+  late EditQdadeModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -35,10 +29,11 @@ class _EditComponentWidgetState extends State<EditComponentWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => EditComponentModel());
+    _model = createModel(context, () => EditQdadeModel());
 
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
+    _model.edtQdaddeFrangoTextController ??=
+        TextEditingController(text: _model.textoQdade);
+    _model.edtQdaddeFrangoFocusNode ??= FocusNode();
   }
 
   @override
@@ -50,37 +45,38 @@ class _EditComponentWidgetState extends State<EditComponentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(),
+    return Align(
+      alignment: const AlignmentDirectional(0.0, 0.0),
       child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+        padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
         child: TextFormField(
-          controller: _model.textController,
-          focusNode: _model.textFieldFocusNode,
+          controller: _model.edtQdaddeFrangoTextController,
+          focusNode: _model.edtQdaddeFrangoFocusNode,
+          onChanged: (_) => EasyDebounce.debounce(
+            '_model.edtQdaddeFrangoTextController',
+            const Duration(milliseconds: 2000),
+            () async {
+              // Atualiza qdade
+              FFAppState().qdade =
+                  int.parse(_model.edtQdaddeFrangoTextController.text);
+              setState(() {});
+            },
+          ),
           onFieldSubmitted: (_) async {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  _model.textController.text,
-                  style: TextStyle(
-                    color: FlutterFlowTheme.of(context).primaryText,
-                  ),
-                ),
-                duration: const Duration(milliseconds: 4000),
-                backgroundColor: FlutterFlowTheme.of(context).tertiary,
-              ),
-            );
+            // Atualiza qdade
+            FFAppState().qdade =
+                int.parse(_model.edtQdaddeFrangoTextController.text);
+            setState(() {});
           },
           autofocus: true,
           textInputAction: TextInputAction.next,
           obscureText: false,
           decoration: InputDecoration(
-            labelText: widget.label,
+            labelText: 'Quantidade',
             labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
                   fontFamily: 'Inter',
                   letterSpacing: 0.0,
                 ),
-            hintText: widget.hint,
             hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
                   fontFamily: 'Inter',
                   letterSpacing: 0.0,
@@ -113,15 +109,14 @@ class _EditComponentWidgetState extends State<EditComponentWidget> {
               ),
               borderRadius: BorderRadius.circular(8.0),
             ),
-            filled: true,
-            fillColor: FlutterFlowTheme.of(context).secondaryBackground,
           ),
           style: FlutterFlowTheme.of(context).bodyMedium.override(
                 fontFamily: 'Inter',
                 letterSpacing: 0.0,
               ),
-          maxLines: null,
-          validator: _model.textControllerValidator.asValidator(context),
+          textAlign: TextAlign.center,
+          validator: _model.edtQdaddeFrangoTextControllerValidator
+              .asValidator(context),
         ),
       ),
     );

@@ -11,7 +11,7 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
   ChurrasqueiraStruct({
     String? id,
     List<ItemAssandoStruct>? itemsAssando,
-    DateTime? data,
+    String? data,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _itemsAssando = itemsAssando,
@@ -33,9 +33,9 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
   bool hasItemsAssando() => _itemsAssando != null;
 
   // "data" field.
-  DateTime? _data;
-  DateTime? get data => _data;
-  set data(DateTime? val) => _data = val;
+  String? _data;
+  String get data => _data ?? '';
+  set data(String? val) => _data = val;
   bool hasData() => _data != null;
 
   static ChurrasqueiraStruct fromMap(Map<String, dynamic> data) =>
@@ -45,7 +45,7 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
           data['itemsAssando'],
           ItemAssandoStruct.fromMap,
         ),
-        data: data['data'] as DateTime?,
+        data: data['data'] as String?,
       );
 
   static ChurrasqueiraStruct? maybeFromMap(dynamic data) => data is Map
@@ -71,7 +71,7 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
         ),
         'data': serializeParam(
           _data,
-          ParamType.DateTime,
+          ParamType.String,
         ),
       }.withoutNulls;
 
@@ -90,7 +90,7 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
         ),
         data: deserializeParam(
           data['data'],
-          ParamType.DateTime,
+          ParamType.String,
           false,
         ),
       );
@@ -113,7 +113,7 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
 
 ChurrasqueiraStruct createChurrasqueiraStruct({
   String? id,
-  DateTime? data,
+  String? data,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,

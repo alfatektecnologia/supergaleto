@@ -55,6 +55,16 @@ class ProdutosRecord extends FirestoreRecord {
   String get photoUrl => _photoUrl ?? '';
   bool hasPhotoUrl() => _photoUrl != null;
 
+  // "categoria" field.
+  String? _categoria;
+  String get categoria => _categoria ?? '';
+  bool hasCategoria() => _categoria != null;
+
+  // "qdade" field.
+  int? _qdade;
+  int get qdade => _qdade ?? 0;
+  bool hasQdade() => _qdade != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _description = snapshotData['description'] as String?;
@@ -64,6 +74,8 @@ class ProdutosRecord extends FirestoreRecord {
     _onSale = snapshotData['on_sale'] as bool?;
     _salePrice = castToType<double>(snapshotData['sale_price']);
     _photoUrl = snapshotData['photoUrl'] as String?;
+    _categoria = snapshotData['categoria'] as String?;
+    _qdade = castToType<int>(snapshotData['qdade']);
   }
 
   static CollectionReference get collection =>
@@ -109,6 +121,8 @@ Map<String, dynamic> createProdutosRecordData({
   bool? onSale,
   double? salePrice,
   String? photoUrl,
+  String? categoria,
+  int? qdade,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -120,6 +134,8 @@ Map<String, dynamic> createProdutosRecordData({
       'on_sale': onSale,
       'sale_price': salePrice,
       'photoUrl': photoUrl,
+      'categoria': categoria,
+      'qdade': qdade,
     }.withoutNulls,
   );
 
@@ -138,7 +154,9 @@ class ProdutosRecordDocumentEquality implements Equality<ProdutosRecord> {
         e1?.modifiedAt == e2?.modifiedAt &&
         e1?.onSale == e2?.onSale &&
         e1?.salePrice == e2?.salePrice &&
-        e1?.photoUrl == e2?.photoUrl;
+        e1?.photoUrl == e2?.photoUrl &&
+        e1?.categoria == e2?.categoria &&
+        e1?.qdade == e2?.qdade;
   }
 
   @override
@@ -150,7 +168,9 @@ class ProdutosRecordDocumentEquality implements Equality<ProdutosRecord> {
         e?.modifiedAt,
         e?.onSale,
         e?.salePrice,
-        e?.photoUrl
+        e?.photoUrl,
+        e?.categoria,
+        e?.qdade
       ]);
 
   @override

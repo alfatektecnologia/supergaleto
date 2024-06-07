@@ -10,26 +10,22 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class ItemDaSacolaStruct extends FFFirebaseStruct {
   ItemDaSacolaStruct({
-    String? produtoId,
     String? nome,
     double? valor,
     int? qdade,
-    String? userId,
-    DateTime? data,
+    String? data,
+    String? fotoUrl,
+    String? descricao,
+    DocumentReference? referenceProd,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _produtoId = produtoId,
-        _nome = nome,
+  })  : _nome = nome,
         _valor = valor,
         _qdade = qdade,
-        _userId = userId,
         _data = data,
+        _fotoUrl = fotoUrl,
+        _descricao = descricao,
+        _referenceProd = referenceProd,
         super(firestoreUtilData);
-
-  // "produtoId" field.
-  String? _produtoId;
-  String get produtoId => _produtoId ?? '';
-  set produtoId(String? val) => _produtoId = val;
-  bool hasProdutoId() => _produtoId != null;
 
   // "nome" field.
   String? _nome;
@@ -51,26 +47,39 @@ class ItemDaSacolaStruct extends FFFirebaseStruct {
   void incrementQdade(int amount) => _qdade = qdade + amount;
   bool hasQdade() => _qdade != null;
 
-  // "userId" field.
-  String? _userId;
-  String get userId => _userId ?? '';
-  set userId(String? val) => _userId = val;
-  bool hasUserId() => _userId != null;
-
   // "data" field.
-  DateTime? _data;
-  DateTime? get data => _data;
-  set data(DateTime? val) => _data = val;
+  String? _data;
+  String get data => _data ?? '';
+  set data(String? val) => _data = val;
   bool hasData() => _data != null;
+
+  // "fotoUrl" field.
+  String? _fotoUrl;
+  String get fotoUrl => _fotoUrl ?? '';
+  set fotoUrl(String? val) => _fotoUrl = val;
+  bool hasFotoUrl() => _fotoUrl != null;
+
+  // "descricao" field.
+  String? _descricao;
+  String get descricao => _descricao ?? '';
+  set descricao(String? val) => _descricao = val;
+  bool hasDescricao() => _descricao != null;
+
+  // "referenceProd" field.
+  DocumentReference? _referenceProd;
+  DocumentReference? get referenceProd => _referenceProd;
+  set referenceProd(DocumentReference? val) => _referenceProd = val;
+  bool hasReferenceProd() => _referenceProd != null;
 
   static ItemDaSacolaStruct fromMap(Map<String, dynamic> data) =>
       ItemDaSacolaStruct(
-        produtoId: data['produtoId'] as String?,
         nome: data['nome'] as String?,
         valor: castToType<double>(data['valor']),
         qdade: castToType<int>(data['qdade']),
-        userId: data['userId'] as String?,
-        data: data['data'] as DateTime?,
+        data: data['data'] as String?,
+        fotoUrl: data['fotoUrl'] as String?,
+        descricao: data['descricao'] as String?,
+        referenceProd: data['referenceProd'] as DocumentReference?,
       );
 
   static ItemDaSacolaStruct? maybeFromMap(dynamic data) => data is Map
@@ -78,20 +87,17 @@ class ItemDaSacolaStruct extends FFFirebaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
-        'produtoId': _produtoId,
         'nome': _nome,
         'valor': _valor,
         'qdade': _qdade,
-        'userId': _userId,
         'data': _data,
+        'fotoUrl': _fotoUrl,
+        'descricao': _descricao,
+        'referenceProd': _referenceProd,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'produtoId': serializeParam(
-          _produtoId,
-          ParamType.String,
-        ),
         'nome': serializeParam(
           _nome,
           ParamType.String,
@@ -104,23 +110,26 @@ class ItemDaSacolaStruct extends FFFirebaseStruct {
           _qdade,
           ParamType.int,
         ),
-        'userId': serializeParam(
-          _userId,
-          ParamType.String,
-        ),
         'data': serializeParam(
           _data,
-          ParamType.DateTime,
+          ParamType.String,
+        ),
+        'fotoUrl': serializeParam(
+          _fotoUrl,
+          ParamType.String,
+        ),
+        'descricao': serializeParam(
+          _descricao,
+          ParamType.String,
+        ),
+        'referenceProd': serializeParam(
+          _referenceProd,
+          ParamType.DocumentReference,
         ),
       }.withoutNulls;
 
   static ItemDaSacolaStruct fromSerializableMap(Map<String, dynamic> data) =>
       ItemDaSacolaStruct(
-        produtoId: deserializeParam(
-          data['produtoId'],
-          ParamType.String,
-          false,
-        ),
         nome: deserializeParam(
           data['nome'],
           ParamType.String,
@@ -136,15 +145,26 @@ class ItemDaSacolaStruct extends FFFirebaseStruct {
           ParamType.int,
           false,
         ),
-        userId: deserializeParam(
-          data['userId'],
+        data: deserializeParam(
+          data['data'],
           ParamType.String,
           false,
         ),
-        data: deserializeParam(
-          data['data'],
-          ParamType.DateTime,
+        fotoUrl: deserializeParam(
+          data['fotoUrl'],
+          ParamType.String,
           false,
+        ),
+        descricao: deserializeParam(
+          data['descricao'],
+          ParamType.String,
+          false,
+        ),
+        referenceProd: deserializeParam(
+          data['referenceProd'],
+          ParamType.DocumentReference,
+          false,
+          collectionNamePath: ['produtos'],
         ),
       );
 
@@ -154,38 +174,41 @@ class ItemDaSacolaStruct extends FFFirebaseStruct {
   @override
   bool operator ==(Object other) {
     return other is ItemDaSacolaStruct &&
-        produtoId == other.produtoId &&
         nome == other.nome &&
         valor == other.valor &&
         qdade == other.qdade &&
-        userId == other.userId &&
-        data == other.data;
+        data == other.data &&
+        fotoUrl == other.fotoUrl &&
+        descricao == other.descricao &&
+        referenceProd == other.referenceProd;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([produtoId, nome, valor, qdade, userId, data]);
+  int get hashCode => const ListEquality()
+      .hash([nome, valor, qdade, data, fotoUrl, descricao, referenceProd]);
 }
 
 ItemDaSacolaStruct createItemDaSacolaStruct({
-  String? produtoId,
   String? nome,
   double? valor,
   int? qdade,
-  String? userId,
-  DateTime? data,
+  String? data,
+  String? fotoUrl,
+  String? descricao,
+  DocumentReference? referenceProd,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     ItemDaSacolaStruct(
-      produtoId: produtoId,
       nome: nome,
       valor: valor,
       qdade: qdade,
-      userId: userId,
       data: data,
+      fotoUrl: fotoUrl,
+      descricao: descricao,
+      referenceProd: referenceProd,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

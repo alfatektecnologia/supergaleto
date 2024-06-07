@@ -10,16 +10,16 @@ import '/flutter_flow/flutter_flow_util.dart';
 class PedidosStruct extends FFFirebaseStruct {
   PedidosStruct({
     String? pedidoId,
-    DateTime? dataCompra,
     String? userId,
     String? sacolaId,
     SacolaStruct? produtos,
+    String? dataCompra,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _pedidoId = pedidoId,
-        _dataCompra = dataCompra,
         _userId = userId,
         _sacolaId = sacolaId,
         _produtos = produtos,
+        _dataCompra = dataCompra,
         super(firestoreUtilData);
 
   // "pedidoId" field.
@@ -27,12 +27,6 @@ class PedidosStruct extends FFFirebaseStruct {
   String get pedidoId => _pedidoId ?? '';
   set pedidoId(String? val) => _pedidoId = val;
   bool hasPedidoId() => _pedidoId != null;
-
-  // "dataCompra" field.
-  DateTime? _dataCompra;
-  DateTime? get dataCompra => _dataCompra;
-  set dataCompra(DateTime? val) => _dataCompra = val;
-  bool hasDataCompra() => _dataCompra != null;
 
   // "userId" field.
   String? _userId;
@@ -54,12 +48,18 @@ class PedidosStruct extends FFFirebaseStruct {
       updateFn(_produtos ??= SacolaStruct());
   bool hasProdutos() => _produtos != null;
 
+  // "dataCompra" field.
+  String? _dataCompra;
+  String get dataCompra => _dataCompra ?? '';
+  set dataCompra(String? val) => _dataCompra = val;
+  bool hasDataCompra() => _dataCompra != null;
+
   static PedidosStruct fromMap(Map<String, dynamic> data) => PedidosStruct(
         pedidoId: data['pedidoId'] as String?,
-        dataCompra: data['dataCompra'] as DateTime?,
         userId: data['userId'] as String?,
         sacolaId: data['sacolaId'] as String?,
         produtos: SacolaStruct.maybeFromMap(data['produtos']),
+        dataCompra: data['dataCompra'] as String?,
       );
 
   static PedidosStruct? maybeFromMap(dynamic data) =>
@@ -67,10 +67,10 @@ class PedidosStruct extends FFFirebaseStruct {
 
   Map<String, dynamic> toMap() => {
         'pedidoId': _pedidoId,
-        'dataCompra': _dataCompra,
         'userId': _userId,
         'sacolaId': _sacolaId,
         'produtos': _produtos?.toMap(),
+        'dataCompra': _dataCompra,
       }.withoutNulls;
 
   @override
@@ -78,10 +78,6 @@ class PedidosStruct extends FFFirebaseStruct {
         'pedidoId': serializeParam(
           _pedidoId,
           ParamType.String,
-        ),
-        'dataCompra': serializeParam(
-          _dataCompra,
-          ParamType.DateTime,
         ),
         'userId': serializeParam(
           _userId,
@@ -95,6 +91,10 @@ class PedidosStruct extends FFFirebaseStruct {
           _produtos,
           ParamType.DataStruct,
         ),
+        'dataCompra': serializeParam(
+          _dataCompra,
+          ParamType.String,
+        ),
       }.withoutNulls;
 
   static PedidosStruct fromSerializableMap(Map<String, dynamic> data) =>
@@ -102,11 +102,6 @@ class PedidosStruct extends FFFirebaseStruct {
         pedidoId: deserializeParam(
           data['pedidoId'],
           ParamType.String,
-          false,
-        ),
-        dataCompra: deserializeParam(
-          data['dataCompra'],
-          ParamType.DateTime,
           false,
         ),
         userId: deserializeParam(
@@ -125,6 +120,11 @@ class PedidosStruct extends FFFirebaseStruct {
           false,
           structBuilder: SacolaStruct.fromSerializableMap,
         ),
+        dataCompra: deserializeParam(
+          data['dataCompra'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -134,23 +134,23 @@ class PedidosStruct extends FFFirebaseStruct {
   bool operator ==(Object other) {
     return other is PedidosStruct &&
         pedidoId == other.pedidoId &&
-        dataCompra == other.dataCompra &&
         userId == other.userId &&
         sacolaId == other.sacolaId &&
-        produtos == other.produtos;
+        produtos == other.produtos &&
+        dataCompra == other.dataCompra;
   }
 
   @override
   int get hashCode => const ListEquality()
-      .hash([pedidoId, dataCompra, userId, sacolaId, produtos]);
+      .hash([pedidoId, userId, sacolaId, produtos, dataCompra]);
 }
 
 PedidosStruct createPedidosStruct({
   String? pedidoId,
-  DateTime? dataCompra,
   String? userId,
   String? sacolaId,
   SacolaStruct? produtos,
+  String? dataCompra,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -158,10 +158,10 @@ PedidosStruct createPedidosStruct({
 }) =>
     PedidosStruct(
       pedidoId: pedidoId,
-      dataCompra: dataCompra,
       userId: userId,
       sacolaId: sacolaId,
       produtos: produtos ?? (clearUnsetFields ? SacolaStruct() : null),
+      dataCompra: dataCompra,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

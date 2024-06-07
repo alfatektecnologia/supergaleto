@@ -33,6 +33,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      // Get user
       _model.checkAdmin = await queryUsersRecordOnce(
         queryBuilder: (usersRecord) => usersRecord.where(
           'uid',
@@ -40,15 +41,29 @@ class _HomeWidgetState extends State<HomeWidget> {
         ),
         singleRecord: true,
       ).then((s) => s.firstOrNull);
+      // Categoria
+      _model.categoria = 'Aves';
+      setState(() {});
+      // Query products(initial category)
+      _model.initialSetAves = await queryProdutosRecordOnce(
+        queryBuilder: (produtosRecord) => produtosRecord.where(
+          'categoria',
+          isEqualTo: 'Aves',
+        ),
+      );
+      // Initial products to list
+      _model.initialSettings =
+          _model.initialSetAves!.toList().cast<ProdutosRecord>();
+      setState(() {});
       if (currentUserUid == _model.checkAdmin?.uid) {
         if (_model.checkAdmin?.isAdmin == true) {
-          setState(() {
-            FFAppState().updateUserStruct(
-              (e) => e
-                ..name = _model.checkAdmin?.displayName
-                ..isAdmin = _model.checkAdmin?.isAdmin,
-            );
-          });
+          // Update user
+          FFAppState().updateUserStruct(
+            (e) => e
+              ..name = _model.checkAdmin?.displayName
+              ..isAdmin = _model.checkAdmin?.isAdmin,
+          );
+          setState(() {});
         }
       }
     });
@@ -116,28 +131,46 @@ class _HomeWidgetState extends State<HomeWidget> {
                           child: Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 16.0, 12.0, 0.0, 8.0),
-                            child: badges.Badge(
-                              badgeContent: Text(
-                                '0',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'Inter',
-                                      color: Colors.white,
-                                      fontSize: 10.0,
-                                      letterSpacing: 0.0,
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(
+                                  'Sacola',
+                                  queryParameters: {
+                                    'itensSacola': serializeParam(
+                                      SacolaStruct(),
+                                      ParamType.DataStruct,
                                     ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: badges.Badge(
+                                badgeContent: Text(
+                                  FFAppState().Carrinho.length.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        color: Colors.white,
+                                        fontSize: 10.0,
+                                        letterSpacing: 0.0,
+                                      ),
+                                ),
+                                showBadge: true,
+                                shape: badges.BadgeShape.circle,
+                                badgeColor:
+                                    FlutterFlowTheme.of(context).tertiary,
+                                elevation: 4.0,
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    8.0, 4.0, 8.0, 4.0),
+                                position: badges.BadgePosition.topStart(),
+                                animationType: badges.BadgeAnimationType.scale,
+                                toAnimate: true,
                               ),
-                              showBadge: true,
-                              shape: badges.BadgeShape.circle,
-                              badgeColor: FlutterFlowTheme.of(context).tertiary,
-                              elevation: 4.0,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  8.0, 4.0, 8.0, 4.0),
-                              position: badges.BadgePosition.topStart(),
-                              animationType: badges.BadgeAnimationType.scale,
-                              toAnimate: true,
                             ),
                           ),
                         ),
@@ -158,7 +191,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           context: context,
                           builder: (alertDialogContext) {
                             return AlertDialog(
-                              title: const Text('Alerta!'),
+                              title: const Text('Alerta'),
                               content:
                                   const Text('Deseja realmente sair do aplicativo?'),
                               actions: [
@@ -170,7 +203,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, true),
-                                  child: const Text('Sair'),
+                                  child: const Text('Confirmar'),
                                 ),
                               ],
                             );
@@ -252,7 +285,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                     child: PagedListView<DocumentSnapshot<Object?>?,
                         CategoriasRecord>(
                       pagingController: _model.setListViewController1(
-                        CategoriasRecord.collection,
+                        CategoriasRecord.collection
+                            .where(
+                              'isActive',
+                              isEqualTo: true,
+                            )
+                            .orderBy('nome'),
                       ),
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
@@ -300,8 +338,27 @@ class _HomeWidgetState extends State<HomeWidget> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 0.0, 0.0),
                               child: FFButtonWidget(
-                                onPressed: () {
-                                  print('Button pressed ...');
+                                onPressed: () async {
+                                  _model.categoria = valueOrDefault<String>(
+                                    listViewCategoriasRecord.nome,
+                                    'Aves',
+                                  );
+                                  setState(() {});
+                                  _model.resultProdByCategory =
+                                      await queryProdutosRecordOnce(
+                                    queryBuilder: (produtosRecord) =>
+                                        produtosRecord.where(
+                                      'categoria',
+                                      isEqualTo: _model.categoria,
+                                    ),
+                                  );
+                                  _model.initialSettings = _model
+                                      .resultProdByCategory!
+                                      .toList()
+                                      .cast<ProdutosRecord>();
+                                  setState(() {});
+
+                                  setState(() {});
                                 },
                                 text: listViewCategoriasRecord.nome,
                                 options: FFButtonOptions(
@@ -362,63 +419,59 @@ class _HomeWidgetState extends State<HomeWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
-                            child: ListView(
-                              padding: EdgeInsets.zero,
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 32.0, 0.0, 0.0),
-                                  child: Container(
-                                    width: 178.0,
-                                    height: 261.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondary,
-                                      borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(20.0),
-                                        bottomRight: Radius.circular(20.0),
-                                        topLeft: Radius.circular(200.0),
-                                        topRight: Radius.circular(200.0),
-                                      ),
-                                    ),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        context.pushNamed('Details');
-                                      },
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    8.0, 8.0, 8.0, 8.0),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: const BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(200.0),
-                                                  bottomRight:
-                                                      Radius.circular(200.0),
-                                                  topLeft:
-                                                      Radius.circular(200.0),
-                                                  topRight:
-                                                      Radius.circular(200.0),
+                            child: Builder(
+                              builder: (context) {
+                                final prods = _model.initialSettings.toList();
+                                return ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: prods.length,
+                                  itemBuilder: (context, prodsIndex) {
+                                    final prodsItem = prods[prodsIndex];
+                                    return Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 32.0, 0.0, 0.0),
+                                      child: Container(
+                                        width: 178.0,
+                                        height: 261.0,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondary,
+                                          borderRadius: const BorderRadius.only(
+                                            bottomLeft: Radius.circular(20.0),
+                                            bottomRight: Radius.circular(20.0),
+                                            topLeft: Radius.circular(200.0),
+                                            topRight: Radius.circular(200.0),
+                                          ),
+                                        ),
+                                        child: InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            context.pushNamed(
+                                              'Details',
+                                              queryParameters: {
+                                                'produto': serializeParam(
+                                                  prodsItem,
+                                                  ParamType.Document,
                                                 ),
-                                                border: Border.all(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryBackground,
-                                                  width: 4.0,
-                                                ),
-                                              ),
-                                              child: Stack(
-                                                children: [
-                                                  ClipRRect(
+                                              }.withoutNulls,
+                                              extra: <String, dynamic>{
+                                                'produto': prodsItem,
+                                              },
+                                            );
+                                          },
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        8.0, 8.0, 8.0, 8.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
                                                     borderRadius:
                                                         const BorderRadius.only(
                                                       bottomLeft:
@@ -432,170 +485,72 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       topRight: Radius.circular(
                                                           200.0),
                                                     ),
-                                                    child: Image.asset(
-                                                      'assets/images/frango.png',
-                                                      width: 300.0,
-                                                      height: 200.0,
-                                                      fit: BoxFit.cover,
+                                                    border: Border.all(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .primaryBackground,
+                                                      width: 4.0,
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 16.0, 0.0, 0.0),
-                                            child: Text(
-                                              'Frango com batatas',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .override(
-                                                        fontFamily: 'Roboto',
-                                                        letterSpacing: 0.0,
+                                                  child: Stack(
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            const BorderRadius.only(
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  200.0),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  200.0),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  200.0),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  200.0),
+                                                        ),
+                                                        child: Image.network(
+                                                          prodsItem.photoUrl,
+                                                          width: 300.0,
+                                                          height: 200.0,
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 16.0, 0.0, 0.0),
-                                            child: Text(
-                                              'R\$ 40,00',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .tertiary,
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    8.0, 32.0, 8.0, 0.0),
-                                            child: AutoSizeText(
-                                              'asdasadlçkçalskçl asdjaçsl  asçlkdsçaslkdls çaçsldklç  çlksadkasçlkdsaçldsaçças  açslkdkdsçasdkçlsdçask',
-                                              textAlign: TextAlign.start,
-                                              maxLines: 5,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Roboto',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w300,
+                                                    ],
                                                   ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 32.0, 0.0, 0.0),
-                                  child: Container(
-                                    width: 178.0,
-                                    height: 261.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondary,
-                                      borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(20.0),
-                                        bottomRight: Radius.circular(20.0),
-                                        topLeft: Radius.circular(200.0),
-                                        topRight: Radius.circular(200.0),
-                                      ),
-                                    ),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        context.pushNamed('Details');
-                                      },
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    8.0, 8.0, 8.0, 8.0),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: const BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(200.0),
-                                                  bottomRight:
-                                                      Radius.circular(200.0),
-                                                  topLeft:
-                                                      Radius.circular(200.0),
-                                                  topRight:
-                                                      Radius.circular(200.0),
                                                 ),
-                                                border: Border.all(
-                                                  color: FlutterFlowTheme.of(
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 16.0, 0.0, 0.0),
+                                                child: Text(
+                                                  prodsItem.name,
+                                                  style: FlutterFlowTheme.of(
                                                           context)
-                                                      .primaryBackground,
-                                                  width: 4.0,
-                                                ),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius: const BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(200.0),
-                                                  bottomRight:
-                                                      Radius.circular(200.0),
-                                                  topLeft:
-                                                      Radius.circular(200.0),
-                                                  topRight:
-                                                      Radius.circular(200.0),
-                                                ),
-                                                child: Image.asset(
-                                                  'assets/images/sobrecoxa.png',
-                                                  width: 300.0,
-                                                  height: 200.0,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 16.0, 0.0, 0.0),
-                                            child: Text(
-                                              'Sobrecoxas ',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
                                                       .titleMedium
                                                       .override(
                                                         fontFamily: 'Roboto',
                                                         letterSpacing: 0.0,
                                                       ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 16.0, 0.0, 0.0),
-                                            child: Text(
-                                              'R\$ 40,00',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 16.0, 0.0, 0.0),
+                                                child: Text(
+                                                  formatNumber(
+                                                    prodsItem.salePrice,
+                                                    formatType:
+                                                        FormatType.custom,
+                                                    currency: 'R\$',
+                                                    format: '.00',
+                                                    locale: '',
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .bodyMedium
                                                       .override(
                                                         fontFamily: 'Inter',
@@ -603,37 +558,43 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .tertiary,
+                                                        fontSize: 16.0,
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                       ),
-                                            ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        8.0, 32.0, 8.0, 0.0),
+                                                child: AutoSizeText(
+                                                  prodsItem.description,
+                                                  textAlign: TextAlign.start,
+                                                  maxLines: 5,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                      ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    8.0, 32.0, 8.0, 0.0),
-                                            child: AutoSizeText(
-                                              'asdasadlçkçalskçl asdjaçsl  asçlkdsçaslkdls çaçsldklç  çlksadkasçlkdsaçldsaçças  açslkdkdsçasdkçlsdçask',
-                                              textAlign: TextAlign.start,
-                                              maxLines: 5,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Roboto',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w300,
-                                                  ),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -701,7 +662,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                             8.0, 8.0, 0.0, 0.0),
                                         child: Text(
-                                          '4',
+                                          FFAppState()
+                                              .Carrinho
+                                              .length
+                                              .toString(),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -729,7 +693,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                             0.0, 8.0, 8.0, 0.0),
                                         child: FFButtonWidget(
                                           onPressed: () async {
-                                            context.pushNamed('Sacola');
+                                            context.pushNamed(
+                                              'Sacola',
+                                              queryParameters: {
+                                                'itensSacola': serializeParam(
+                                                  SacolaStruct(
+                                                    userId: currentUserUid,
+                                                    items:
+                                                        FFAppState().Carrinho,
+                                                  ),
+                                                  ParamType.DataStruct,
+                                                ),
+                                              }.withoutNulls,
+                                            );
                                           },
                                           text: 'Ver sacola',
                                           options: FFButtonOptions(
@@ -768,10 +744,61 @@ class _HomeWidgetState extends State<HomeWidget> {
                           ),
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
+                                8.0, 8.0, 0.0, 0.0),
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onLongPress: () async {
+                                FFAppState().deleteTotalSacola();
+                                FFAppState().TotalSacola = 0.0;
+
+                                FFAppState().deleteSacola();
+                                FFAppState().Sacola = SacolaStruct();
+
+                                FFAppState().deleteCarrinho();
+                                FFAppState().Carrinho = [];
+
+                                setState(() {});
+                              },
+                              child: Text(
+                                formatNumber(
+                                  FFAppState().TotalSacola,
+                                  formatType: FormatType.custom,
+                                  currency: 'R\$',
+                                  format: '0.00',
+                                  locale: '',
+                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Inter',
+                                      color:
+                                          FlutterFlowTheme.of(context).tertiary,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 8.0, 24.0, 8.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                context.pushNamed('Sacola');
+                                context.pushNamed(
+                                  'Sacola',
+                                  queryParameters: {
+                                    'itensSacola': serializeParam(
+                                      SacolaStruct(
+                                        userId: currentUserUid,
+                                        items: FFAppState().Carrinho,
+                                      ),
+                                      ParamType.DataStruct,
+                                    ),
+                                  }.withoutNulls,
+                                );
                               },
                               text: 'Fazer o pedido',
                               options: FFButtonOptions(

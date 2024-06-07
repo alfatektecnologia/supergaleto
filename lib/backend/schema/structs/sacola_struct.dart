@@ -9,26 +9,22 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class SacolaStruct extends FFFirebaseStruct {
   SacolaStruct({
-    String? sacolaId,
-    DateTime? dateCreate,
+    String? userId,
     List<ItemDaSacolaStruct>? items,
+    double? total,
+    String? dataCreated,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _sacolaId = sacolaId,
-        _dateCreate = dateCreate,
+  })  : _userId = userId,
         _items = items,
+        _total = total,
+        _dataCreated = dataCreated,
         super(firestoreUtilData);
 
-  // "sacolaId" field.
-  String? _sacolaId;
-  String get sacolaId => _sacolaId ?? '';
-  set sacolaId(String? val) => _sacolaId = val;
-  bool hasSacolaId() => _sacolaId != null;
-
-  // "dateCreate" field.
-  DateTime? _dateCreate;
-  DateTime? get dateCreate => _dateCreate;
-  set dateCreate(DateTime? val) => _dateCreate = val;
-  bool hasDateCreate() => _dateCreate != null;
+  // "userId" field.
+  String? _userId;
+  String get userId => _userId ?? '';
+  set userId(String? val) => _userId = val;
+  bool hasUserId() => _userId != null;
 
   // "items" field.
   List<ItemDaSacolaStruct>? _items;
@@ -38,51 +34,65 @@ class SacolaStruct extends FFFirebaseStruct {
       updateFn(_items ??= []);
   bool hasItems() => _items != null;
 
+  // "Total" field.
+  double? _total;
+  double get total => _total ?? 0.0;
+  set total(double? val) => _total = val;
+  void incrementTotal(double amount) => _total = total + amount;
+  bool hasTotal() => _total != null;
+
+  // "dataCreated" field.
+  String? _dataCreated;
+  String get dataCreated => _dataCreated ?? '';
+  set dataCreated(String? val) => _dataCreated = val;
+  bool hasDataCreated() => _dataCreated != null;
+
   static SacolaStruct fromMap(Map<String, dynamic> data) => SacolaStruct(
-        sacolaId: data['sacolaId'] as String?,
-        dateCreate: data['dateCreate'] as DateTime?,
+        userId: data['userId'] as String?,
         items: getStructList(
           data['items'],
           ItemDaSacolaStruct.fromMap,
         ),
+        total: castToType<double>(data['Total']),
+        dataCreated: data['dataCreated'] as String?,
       );
 
   static SacolaStruct? maybeFromMap(dynamic data) =>
       data is Map ? SacolaStruct.fromMap(data.cast<String, dynamic>()) : null;
 
   Map<String, dynamic> toMap() => {
-        'sacolaId': _sacolaId,
-        'dateCreate': _dateCreate,
+        'userId': _userId,
         'items': _items?.map((e) => e.toMap()).toList(),
+        'Total': _total,
+        'dataCreated': _dataCreated,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'sacolaId': serializeParam(
-          _sacolaId,
+        'userId': serializeParam(
+          _userId,
           ParamType.String,
-        ),
-        'dateCreate': serializeParam(
-          _dateCreate,
-          ParamType.DateTime,
         ),
         'items': serializeParam(
           _items,
           ParamType.DataStruct,
           true,
         ),
+        'Total': serializeParam(
+          _total,
+          ParamType.double,
+        ),
+        'dataCreated': serializeParam(
+          _dataCreated,
+          ParamType.String,
+        ),
       }.withoutNulls;
 
   static SacolaStruct fromSerializableMap(Map<String, dynamic> data) =>
       SacolaStruct(
-        sacolaId: deserializeParam(
-          data['sacolaId'],
+        userId: deserializeParam(
+          data['userId'],
           ParamType.String,
-          false,
-        ),
-        dateCreate: deserializeParam(
-          data['dateCreate'],
-          ParamType.DateTime,
           false,
         ),
         items: deserializeStructParam<ItemDaSacolaStruct>(
@@ -90,6 +100,16 @@ class SacolaStruct extends FFFirebaseStruct {
           ParamType.DataStruct,
           true,
           structBuilder: ItemDaSacolaStruct.fromSerializableMap,
+        ),
+        total: deserializeParam(
+          data['Total'],
+          ParamType.double,
+          false,
+        ),
+        dataCreated: deserializeParam(
+          data['dataCreated'],
+          ParamType.String,
+          false,
         ),
       );
 
@@ -100,26 +120,30 @@ class SacolaStruct extends FFFirebaseStruct {
   bool operator ==(Object other) {
     const listEquality = ListEquality();
     return other is SacolaStruct &&
-        sacolaId == other.sacolaId &&
-        dateCreate == other.dateCreate &&
-        listEquality.equals(items, other.items);
+        userId == other.userId &&
+        listEquality.equals(items, other.items) &&
+        total == other.total &&
+        dataCreated == other.dataCreated;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([sacolaId, dateCreate, items]);
+  int get hashCode =>
+      const ListEquality().hash([userId, items, total, dataCreated]);
 }
 
 SacolaStruct createSacolaStruct({
-  String? sacolaId,
-  DateTime? dateCreate,
+  String? userId,
+  double? total,
+  String? dataCreated,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     SacolaStruct(
-      sacolaId: sacolaId,
-      dateCreate: dateCreate,
+      userId: userId,
+      total: total,
+      dataCreated: dataCreated,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,
