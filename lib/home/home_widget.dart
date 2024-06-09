@@ -4,7 +4,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
-import 'package:badges/badges.dart' as badges;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -46,10 +45,15 @@ class _HomeWidgetState extends State<HomeWidget> {
       setState(() {});
       // Query products(initial category)
       _model.initialSetAves = await queryProdutosRecordOnce(
-        queryBuilder: (produtosRecord) => produtosRecord.where(
-          'categoria',
-          isEqualTo: 'Aves',
-        ),
+        queryBuilder: (produtosRecord) => produtosRecord
+            .where(
+              'categoria',
+              isEqualTo: 'Aves',
+            )
+            .where(
+              'qdade',
+              isGreaterThan: 0,
+            ),
       );
       // Initial products to list
       _model.initialSettings =
@@ -104,77 +108,26 @@ class _HomeWidgetState extends State<HomeWidget> {
               ),
             ),
             actions: [
-              Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
+              Visibility(
+                visible:
+                    valueOrDefault<bool>(currentUserDocument?.isAdmin, false) ==
+                        true,
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
-                  child: SizedBox(
-                    width: 31.0,
-                    child: Stack(
-                      alignment: const AlignmentDirectional(1.0, 1.0),
-                      children: [
-                        Align(
-                          alignment: const AlignmentDirectional(-0.29, 0.02),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 16.0, 0.0),
-                            child: Icon(
-                              Icons.shopping_cart_sharp,
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              size: 24.0,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: const AlignmentDirectional(-1.0, -1.0),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                16.0, 12.0, 0.0, 8.0),
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                context.pushNamed(
-                                  'Sacola',
-                                  queryParameters: {
-                                    'itensSacola': serializeParam(
-                                      SacolaStruct(),
-                                      ParamType.DataStruct,
-                                    ),
-                                  }.withoutNulls,
-                                );
-                              },
-                              child: badges.Badge(
-                                badgeContent: Text(
-                                  FFAppState().Carrinho.length.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        color: Colors.white,
-                                        fontSize: 10.0,
-                                        letterSpacing: 0.0,
-                                      ),
-                                ),
-                                showBadge: true,
-                                shape: badges.BadgeShape.circle,
-                                badgeColor:
-                                    FlutterFlowTheme.of(context).tertiary,
-                                elevation: 4.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 4.0, 8.0, 4.0),
-                                position: badges.BadgePosition.topStart(),
-                                animationType: badges.BadgeAnimationType.scale,
-                                toAnimate: true,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+                  child: AuthUserStreamWidget(
+                    builder: (context) => InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed('Churrasqueira');
+                      },
+                      child: Icon(
+                        Icons.storefront,
+                        color: FlutterFlowTheme.of(context).success,
+                        size: 24.0,
+                      ),
                     ),
                   ),
                 ),
@@ -213,18 +166,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                     if (confirmDialogResponse) {
                       await actions.closeApp(
                         context,
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'confirmado',
-                            style: TextStyle(
-                              color: FlutterFlowTheme.of(context).primaryText,
-                            ),
-                          ),
-                          duration: const Duration(milliseconds: 4000),
-                          backgroundColor: const Color(0xFF2343BF),
-                        ),
                       );
                     }
                   },
@@ -347,10 +288,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   _model.resultProdByCategory =
                                       await queryProdutosRecordOnce(
                                     queryBuilder: (produtosRecord) =>
-                                        produtosRecord.where(
-                                      'categoria',
-                                      isEqualTo: _model.categoria,
-                                    ),
+                                        produtosRecord
+                                            .where(
+                                              'categoria',
+                                              isEqualTo: _model.categoria,
+                                            )
+                                            .where(
+                                              'qdade',
+                                              isGreaterThan: 0,
+                                            ),
                                   );
                                   _model.initialSettings = _model
                                       .resultProdByCategory!
@@ -520,6 +466,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     ],
                                                   ),
                                                 ),
+                                              ),
+                                              Text(
+                                                '***Foto ilustrativa***',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelSmall
+                                                        .override(
+                                                          fontFamily: 'Inter',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .error,
+                                                          letterSpacing: 0.0,
+                                                        ),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsetsDirectional

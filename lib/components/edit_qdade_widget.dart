@@ -115,6 +115,7 @@ class _EditQdadeWidgetState extends State<EditQdadeWidget> {
                 letterSpacing: 0.0,
               ),
           textAlign: TextAlign.center,
+          keyboardType: TextInputType.number,
           validator: _model.edtQdaddeFrangoTextControllerValidator
               .asValidator(context),
         ),

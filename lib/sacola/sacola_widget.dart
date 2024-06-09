@@ -121,10 +121,10 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
-                      context.pushNamed('Admin');
+                      context.pushNamed('MeusPedidos');
                     },
                     child: Icon(
-                      Icons.settings_outlined,
+                      Icons.checklist_rounded,
                       color: FlutterFlowTheme.of(context).primaryBackground,
                       size: 24.0,
                     ),
@@ -139,9 +139,34 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
-                    await actions.closeApp(
-                      context,
-                    );
+                    var confirmDialogResponse = await showDialog<bool>(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Alerta'),
+                              content:
+                                  const Text('Deseja realmente sair do aplicativo?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext, false),
+                                  child: const Text('Cancelar'),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext, true),
+                                  child: const Text('Confirmar'),
+                                ),
+                              ],
+                            );
+                          },
+                        ) ??
+                        false;
+                    if (confirmDialogResponse) {
+                      await actions.closeApp(
+                        context,
+                      );
+                    }
                   },
                   child: Icon(
                     Icons.logout_rounded,
@@ -851,51 +876,83 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                           const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          if (FFAppState().TotalSacola > 0.0) {
-                            var pedidosRecordReference =
-                                PedidosRecord.collection.doc();
-                            await pedidosRecordReference
-                                .set(createPedidosRecordData(
-                              nroPedido: sacolaCount + 1,
-                              sacola: updateSacolaStruct(
-                                FFAppState().Sacola,
-                                clearUnsetFields: false,
-                                create: true,
-                              ),
-                              data: getCurrentTimestamp,
-                              userName: currentUserDisplayName,
-                              isClosed: false,
-                            ));
-                            _model.pedidoSalvo =
-                                PedidosRecord.getDocumentFromData(
-                                    createPedidosRecordData(
-                                      nroPedido: sacolaCount + 1,
-                                      sacola: updateSacolaStruct(
-                                        FFAppState().Sacola,
-                                        clearUnsetFields: false,
-                                        create: true,
-                                      ),
-                                      data: getCurrentTimestamp,
-                                      userName: currentUserDisplayName,
-                                      isClosed: false,
-                                    ),
-                                    pedidosRecordReference);
-                            if (_model.pedidoSalvo?.nroPedido ==
-                                ((_model.nroPedido!) + 1)) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Pedido salvo com sucesso!',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).success,
+                          if ((String var1) {
+                            return var1 == "Saturday" || var1 == "Sunday";
+                          }(dateTimeFormat('EEEE', getCurrentTimestamp))) {
+                            if (FFAppState().TotalSacola > 0.0) {
+                              var pedidosRecordReference1 =
+                                  PedidosRecord.collection.doc();
+                              await pedidosRecordReference1
+                                  .set(createPedidosRecordData(
+                                nroPedido: sacolaCount + 1,
+                                sacola: updateSacolaStruct(
+                                  FFAppState().Sacola,
+                                  clearUnsetFields: false,
+                                  create: true,
                                 ),
-                              );
+                                data: getCurrentTimestamp,
+                                userName: currentUserDisplayName,
+                                isClosed: false,
+                              ));
+                              _model.pedidoSalvo1 =
+                                  PedidosRecord.getDocumentFromData(
+                                      createPedidosRecordData(
+                                        nroPedido: sacolaCount + 1,
+                                        sacola: updateSacolaStruct(
+                                          FFAppState().Sacola,
+                                          clearUnsetFields: false,
+                                          create: true,
+                                        ),
+                                        data: getCurrentTimestamp,
+                                        userName: currentUserDisplayName,
+                                        isClosed: false,
+                                      ),
+                                      pedidosRecordReference1);
+                              if (_model.pedidoSalvo?.nroPedido ==
+                                  ((_model.nroPedido!) + 1)) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Pedido salvo com sucesso!',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                      ),
+                                    ),
+                                    duration: const Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).success,
+                                  ),
+                                );
+                                // clear carrinho e sacola
+                                FFAppState().deleteCarrinho();
+                                FFAppState().Carrinho = [];
+
+                                FFAppState().deleteSacola();
+                                FFAppState().Sacola = SacolaStruct();
+
+                                FFAppState().deleteTotalSacola();
+                                FFAppState().TotalSacola = 0.0;
+
+                                setState(() {});
+
+                                context.pushNamed('Home');
+                              } else {
+                                // clear carrinho e sacola
+                                FFAppState().deleteCarrinho();
+                                FFAppState().Carrinho = [];
+
+                                FFAppState().deleteSacola();
+                                FFAppState().Sacola = SacolaStruct();
+
+                                FFAppState().deleteTotalSacola();
+                                FFAppState().TotalSacola = 0.0;
+
+                                setState(() {});
+
+                                context.pushNamed('Home');
+                              }
+                            } else {
                               // clear carrinho e sacola
                               FFAppState().deleteCarrinho();
                               FFAppState().Carrinho = [];
@@ -911,22 +968,128 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                               context.pushNamed('Home');
                             }
                           } else {
-                            // clear carrinho e sacola
-                            FFAppState().deleteCarrinho();
-                            FFAppState().Carrinho = [];
+                            var confirmDialogResponse = await showDialog<bool>(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: const Text('Alerta'),
+                                      content: const Text(
+                                          'Nosso expediente é de sábado a domingo. Deseja deixar encomendado esse seu pedido?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, false),
+                                          child: const Text('Cancelar'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, true),
+                                          child: const Text('Confirmar'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ) ??
+                                false;
+                            if (confirmDialogResponse) {
+                              if (FFAppState().TotalSacola > 0.0) {
+                                var pedidosRecordReference2 =
+                                    PedidosRecord.collection.doc();
+                                await pedidosRecordReference2
+                                    .set(createPedidosRecordData(
+                                  nroPedido: sacolaCount + 1,
+                                  sacola: updateSacolaStruct(
+                                    FFAppState().Sacola,
+                                    clearUnsetFields: false,
+                                    create: true,
+                                  ),
+                                  data: getCurrentTimestamp,
+                                  userName: currentUserDisplayName,
+                                  isClosed: false,
+                                ));
+                                _model.pedidoSalvo =
+                                    PedidosRecord.getDocumentFromData(
+                                        createPedidosRecordData(
+                                          nroPedido: sacolaCount + 1,
+                                          sacola: updateSacolaStruct(
+                                            FFAppState().Sacola,
+                                            clearUnsetFields: false,
+                                            create: true,
+                                          ),
+                                          data: getCurrentTimestamp,
+                                          userName: currentUserDisplayName,
+                                          isClosed: false,
+                                        ),
+                                        pedidosRecordReference2);
+                                if (_model.pedidoSalvo?.nroPedido ==
+                                    ((_model.nroPedido!) + 1)) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Pedido salvo com sucesso!',
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                        ),
+                                      ),
+                                      duration: const Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).success,
+                                    ),
+                                  );
+                                  // clear carrinho e sacola
+                                  FFAppState().deleteCarrinho();
+                                  FFAppState().Carrinho = [];
 
-                            FFAppState().deleteSacola();
-                            FFAppState().Sacola = SacolaStruct();
+                                  FFAppState().deleteSacola();
+                                  FFAppState().Sacola = SacolaStruct();
 
-                            FFAppState().deleteTotalSacola();
-                            FFAppState().TotalSacola = 0.0;
+                                  FFAppState().deleteTotalSacola();
+                                  FFAppState().TotalSacola = 0.0;
 
-                            setState(() {});
+                                  setState(() {});
+
+                                  context.pushNamed('Home');
+                                }
+                              } else {
+                                // clear carrinho e sacola
+                                FFAppState().deleteCarrinho();
+                                FFAppState().Carrinho = [];
+
+                                FFAppState().deleteSacola();
+                                FFAppState().Sacola = SacolaStruct();
+
+                                FFAppState().deleteTotalSacola();
+                                FFAppState().TotalSacola = 0.0;
+
+                                setState(() {});
+
+                                context.pushNamed('Home');
+                              }
+                            } else {
+                              // clear carrinho e sacola
+                              FFAppState().deleteCarrinho();
+                              FFAppState().Carrinho = [];
+
+                              FFAppState().deleteSacola();
+                              FFAppState().Sacola = SacolaStruct();
+
+                              FFAppState().deleteTotalSacola();
+                              FFAppState().TotalSacola = 0.0;
+
+                              setState(() {});
+
+                              context.pushNamed('Home');
+                            }
                           }
 
                           setState(() {});
                         },
-                        text: 'Finalizar pedido',
+                        text: (String var1) {
+                          return var1 == "Saturday" || var1 == "Sunday"
+                              ? "Finalizar pedidor"
+                              : "Encomendar";
+                        }(dateTimeFormat('EEEE', getCurrentTimestamp)),
                         options: FFButtonOptions(
                           width: double.infinity,
                           height: 50.0,

@@ -129,6 +129,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Churrasqueira',
           path: '/churrasqueira',
           builder: (context, params) => const ChurrasqueiraWidget(),
+        ),
+        FFRoute(
+          name: 'MeusPedidos',
+          path: '/meusPedidos',
+          builder: (context, params) => const MeusPedidosWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

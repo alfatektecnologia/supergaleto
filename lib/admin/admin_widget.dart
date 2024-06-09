@@ -1,3 +1,5 @@
+import '/backend/backend.dart';
+import '/components/produto_card_listar_widget.dart';
 import '/components/produto_card_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_radio_button.dart';
@@ -5,6 +7,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -99,8 +102,34 @@ class _AdminWidgetState extends State<AdminWidget> {
                 color: FlutterFlowTheme.of(context).secondaryBackground,
                 size: 30.0,
               ),
-              onPressed: () {
-                print('IconButton pressed ...');
+              onPressed: () async {
+                var confirmDialogResponse = await showDialog<bool>(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: const Text('Alerta'),
+                          content: const Text('Deseja realmente sair do aplicativo?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext, false),
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext, true),
+                              child: const Text('Confirmar'),
+                            ),
+                          ],
+                        );
+                      },
+                    ) ??
+                    false;
+                if (confirmDialogResponse) {
+                  await actions.closeApp(
+                    context,
+                  );
+                }
               },
             ),
           ],
@@ -126,36 +155,6 @@ class _AdminWidgetState extends State<AdminWidget> {
                           print('Button pressed ...');
                         },
                         text: 'Produtos',
-                        options: FFButtonOptions(
-                          height: 40.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              24.0, 0.0, 24.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Inter',
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                  ),
-                          elevation: 3.0,
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
-                      child: FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
-                        },
-                        text: 'Categorias',
                         options: FFButtonOptions(
                           height: 40.0,
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -235,56 +234,105 @@ class _AdminWidgetState extends State<AdminWidget> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
-                  child: Card(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                    elevation: 4.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              FFAppState().photoProdutoUrl,
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: const Duration(milliseconds: 4000),
-                            backgroundColor: const Color(0xFFC315C3),
+                if (_model.radioButtonValue == 'Cadastrar')
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+                    child: Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      elevation: 4.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {},
+                        child: wrapWithModel(
+                          model: _model.produtoCardModel,
+                          updateCallback: () => setState(() {}),
+                          updateOnChange: true,
+                          child: ProdutoCardWidget(
+                            imageUrl: FFAppState().photoFromFirebase,
+                            label1: 'Nome',
+                            hint1: 'nome do produto',
+                            label2: 'Descrição',
+                            hint2: 'Descrição do produto',
+                            label4: 'Preço de venda',
+                            hint4: 'Preço de venda',
+                            label3: 'Preço de compra',
+                            hint3: 'Preço e compra',
+                            nroLinhas2: 4,
+                            btSalvar: (onClick) async {},
                           ),
-                        );
-                      },
-                      child: wrapWithModel(
-                        model: _model.produtoCardModel,
-                        updateCallback: () => setState(() {}),
-                        updateOnChange: true,
-                        child: ProdutoCardWidget(
-                          imageUrl: FFAppState().photoFromFirebase,
-                          label1: 'Nome',
-                          hint1: 'nome do produto',
-                          label2: 'Descrição',
-                          hint2: 'Descrição do produto',
-                          label4: 'Preço de venda',
-                          hint4: 'Preço de venda',
-                          label3: 'Preço de compra',
-                          hint3: 'Preço e compra',
-                          nroLinhas2: 4,
-                          btSalvar: (onClick) async {},
                         ),
                       ),
                     ),
                   ),
-                ),
+                if (_model.radioButtonValue == 'Listar')
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                    child: StreamBuilder<List<ProdutosRecord>>(
+                      stream: queryProdutosRecord(),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50.0,
+                              height: 50.0,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        List<ProdutosRecord> listViewProdutosRecordList =
+                            snapshot.data!;
+                        return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: listViewProdutosRecordList.length,
+                          itemBuilder: (context, listViewIndex) {
+                            final listViewProdutosRecord =
+                                listViewProdutosRecordList[listViewIndex];
+                            return ProdutoCardListarWidget(
+                              key: Key(
+                                  'Key61u_${listViewIndex}_of_${listViewProdutosRecordList.length}'),
+                              imageUrl: listViewProdutosRecord.photoUrl,
+                              label1: 'Produto',
+                              hint1: listViewProdutosRecord.name,
+                              label2: 'Descrição',
+                              hint2: listViewProdutosRecord.description,
+                              label4: 'Valor de compra',
+                              hint4: formatNumber(
+                                listViewProdutosRecord.price,
+                                formatType: FormatType.custom,
+                                currency: 'R\$ ',
+                                format: '0.00',
+                                locale: '',
+                              ),
+                              label3: 'Valor de venda',
+                              hint3: formatNumber(
+                                listViewProdutosRecord.salePrice,
+                                formatType: FormatType.custom,
+                                currency: 'R\$ ',
+                                format: '0.00',
+                                locale: '',
+                              ),
+                              btSalvar: (onClick) async {},
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
               ],
             ),
           ),

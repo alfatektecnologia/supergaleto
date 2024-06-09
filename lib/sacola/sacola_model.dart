@@ -21,6 +21,8 @@ class SacolaModel extends FlutterFlowModel<SacolaWidget> {
   // Stores action output result for [Firestore Query - Query a collection] action in Sacola widget.
   int? countPedidos;
   // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  PedidosRecord? pedidoSalvo1;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
   PedidosRecord? pedidoSalvo;
 
   @override

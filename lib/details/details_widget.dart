@@ -92,9 +92,34 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () async {
-                  await actions.closeApp(
-                    context,
-                  );
+                  var confirmDialogResponse = await showDialog<bool>(
+                        context: context,
+                        builder: (alertDialogContext) {
+                          return AlertDialog(
+                            title: const Text('Alerta'),
+                            content:
+                                const Text('Deseja realmente sair do aplicativo?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(alertDialogContext, false),
+                                child: const Text('Cancelar'),
+                              ),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(alertDialogContext, true),
+                                child: const Text('Confirmar'),
+                              ),
+                            ],
+                          );
+                        },
+                      ) ??
+                      false;
+                  if (confirmDialogResponse) {
+                    await actions.closeApp(
+                      context,
+                    );
+                  }
                 },
                 child: Icon(
                   Icons.logout_rounded,
@@ -410,36 +435,61 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                         FFAppState().TotalSacola +
                                             _model.valueItemSacola!;
                                     setState(() {});
-                                    // Adding items to Cart
-                                    FFAppState()
-                                        .addToCarrinho(ItemDaSacolaStruct(
-                                      nome: widget.produto?.name,
-                                      valor: _model.valueItemSacola,
-                                      qdade: _model.countControllerValue,
-                                      data: dateTimeFormat(
-                                          'd/M/y', getCurrentTimestamp),
-                                      fotoUrl: widget.produto?.photoUrl,
-                                      descricao: widget.produto?.description,
-                                      referenceProd: widget.produto?.reference,
-                                    ));
-                                    FFAppState().updateSacolaStruct(
-                                      (e) => e
-                                        ..items = FFAppState().Carrinho.toList()
-                                        ..total = FFAppState().TotalSacola
-                                        ..userId = currentUserUid,
-                                    );
-                                    setState(() {});
-                                    // updated produto qdade
+                                    if (widget.produto!.qdade >
+                                        _model.countControllerValue!) {
+                                      // Adding items to Cart
+                                      FFAppState()
+                                          .addToCarrinho(ItemDaSacolaStruct(
+                                        nome: widget.produto?.name,
+                                        valor: _model.valueItemSacola,
+                                        qdade: _model.countControllerValue,
+                                        data: dateTimeFormat(
+                                            'd/M/y', getCurrentTimestamp),
+                                        fotoUrl: widget.produto?.photoUrl,
+                                        descricao: widget.produto?.description,
+                                        referenceProd:
+                                            widget.produto?.reference,
+                                      ));
+                                      FFAppState().updateSacolaStruct(
+                                        (e) => e
+                                          ..items =
+                                              FFAppState().Carrinho.toList()
+                                          ..total = FFAppState().TotalSacola
+                                          ..userId = currentUserUid,
+                                      );
+                                      setState(() {});
+                                      // updated produto qdade
 
-                                    await widget.produto!.reference.update({
-                                      ...mapToFirestore(
-                                        {
-                                          'qdade': FieldValue.increment(
-                                              -(_model.countControllerValue!)),
-                                        },
-                                      ),
-                                    });
-                                    context.safePop();
+                                      await widget.produto!.reference.update({
+                                        ...mapToFirestore(
+                                          {
+                                            'qdade': FieldValue.increment(
+                                                -(_model
+                                                    .countControllerValue!)),
+                                          },
+                                        ),
+                                      });
+                                      context.safePop();
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Quantidade não disponível!',
+                                            style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                            ),
+                                          ),
+                                          duration:
+                                              const Duration(milliseconds: 4000),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .error,
+                                        ),
+                                      );
+                                    }
                                   } else {
                                     context.safePop();
                                   }
