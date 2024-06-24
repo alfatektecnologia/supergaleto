@@ -71,6 +71,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         }
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -99,7 +101,10 @@ class _HomeWidgetState extends State<HomeWidget> {
             title: Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
               child: Text(
-                'Bem vindo, ${FFAppState().user.name}',
+                'Bem vindo, ${FFAppState().user.name}'.maybeHandleOverflow(
+                  maxChars: 25,
+                  replacement: '…',
+                ),
                 style: FlutterFlowTheme.of(context).headlineMedium.override(
                       fontFamily: 'Roboto',
                       color: FlutterFlowTheme.of(context).primaryBackground,
@@ -370,6 +375,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 final prods = _model.initialSettings.toList();
                                 return ListView.builder(
                                   padding: EdgeInsets.zero,
+                                  primary: false,
+                                  shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
                                   itemCount: prods.length,
                                   itemBuilder: (context, prodsIndex) {
@@ -476,7 +483,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           fontFamily: 'Inter',
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .error,
+                                                              .success,
+                                                          fontSize: 14.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
@@ -504,7 +512,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     prodsItem.salePrice,
                                                     formatType:
                                                         FormatType.custom,
-                                                    currency: 'R\$',
+                                                    currency: 'R\$  ',
                                                     format: '.00',
                                                     locale: '',
                                                   ),
@@ -725,7 +733,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 formatNumber(
                                   FFAppState().TotalSacola,
                                   formatType: FormatType.custom,
-                                  currency: 'R\$',
+                                  currency: 'R\$  ',
                                   format: '0.00',
                                   locale: '',
                                 ),

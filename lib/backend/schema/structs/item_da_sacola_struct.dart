@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class ItemDaSacolaStruct extends FFFirebaseStruct {
@@ -31,44 +29,53 @@ class ItemDaSacolaStruct extends FFFirebaseStruct {
   String? _nome;
   String get nome => _nome ?? '';
   set nome(String? val) => _nome = val;
+
   bool hasNome() => _nome != null;
 
   // "valor" field.
   double? _valor;
   double get valor => _valor ?? 0.0;
   set valor(double? val) => _valor = val;
-  void incrementValor(double amount) => _valor = valor + amount;
+
+  void incrementValor(double amount) => valor = valor + amount;
+
   bool hasValor() => _valor != null;
 
   // "qdade" field.
   int? _qdade;
   int get qdade => _qdade ?? 0;
   set qdade(int? val) => _qdade = val;
-  void incrementQdade(int amount) => _qdade = qdade + amount;
+
+  void incrementQdade(int amount) => qdade = qdade + amount;
+
   bool hasQdade() => _qdade != null;
 
   // "data" field.
   String? _data;
   String get data => _data ?? '';
   set data(String? val) => _data = val;
+
   bool hasData() => _data != null;
 
   // "fotoUrl" field.
   String? _fotoUrl;
   String get fotoUrl => _fotoUrl ?? '';
   set fotoUrl(String? val) => _fotoUrl = val;
+
   bool hasFotoUrl() => _fotoUrl != null;
 
   // "descricao" field.
   String? _descricao;
   String get descricao => _descricao ?? '';
   set descricao(String? val) => _descricao = val;
+
   bool hasDescricao() => _descricao != null;
 
   // "referenceProd" field.
   DocumentReference? _referenceProd;
   DocumentReference? get referenceProd => _referenceProd;
   set referenceProd(DocumentReference? val) => _referenceProd = val;
+
   bool hasReferenceProd() => _referenceProd != null;
 
   static ItemDaSacolaStruct fromMap(Map<String, dynamic> data) =>

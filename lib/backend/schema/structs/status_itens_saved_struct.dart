@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class StatusItensSavedStruct extends FFFirebaseStruct {
@@ -21,12 +19,14 @@ class StatusItensSavedStruct extends FFFirebaseStruct {
   String? _produtoName;
   String get produtoName => _produtoName ?? '';
   set produtoName(String? val) => _produtoName = val;
+
   bool hasProdutoName() => _produtoName != null;
 
   // "isSaved" field.
   bool? _isSaved;
   bool get isSaved => _isSaved ?? false;
   set isSaved(bool? val) => _isSaved = val;
+
   bool hasIsSaved() => _isSaved != null;
 
   static StatusItensSavedStruct fromMap(Map<String, dynamic> data) =>

@@ -7,12 +7,14 @@ class SacolaModel extends FlutterFlowModel<SacolaWidget> {
   ///  Local state fields for this page.
 
   SacolaStruct? listaDeItens;
-  void updateListaDeItensStruct(Function(SacolaStruct) updateFn) =>
-      updateFn(listaDeItens ??= SacolaStruct());
+  void updateListaDeItensStruct(Function(SacolaStruct) updateFn) {
+    updateFn(listaDeItens ??= SacolaStruct());
+  }
 
   ItemDaSacolaStruct? item2delete;
-  void updateItem2deleteStruct(Function(ItemDaSacolaStruct) updateFn) =>
-      updateFn(item2delete ??= ItemDaSacolaStruct());
+  void updateItem2deleteStruct(Function(ItemDaSacolaStruct) updateFn) {
+    updateFn(item2delete ??= ItemDaSacolaStruct());
+  }
 
   int? nroPedido;
 

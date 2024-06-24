@@ -1,18 +1,23 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'teste_model.dart';
-export 'teste_model.dart';
+import 'editdescription_model.dart';
+export 'editdescription_model.dart';
 
-class TesteWidget extends StatefulWidget {
-  const TesteWidget({super.key});
+class EditdescriptionWidget extends StatefulWidget {
+  const EditdescriptionWidget({
+    super.key,
+    this.parameter1,
+  });
+
+  final String? parameter1;
 
   @override
-  State<TesteWidget> createState() => _TesteWidgetState();
+  State<EditdescriptionWidget> createState() => _EditdescriptionWidgetState();
 }
 
-class _TesteWidgetState extends State<TesteWidget> {
-  late TesteModel _model;
+class _EditdescriptionWidgetState extends State<EditdescriptionWidget> {
+  late EditdescriptionModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -23,10 +28,10 @@ class _TesteWidgetState extends State<TesteWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => TesteModel());
+    _model = createModel(context, () => EditdescriptionModel());
 
-    _model.texQdadeTextController ??= TextEditingController();
-    _model.texQdadeFocusNode ??= FocusNode();
+    _model.txtDescriptionTextController ??= TextEditingController();
+    _model.txtDescriptionFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -41,18 +46,19 @@ class _TesteWidgetState extends State<TesteWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
       child: TextFormField(
-        controller: _model.texQdadeTextController,
-        focusNode: _model.texQdadeFocusNode,
+        controller: _model.txtDescriptionTextController,
+        focusNode: _model.txtDescriptionFocusNode,
         autofocus: true,
         obscureText: false,
         decoration: InputDecoration(
-          labelText: 'Quantidade',
+          labelText: 'Descrição',
           labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
                 fontFamily: 'Inter',
                 letterSpacing: 0.0,
               ),
+          hintText: widget.parameter1,
           hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
                 fontFamily: 'Inter',
                 letterSpacing: 0.0,
@@ -90,7 +96,8 @@ class _TesteWidgetState extends State<TesteWidget> {
               fontFamily: 'Inter',
               letterSpacing: 0.0,
             ),
-        validator: _model.texQdadeTextControllerValidator.asValidator(context),
+        validator:
+            _model.txtDescriptionTextControllerValidator.asValidator(context),
       ),
     );
   }

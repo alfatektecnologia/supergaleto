@@ -22,20 +22,25 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
   String? _id;
   String get id => _id ?? '';
   set id(String? val) => _id = val;
+
   bool hasId() => _id != null;
 
   // "itemsAssando" field.
   List<ItemAssandoStruct>? _itemsAssando;
   List<ItemAssandoStruct> get itemsAssando => _itemsAssando ?? const [];
   set itemsAssando(List<ItemAssandoStruct>? val) => _itemsAssando = val;
-  void updateItemsAssando(Function(List<ItemAssandoStruct>) updateFn) =>
-      updateFn(_itemsAssando ??= []);
+
+  void updateItemsAssando(Function(List<ItemAssandoStruct>) updateFn) {
+    updateFn(itemsAssando ??= []);
+  }
+
   bool hasItemsAssando() => _itemsAssando != null;
 
   // "data" field.
   String? _data;
   String get data => _data ?? '';
   set data(String? val) => _data = val;
+
   bool hasData() => _data != null;
 
   static ChurrasqueiraStruct fromMap(Map<String, dynamic> data) =>
@@ -67,7 +72,7 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
         'itemsAssando': serializeParam(
           _itemsAssando,
           ParamType.DataStruct,
-          true,
+          isList: true,
         ),
         'data': serializeParam(
           _data,

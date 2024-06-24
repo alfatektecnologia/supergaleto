@@ -2,23 +2,28 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'edit_qdade_model.dart';
-export 'edit_qdade_model.dart';
+import 'package:flutter/scheduler.dart';
+import 'edit_generico_model.dart';
+export 'edit_generico_model.dart';
 
-class EditQdadeWidget extends StatefulWidget {
-  const EditQdadeWidget({
+class EditGenericoWidget extends StatefulWidget {
+  const EditGenericoWidget({
     super.key,
     required this.textoDigitado,
+    required this.label,
+    required this.hint,
   });
 
-  final Future Function(String? textoQdade)? textoDigitado;
+  final Future Function(String? inputTextoGeneric)? textoDigitado;
+  final String? label;
+  final String? hint;
 
   @override
-  State<EditQdadeWidget> createState() => _EditQdadeWidgetState();
+  State<EditGenericoWidget> createState() => _EditGenericoWidgetState();
 }
 
-class _EditQdadeWidgetState extends State<EditQdadeWidget> {
-  late EditQdadeModel _model;
+class _EditGenericoWidgetState extends State<EditGenericoWidget> {
+  late EditGenericoModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -29,18 +34,19 @@ class _EditQdadeWidgetState extends State<EditQdadeWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => EditQdadeModel());
+    _model = createModel(context, () => EditGenericoModel());
 
-    _model.edtQdaddeFrangoTextController ??=
-        TextEditingController(text: _model.textoQdade);
-    _model.edtQdaddeFrangoFocusNode ??= FocusNode();
-    _model.edtQdaddeFrangoFocusNode!.addListener(
-      () async {
-        // Atualiza qdade
-        FFAppState().qdade =
-            int.parse(_model.edtQdaddeFrangoTextController.text);
-        setState(() {});
-      },
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.textoDigitado = widget.hint;
+      setState(() {});
+    });
+
+    _model.editexGenericoTextController ??=
+        TextEditingController(text: widget.hint);
+    _model.editexGenericoFocusNode ??= FocusNode();
+    _model.editexGenericoFocusNode!.addListener(
+      () async {},
     );
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -59,33 +65,44 @@ class _EditQdadeWidgetState extends State<EditQdadeWidget> {
       child: Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
         child: TextFormField(
-          controller: _model.edtQdaddeFrangoTextController,
-          focusNode: _model.edtQdaddeFrangoFocusNode,
+          controller: _model.editexGenericoTextController,
+          focusNode: _model.editexGenericoFocusNode,
           onChanged: (_) => EasyDebounce.debounce(
-            '_model.edtQdaddeFrangoTextController',
+            '_model.editexGenericoTextController',
             const Duration(milliseconds: 2000),
             () async {
-              // Atualiza qdade
-              FFAppState().qdade =
-                  int.parse(_model.edtQdaddeFrangoTextController.text);
-              setState(() {});
+              await widget.textoDigitado?.call(
+                _model.editexGenericoTextController.text,
+              );
             },
           ),
           onFieldSubmitted: (_) async {
-            // Atualiza qdade
-            FFAppState().qdade =
-                int.parse(_model.edtQdaddeFrangoTextController.text);
-            setState(() {});
+            await widget.textoDigitado?.call(
+              _model.editexGenericoTextController.text,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  _model.editexGenericoTextController.text,
+                  style: TextStyle(
+                    color: FlutterFlowTheme.of(context).primaryText,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 4000),
+                backgroundColor: const Color(0xFFF6F8FD),
+              ),
+            );
           },
-          autofocus: true,
+          autofocus: false,
           textInputAction: TextInputAction.next,
           obscureText: false,
           decoration: InputDecoration(
-            labelText: 'Quantidade',
+            labelText: widget.label,
             labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
                   fontFamily: 'Inter',
                   letterSpacing: 0.0,
                 ),
+            hintText: widget.hint,
             hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
                   fontFamily: 'Inter',
                   letterSpacing: 0.0,
@@ -123,10 +140,9 @@ class _EditQdadeWidgetState extends State<EditQdadeWidget> {
                 fontFamily: 'Inter',
                 letterSpacing: 0.0,
               ),
-          textAlign: TextAlign.center,
-          keyboardType: TextInputType.number,
-          validator: _model.edtQdaddeFrangoTextControllerValidator
-              .asValidator(context),
+          textAlign: TextAlign.start,
+          validator:
+              _model.editexGenericoTextControllerValidator.asValidator(context),
         ),
       ),
     );

@@ -31,6 +31,8 @@ class _DisplayTotalWidgetState extends State<DisplayTotalWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => DisplayTotalModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -43,7 +45,7 @@ class _DisplayTotalWidgetState extends State<DisplayTotalWidget> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'R\$ ${((widget.parameter1!) * (widget.parameter2!)).toStringAsFixed(2)}',
+      'R\$   ${((widget.parameter1!) * (widget.parameter2!)).toStringAsFixed(2)}',
       style: FlutterFlowTheme.of(context).bodyMedium.override(
             fontFamily: 'Inter',
             color: FlutterFlowTheme.of(context).primaryBackground,

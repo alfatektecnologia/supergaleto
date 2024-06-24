@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class CategoriasStruct extends FFFirebaseStruct {
@@ -23,18 +21,21 @@ class CategoriasStruct extends FFFirebaseStruct {
   String? _nome;
   String get nome => _nome ?? '';
   set nome(String? val) => _nome = val;
+
   bool hasNome() => _nome != null;
 
   // "isActive" field.
   bool? _isActive;
   bool get isActive => _isActive ?? true;
   set isActive(bool? val) => _isActive = val;
+
   bool hasIsActive() => _isActive != null;
 
   // "categoriaId" field.
   String? _categoriaId;
   String get categoriaId => _categoriaId ?? '';
   set categoriaId(String? val) => _categoriaId = val;
+
   bool hasCategoriaId() => _categoriaId != null;
 
   static CategoriasStruct fromMap(Map<String, dynamic> data) =>

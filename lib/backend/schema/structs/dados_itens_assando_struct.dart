@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class DadosItensAssandoStruct extends FFFirebaseStruct {
@@ -23,19 +21,23 @@ class DadosItensAssandoStruct extends FFFirebaseStruct {
   String? _name;
   String get name => _name ?? '';
   set name(String? val) => _name = val;
+
   bool hasName() => _name != null;
 
   // "foto" field.
   String? _foto;
   String get foto => _foto ?? '';
   set foto(String? val) => _foto = val;
+
   bool hasFoto() => _foto != null;
 
   // "qdade" field.
   int? _qdade;
   int get qdade => _qdade ?? 0;
   set qdade(int? val) => _qdade = val;
-  void incrementQdade(int amount) => _qdade = qdade + amount;
+
+  void incrementQdade(int amount) => qdade = qdade + amount;
+
   bool hasQdade() => _qdade != null;
 
   static DadosItensAssandoStruct fromMap(Map<String, dynamic> data) =>

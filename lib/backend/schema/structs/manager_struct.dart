@@ -22,16 +22,22 @@ class ManagerStruct extends FFFirebaseStruct {
   UserStruct? _user;
   UserStruct get user => _user ?? UserStruct();
   set user(UserStruct? val) => _user = val;
-  void updateUser(Function(UserStruct) updateFn) =>
-      updateFn(_user ??= UserStruct());
+
+  void updateUser(Function(UserStruct) updateFn) {
+    updateFn(user ??= UserStruct());
+  }
+
   bool hasUser() => _user != null;
 
   // "sacola" field.
   SacolaStruct? _sacola;
   SacolaStruct get sacola => _sacola ?? SacolaStruct();
   set sacola(SacolaStruct? val) => _sacola = val;
-  void updateSacola(Function(SacolaStruct) updateFn) =>
-      updateFn(_sacola ??= SacolaStruct());
+
+  void updateSacola(Function(SacolaStruct) updateFn) {
+    updateFn(sacola ??= SacolaStruct());
+  }
+
   bool hasSacola() => _sacola != null;
 
   // "churrasqueira" field.
@@ -39,8 +45,11 @@ class ManagerStruct extends FFFirebaseStruct {
   ChurrasqueiraStruct get churrasqueira =>
       _churrasqueira ?? ChurrasqueiraStruct();
   set churrasqueira(ChurrasqueiraStruct? val) => _churrasqueira = val;
-  void updateChurrasqueira(Function(ChurrasqueiraStruct) updateFn) =>
-      updateFn(_churrasqueira ??= ChurrasqueiraStruct());
+
+  void updateChurrasqueira(Function(ChurrasqueiraStruct) updateFn) {
+    updateFn(churrasqueira ??= ChurrasqueiraStruct());
+  }
+
   bool hasChurrasqueira() => _churrasqueira != null;
 
   static ManagerStruct fromMap(Map<String, dynamic> data) => ManagerStruct(

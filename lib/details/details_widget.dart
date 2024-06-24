@@ -37,6 +37,8 @@ class _DetailsWidgetState extends State<DetailsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => DetailsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -167,23 +169,43 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                   width: 4.0,
                                 ),
                               ),
-                              child: Align(
-                                alignment: const AlignmentDirectional(0.0, 10.0),
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(100.0),
-                                    bottomRight: Radius.circular(100.0),
-                                    topLeft: Radius.circular(100.0),
-                                    topRight: Radius.circular(100.0),
+                              child: Stack(
+                                children: [
+                                  Align(
+                                    alignment: const AlignmentDirectional(0.0, 10.0),
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(100.0),
+                                        bottomRight: Radius.circular(100.0),
+                                        topLeft: Radius.circular(100.0),
+                                        topRight: Radius.circular(100.0),
+                                      ),
+                                      child: Image.network(
+                                        '${widget.produto?.photoUrl}',
+                                        width: 300.0,
+                                        height: 200.0,
+                                        fit: BoxFit.cover,
+                                        alignment: const Alignment(0.0, 0.0),
+                                      ),
+                                    ),
                                   ),
-                                  child: Image.network(
-                                    '${widget.produto?.photoUrl}',
-                                    width: 300.0,
-                                    height: 200.0,
-                                    fit: BoxFit.cover,
-                                    alignment: const Alignment(0.0, 0.0),
+                                  Align(
+                                    alignment: const AlignmentDirectional(0.06, 0.86),
+                                    child: Text(
+                                      '***Foto  ilustrativa***',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            color: FlutterFlowTheme.of(context)
+                                                .success,
+                                            fontSize: 18.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                             Padding(
@@ -289,22 +311,10 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                                 ),
                                                 count: _model
                                                     .countControllerValue ??= 1,
-                                                updateCount: (count) async {
-                                                  setState(() => _model
-                                                          .countControllerValue =
-                                                      count);
-                                                  await widget
-                                                      .produto!.reference
-                                                      .update({
-                                                    ...mapToFirestore(
-                                                      {
-                                                        'qdade': FieldValue
-                                                            .increment(-(_model
-                                                                .countControllerValue!)),
-                                                      },
-                                                    ),
-                                                  });
-                                                },
+                                                updateCount: (count) =>
+                                                    setState(() => _model
+                                                            .countControllerValue =
+                                                        count),
                                                 stepSize: 1,
                                               ),
                                             ),
@@ -425,18 +435,18 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                               child: FFButtonWidget(
                                 onPressed: () async {
                                   if (_model.countControllerValue! > 0) {
-                                    // Calc value of item x qty
-                                    _model.valueItemSacola =
-                                        widget.produto!.salePrice *
-                                            (_model.countControllerValue!);
-                                    setState(() {});
-                                    // update total
-                                    FFAppState().TotalSacola =
-                                        FFAppState().TotalSacola +
-                                            _model.valueItemSacola!;
-                                    setState(() {});
-                                    if (widget.produto!.qdade >
+                                    if (widget.produto!.qdade >=
                                         _model.countControllerValue!) {
+                                      // Calc value of item x qty
+                                      _model.valueItemSacola =
+                                          widget.produto!.salePrice *
+                                              (_model.countControllerValue!);
+                                      setState(() {});
+                                      // update total
+                                      FFAppState().TotalSacola =
+                                          FFAppState().TotalSacola +
+                                              _model.valueItemSacola!;
+                                      setState(() {});
                                       // Adding items to Cart
                                       FFAppState()
                                           .addToCarrinho(ItemDaSacolaStruct(
@@ -475,7 +485,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                            'Quantidade não disponível!',
+                                            'Quantidade não disponível! Temos ${widget.produto?.qdade.toString()}  disponíveis.',
                                             style: TextStyle(
                                               color:
                                                   FlutterFlowTheme.of(context)

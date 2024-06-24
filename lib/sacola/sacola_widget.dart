@@ -43,6 +43,8 @@ class _SacolaWidgetState extends State<SacolaWidget> {
       _model.nroPedido = _model.countPedidos;
       setState(() {});
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -248,6 +250,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                             [];
                                     return ListView.builder(
                                       padding: EdgeInsets.zero,
+                                      primary: false,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       itemCount: listItensSacola.length,

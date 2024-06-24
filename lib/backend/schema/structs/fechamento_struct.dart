@@ -28,43 +28,54 @@ class FechamentoStruct extends FFFirebaseStruct {
   String? _vendasId;
   String get vendasId => _vendasId ?? '';
   set vendasId(String? val) => _vendasId = val;
+
   bool hasVendasId() => _vendasId != null;
 
   // "pedidos" field.
   List<PedidosStruct>? _pedidos;
   List<PedidosStruct> get pedidos => _pedidos ?? const [];
   set pedidos(List<PedidosStruct>? val) => _pedidos = val;
-  void updatePedidos(Function(List<PedidosStruct>) updateFn) =>
-      updateFn(_pedidos ??= []);
+
+  void updatePedidos(Function(List<PedidosStruct>) updateFn) {
+    updateFn(pedidos ??= []);
+  }
+
   bool hasPedidos() => _pedidos != null;
 
   // "dataVendas" field.
   DateTime? _dataVendas;
   DateTime? get dataVendas => _dataVendas;
   set dataVendas(DateTime? val) => _dataVendas = val;
+
   bool hasDataVendas() => _dataVendas != null;
 
   // "totalVendas" field.
   double? _totalVendas;
   double get totalVendas => _totalVendas ?? 0.0;
   set totalVendas(double? val) => _totalVendas = val;
+
   void incrementTotalVendas(double amount) =>
-      _totalVendas = totalVendas + amount;
+      totalVendas = totalVendas + amount;
+
   bool hasTotalVendas() => _totalVendas != null;
 
   // "totalCustos" field.
   double? _totalCustos;
   double get totalCustos => _totalCustos ?? 0.0;
   set totalCustos(double? val) => _totalCustos = val;
+
   void incrementTotalCustos(double amount) =>
-      _totalCustos = totalCustos + amount;
+      totalCustos = totalCustos + amount;
+
   bool hasTotalCustos() => _totalCustos != null;
 
   // "totalCupons" field.
   int? _totalCupons;
   int get totalCupons => _totalCupons ?? 0;
   set totalCupons(int? val) => _totalCupons = val;
-  void incrementTotalCupons(int amount) => _totalCupons = totalCupons + amount;
+
+  void incrementTotalCupons(int amount) => totalCupons = totalCupons + amount;
+
   bool hasTotalCupons() => _totalCupons != null;
 
   static FechamentoStruct fromMap(Map<String, dynamic> data) =>
@@ -102,7 +113,7 @@ class FechamentoStruct extends FFFirebaseStruct {
         'pedidos': serializeParam(
           _pedidos,
           ParamType.DataStruct,
-          true,
+          isList: true,
         ),
         'dataVendas': serializeParam(
           _dataVendas,

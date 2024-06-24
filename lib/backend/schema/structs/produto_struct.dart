@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class ProdutoStruct extends FFFirebaseStruct {
@@ -19,6 +17,7 @@ class ProdutoStruct extends FFFirebaseStruct {
     bool? isAtivo,
     double? valorVenda,
     String? categoria,
+    DateTime? dataModificacao,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _nome = nome,
         _produtoId = produtoId,
@@ -29,63 +28,82 @@ class ProdutoStruct extends FFFirebaseStruct {
         _isAtivo = isAtivo,
         _valorVenda = valorVenda,
         _categoria = categoria,
+        _dataModificacao = dataModificacao,
         super(firestoreUtilData);
 
   // "nome" field.
   String? _nome;
   String get nome => _nome ?? '';
   set nome(String? val) => _nome = val;
+
   bool hasNome() => _nome != null;
 
   // "produtoId" field.
   String? _produtoId;
   String get produtoId => _produtoId ?? '';
   set produtoId(String? val) => _produtoId = val;
+
   bool hasProdutoId() => _produtoId != null;
 
   // "descricao" field.
   String? _descricao;
   String get descricao => _descricao ?? '';
   set descricao(String? val) => _descricao = val;
+
   bool hasDescricao() => _descricao != null;
 
   // "fotoUrl" field.
   String? _fotoUrl;
   String get fotoUrl => _fotoUrl ?? '';
   set fotoUrl(String? val) => _fotoUrl = val;
+
   bool hasFotoUrl() => _fotoUrl != null;
 
   // "valor" field.
   double? _valor;
   double get valor => _valor ?? 0.0;
   set valor(double? val) => _valor = val;
-  void incrementValor(double amount) => _valor = valor + amount;
+
+  void incrementValor(double amount) => valor = valor + amount;
+
   bool hasValor() => _valor != null;
 
   // "dataInclusao" field.
   DateTime? _dataInclusao;
   DateTime? get dataInclusao => _dataInclusao;
   set dataInclusao(DateTime? val) => _dataInclusao = val;
+
   bool hasDataInclusao() => _dataInclusao != null;
 
   // "isAtivo" field.
   bool? _isAtivo;
   bool get isAtivo => _isAtivo ?? false;
   set isAtivo(bool? val) => _isAtivo = val;
+
   bool hasIsAtivo() => _isAtivo != null;
 
   // "valorVenda" field.
   double? _valorVenda;
   double get valorVenda => _valorVenda ?? 0.0;
   set valorVenda(double? val) => _valorVenda = val;
-  void incrementValorVenda(double amount) => _valorVenda = valorVenda + amount;
+
+  void incrementValorVenda(double amount) => valorVenda = valorVenda + amount;
+
   bool hasValorVenda() => _valorVenda != null;
 
   // "categoria" field.
   String? _categoria;
   String get categoria => _categoria ?? '';
   set categoria(String? val) => _categoria = val;
+
   bool hasCategoria() => _categoria != null;
+
+  // "data_modificacao" field.
+  DateTime? _dataModificacao;
+  DateTime? get dataModificacao => _dataModificacao;
+  set dataModificacao(DateTime? val) => _dataModificacao = val;
+
+  bool hasDataModificacao() => _dataModificacao != null;
 
   static ProdutoStruct fromMap(Map<String, dynamic> data) => ProdutoStruct(
         nome: data['nome'] as String?,
@@ -97,6 +115,7 @@ class ProdutoStruct extends FFFirebaseStruct {
         isAtivo: data['isAtivo'] as bool?,
         valorVenda: castToType<double>(data['valorVenda']),
         categoria: data['categoria'] as String?,
+        dataModificacao: data['data_modificacao'] as DateTime?,
       );
 
   static ProdutoStruct? maybeFromMap(dynamic data) =>
@@ -112,6 +131,7 @@ class ProdutoStruct extends FFFirebaseStruct {
         'isAtivo': _isAtivo,
         'valorVenda': _valorVenda,
         'categoria': _categoria,
+        'data_modificacao': _dataModificacao,
       }.withoutNulls;
 
   @override
@@ -151,6 +171,10 @@ class ProdutoStruct extends FFFirebaseStruct {
         'categoria': serializeParam(
           _categoria,
           ParamType.String,
+        ),
+        'data_modificacao': serializeParam(
+          _dataModificacao,
+          ParamType.DateTime,
         ),
       }.withoutNulls;
 
@@ -201,6 +225,11 @@ class ProdutoStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
+        dataModificacao: deserializeParam(
+          data['data_modificacao'],
+          ParamType.DateTime,
+          false,
+        ),
       );
 
   @override
@@ -217,7 +246,8 @@ class ProdutoStruct extends FFFirebaseStruct {
         dataInclusao == other.dataInclusao &&
         isAtivo == other.isAtivo &&
         valorVenda == other.valorVenda &&
-        categoria == other.categoria;
+        categoria == other.categoria &&
+        dataModificacao == other.dataModificacao;
   }
 
   @override
@@ -230,7 +260,8 @@ class ProdutoStruct extends FFFirebaseStruct {
         dataInclusao,
         isAtivo,
         valorVenda,
-        categoria
+        categoria,
+        dataModificacao
       ]);
 }
 
@@ -244,6 +275,7 @@ ProdutoStruct createProdutoStruct({
   bool? isAtivo,
   double? valorVenda,
   String? categoria,
+  DateTime? dataModificacao,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -259,6 +291,7 @@ ProdutoStruct createProdutoStruct({
       isAtivo: isAtivo,
       valorVenda: valorVenda,
       categoria: categoria,
+      dataModificacao: dataModificacao,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

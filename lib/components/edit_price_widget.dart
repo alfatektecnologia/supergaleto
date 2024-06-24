@@ -1,18 +1,23 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'teste_model.dart';
-export 'teste_model.dart';
+import 'edit_price_model.dart';
+export 'edit_price_model.dart';
 
-class TesteWidget extends StatefulWidget {
-  const TesteWidget({super.key});
+class EditPriceWidget extends StatefulWidget {
+  const EditPriceWidget({
+    super.key,
+    this.parameter1,
+  });
+
+  final String? parameter1;
 
   @override
-  State<TesteWidget> createState() => _TesteWidgetState();
+  State<EditPriceWidget> createState() => _EditPriceWidgetState();
 }
 
-class _TesteWidgetState extends State<TesteWidget> {
-  late TesteModel _model;
+class _EditPriceWidgetState extends State<EditPriceWidget> {
+  late EditPriceModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -23,10 +28,10 @@ class _TesteWidgetState extends State<TesteWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => TesteModel());
+    _model = createModel(context, () => EditPriceModel());
 
-    _model.texQdadeTextController ??= TextEditingController();
-    _model.texQdadeFocusNode ??= FocusNode();
+    _model.txtPriceTextController ??= TextEditingController();
+    _model.txtPriceFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -41,18 +46,19 @@ class _TesteWidgetState extends State<TesteWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
       child: TextFormField(
-        controller: _model.texQdadeTextController,
-        focusNode: _model.texQdadeFocusNode,
+        controller: _model.txtPriceTextController,
+        focusNode: _model.txtPriceFocusNode,
         autofocus: true,
         obscureText: false,
         decoration: InputDecoration(
-          labelText: 'Quantidade',
+          labelText: 'Valor de custo',
           labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
                 fontFamily: 'Inter',
                 letterSpacing: 0.0,
               ),
+          hintText: widget.parameter1,
           hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
                 fontFamily: 'Inter',
                 letterSpacing: 0.0,
@@ -90,7 +96,7 @@ class _TesteWidgetState extends State<TesteWidget> {
               fontFamily: 'Inter',
               letterSpacing: 0.0,
             ),
-        validator: _model.texQdadeTextControllerValidator.asValidator(context),
+        validator: _model.txtPriceTextControllerValidator.asValidator(context),
       ),
     );
   }

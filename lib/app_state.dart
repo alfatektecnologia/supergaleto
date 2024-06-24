@@ -163,19 +163,19 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToPratelheira(ItemAssandoStruct value) {
-    _pratelheira.add(value);
+    pratelheira.add(value);
     secureStorage.setStringList(
         'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
   }
 
   void removeFromPratelheira(ItemAssandoStruct value) {
-    _pratelheira.remove(value);
+    pratelheira.remove(value);
     secureStorage.setStringList(
         'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
   }
 
   void removeAtIndexFromPratelheira(int index) {
-    _pratelheira.removeAt(index);
+    pratelheira.removeAt(index);
     secureStorage.setStringList(
         'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
   }
@@ -184,13 +184,13 @@ class FFAppState extends ChangeNotifier {
     int index,
     ItemAssandoStruct Function(ItemAssandoStruct) updateFn,
   ) {
-    _pratelheira[index] = updateFn(_pratelheira[index]);
+    pratelheira[index] = updateFn(_pratelheira[index]);
     secureStorage.setStringList(
         'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
   }
 
   void insertAtIndexInPratelheira(int index, ItemAssandoStruct value) {
-    _pratelheira.insert(index, value);
+    pratelheira.insert(index, value);
     secureStorage.setStringList(
         'ff_pratelheira', _pratelheira.map((x) => x.serialize()).toList());
   }
@@ -202,27 +202,27 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToStatusItensSaved(StatusItensSavedStruct value) {
-    _StatusItensSaved.add(value);
+    StatusItensSaved.add(value);
   }
 
   void removeFromStatusItensSaved(StatusItensSavedStruct value) {
-    _StatusItensSaved.remove(value);
+    StatusItensSaved.remove(value);
   }
 
   void removeAtIndexFromStatusItensSaved(int index) {
-    _StatusItensSaved.removeAt(index);
+    StatusItensSaved.removeAt(index);
   }
 
   void updateStatusItensSavedAtIndex(
     int index,
     StatusItensSavedStruct Function(StatusItensSavedStruct) updateFn,
   ) {
-    _StatusItensSaved[index] = updateFn(_StatusItensSaved[index]);
+    StatusItensSaved[index] = updateFn(_StatusItensSaved[index]);
   }
 
   void insertAtIndexInStatusItensSaved(
       int index, StatusItensSavedStruct value) {
-    _StatusItensSaved.insert(index, value);
+    StatusItensSaved.insert(index, value);
   }
 
   String _imageFromGallery = '';
@@ -244,19 +244,19 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToCarrinho(ItemDaSacolaStruct value) {
-    _Carrinho.add(value);
+    Carrinho.add(value);
     secureStorage.setStringList(
         'ff_Carrinho', _Carrinho.map((x) => x.serialize()).toList());
   }
 
   void removeFromCarrinho(ItemDaSacolaStruct value) {
-    _Carrinho.remove(value);
+    Carrinho.remove(value);
     secureStorage.setStringList(
         'ff_Carrinho', _Carrinho.map((x) => x.serialize()).toList());
   }
 
   void removeAtIndexFromCarrinho(int index) {
-    _Carrinho.removeAt(index);
+    Carrinho.removeAt(index);
     secureStorage.setStringList(
         'ff_Carrinho', _Carrinho.map((x) => x.serialize()).toList());
   }
@@ -265,13 +265,13 @@ class FFAppState extends ChangeNotifier {
     int index,
     ItemDaSacolaStruct Function(ItemDaSacolaStruct) updateFn,
   ) {
-    _Carrinho[index] = updateFn(_Carrinho[index]);
+    Carrinho[index] = updateFn(_Carrinho[index]);
     secureStorage.setStringList(
         'ff_Carrinho', _Carrinho.map((x) => x.serialize()).toList());
   }
 
   void insertAtIndexInCarrinho(int index, ItemDaSacolaStruct value) {
-    _Carrinho.insert(index, value);
+    Carrinho.insert(index, value);
     secureStorage.setStringList(
         'ff_Carrinho', _Carrinho.map((x) => x.serialize()).toList());
   }
@@ -311,28 +311,27 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToItemAssandoFromFirebase(ItemAssandoStruct value) {
-    _ItemAssandoFromFirebase.add(value);
+    ItemAssandoFromFirebase.add(value);
   }
 
   void removeFromItemAssandoFromFirebase(ItemAssandoStruct value) {
-    _ItemAssandoFromFirebase.remove(value);
+    ItemAssandoFromFirebase.remove(value);
   }
 
   void removeAtIndexFromItemAssandoFromFirebase(int index) {
-    _ItemAssandoFromFirebase.removeAt(index);
+    ItemAssandoFromFirebase.removeAt(index);
   }
 
   void updateItemAssandoFromFirebaseAtIndex(
     int index,
     ItemAssandoStruct Function(ItemAssandoStruct) updateFn,
   ) {
-    _ItemAssandoFromFirebase[index] =
-        updateFn(_ItemAssandoFromFirebase[index]);
+    ItemAssandoFromFirebase[index] = updateFn(_ItemAssandoFromFirebase[index]);
   }
 
   void insertAtIndexInItemAssandoFromFirebase(
       int index, ItemAssandoStruct value) {
-    _ItemAssandoFromFirebase.insert(index, value);
+    ItemAssandoFromFirebase.insert(index, value);
   }
 
   List<ItemAssandoStruct> _itemAssando = [];
@@ -342,26 +341,26 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToItemAssando(ItemAssandoStruct value) {
-    _itemAssando.add(value);
+    itemAssando.add(value);
   }
 
   void removeFromItemAssando(ItemAssandoStruct value) {
-    _itemAssando.remove(value);
+    itemAssando.remove(value);
   }
 
   void removeAtIndexFromItemAssando(int index) {
-    _itemAssando.removeAt(index);
+    itemAssando.removeAt(index);
   }
 
   void updateItemAssandoAtIndex(
     int index,
     ItemAssandoStruct Function(ItemAssandoStruct) updateFn,
   ) {
-    _itemAssando[index] = updateFn(_itemAssando[index]);
+    itemAssando[index] = updateFn(_itemAssando[index]);
   }
 
   void insertAtIndexInItemAssando(int index, ItemAssandoStruct value) {
-    _itemAssando.insert(index, value);
+    itemAssando.insert(index, value);
   }
 
   int _qdade = 0;
@@ -385,6 +384,12 @@ class FFAppState extends ChangeNotifier {
   bool get isSaved => _isSaved;
   set isSaved(bool value) {
     _isSaved = value;
+  }
+
+  String _textoDigitadoGeneric = '';
+  String get textoDigitadoGeneric => _textoDigitadoGeneric;
+  set textoDigitadoGeneric(String value) {
+    _textoDigitadoGeneric = value;
   }
 
   final _categoriesManager = FutureRequestManager<List<CategoriasRecord>>();

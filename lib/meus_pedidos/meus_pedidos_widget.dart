@@ -23,6 +23,8 @@ class _MeusPedidosWidgetState extends State<MeusPedidosWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MeusPedidosModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -159,6 +161,7 @@ class _MeusPedidosWidgetState extends State<MeusPedidosWidget> {
                               meusPedidosPedidosRecordList.toList();
                           return ListView.builder(
                             padding: EdgeInsets.zero,
+                            primary: false,
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemCount: listPedidos.length,
@@ -226,7 +229,11 @@ class _MeusPedidosWidgetState extends State<MeusPedidosWidget> {
                                                 ),
                                               ),
                                               Text(
-                                                listPedidosItem.userName,
+                                                listPedidosItem.userName
+                                                    .maybeHandleOverflow(
+                                                  maxChars: 10,
+                                                  replacement: '…',
+                                                ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -296,6 +303,7 @@ class _MeusPedidosWidgetState extends State<MeusPedidosWidget> {
                                                   .toList();
                                               return ListView.builder(
                                                 padding: EdgeInsets.zero,
+                                                primary: false,
                                                 shrinkWrap: true,
                                                 scrollDirection: Axis.vertical,
                                                 itemCount: items.length,

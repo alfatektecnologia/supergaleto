@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class CustosStruct extends FFFirebaseStruct {
@@ -25,28 +23,34 @@ class CustosStruct extends FFFirebaseStruct {
   String? _custosId;
   String get custosId => _custosId ?? '';
   set custosId(String? val) => _custosId = val;
+
   bool hasCustosId() => _custosId != null;
 
   // "data" field.
   DateTime? _data;
   DateTime? get data => _data;
   set data(DateTime? val) => _data = val;
+
   bool hasData() => _data != null;
 
   // "custoMateriaPrima" field.
   double? _custoMateriaPrima;
   double get custoMateriaPrima => _custoMateriaPrima ?? 0.0;
   set custoMateriaPrima(double? val) => _custoMateriaPrima = val;
+
   void incrementCustoMateriaPrima(double amount) =>
-      _custoMateriaPrima = custoMateriaPrima + amount;
+      custoMateriaPrima = custoMateriaPrima + amount;
+
   bool hasCustoMateriaPrima() => _custoMateriaPrima != null;
 
   // "custoDelivery" field.
   double? _custoDelivery;
   double get custoDelivery => _custoDelivery ?? 0.0;
   set custoDelivery(double? val) => _custoDelivery = val;
+
   void incrementCustoDelivery(double amount) =>
-      _custoDelivery = custoDelivery + amount;
+      custoDelivery = custoDelivery + amount;
+
   bool hasCustoDelivery() => _custoDelivery != null;
 
   static CustosStruct fromMap(Map<String, dynamic> data) => CustosStruct(

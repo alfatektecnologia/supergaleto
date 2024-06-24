@@ -24,27 +24,34 @@ class SacolaStruct extends FFFirebaseStruct {
   String? _userId;
   String get userId => _userId ?? '';
   set userId(String? val) => _userId = val;
+
   bool hasUserId() => _userId != null;
 
   // "items" field.
   List<ItemDaSacolaStruct>? _items;
   List<ItemDaSacolaStruct> get items => _items ?? const [];
   set items(List<ItemDaSacolaStruct>? val) => _items = val;
-  void updateItems(Function(List<ItemDaSacolaStruct>) updateFn) =>
-      updateFn(_items ??= []);
+
+  void updateItems(Function(List<ItemDaSacolaStruct>) updateFn) {
+    updateFn(items ??= []);
+  }
+
   bool hasItems() => _items != null;
 
   // "Total" field.
   double? _total;
   double get total => _total ?? 0.0;
   set total(double? val) => _total = val;
-  void incrementTotal(double amount) => _total = total + amount;
+
+  void incrementTotal(double amount) => total = total + amount;
+
   bool hasTotal() => _total != null;
 
   // "dataCreated" field.
   String? _dataCreated;
   String get dataCreated => _dataCreated ?? '';
   set dataCreated(String? val) => _dataCreated = val;
+
   bool hasDataCreated() => _dataCreated != null;
 
   static SacolaStruct fromMap(Map<String, dynamic> data) => SacolaStruct(
@@ -76,7 +83,7 @@ class SacolaStruct extends FFFirebaseStruct {
         'items': serializeParam(
           _items,
           ParamType.DataStruct,
-          true,
+          isList: true,
         ),
         'Total': serializeParam(
           _total,

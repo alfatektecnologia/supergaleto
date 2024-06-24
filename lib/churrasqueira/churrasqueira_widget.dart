@@ -3,6 +3,7 @@ import '/components/edit_qdade_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'churrasqueira_model.dart';
@@ -31,6 +32,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
       length: 3,
       initialIndex: 0,
     )..addListener(() => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -123,10 +125,46 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                 ),
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-                  child: Icon(
-                    Icons.logout,
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                    size: 24.0,
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      var confirmDialogResponse = await showDialog<bool>(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: const Text('Alerta'),
+                                content: const Text(
+                                    'Deseja realmente sair do aplicativo?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(
+                                        alertDialogContext, false),
+                                    child: const Text('Cancelar'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext, true),
+                                    child: const Text('Confirmar'),
+                                  ),
+                                ],
+                              );
+                            },
+                          ) ??
+                          false;
+                      if (confirmDialogResponse) {
+                        await actions.closeApp(
+                          context,
+                        );
+                      }
+                    },
+                    child: Icon(
+                      Icons.logout,
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      size: 24.0,
+                    ),
                   ),
                 ),
               ],
@@ -650,7 +688,12 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                                               ),
                                                               Text(
                                                                 listViewPedidosRecord
-                                                                    .userName,
+                                                                    .userName
+                                                                    .maybeHandleOverflow(
+                                                                  maxChars: 15,
+                                                                  replacement:
+                                                                      '…',
+                                                                ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium

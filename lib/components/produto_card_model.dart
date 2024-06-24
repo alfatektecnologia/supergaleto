@@ -14,6 +14,8 @@ class ProdutoCardModel extends FlutterFlowModel<ProdutoCardWidget> {
 
   String? textoFromTextfield;
 
+  FFUploadedFile? imageToShowAtStart;
+
   ///  State fields for stateful widgets in this component.
 
   bool isDataUploading1 = false;

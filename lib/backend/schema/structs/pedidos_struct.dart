@@ -26,32 +26,39 @@ class PedidosStruct extends FFFirebaseStruct {
   String? _pedidoId;
   String get pedidoId => _pedidoId ?? '';
   set pedidoId(String? val) => _pedidoId = val;
+
   bool hasPedidoId() => _pedidoId != null;
 
   // "userId" field.
   String? _userId;
   String get userId => _userId ?? '';
   set userId(String? val) => _userId = val;
+
   bool hasUserId() => _userId != null;
 
   // "sacolaId" field.
   String? _sacolaId;
   String get sacolaId => _sacolaId ?? '';
   set sacolaId(String? val) => _sacolaId = val;
+
   bool hasSacolaId() => _sacolaId != null;
 
   // "produtos" field.
   SacolaStruct? _produtos;
   SacolaStruct get produtos => _produtos ?? SacolaStruct();
   set produtos(SacolaStruct? val) => _produtos = val;
-  void updateProdutos(Function(SacolaStruct) updateFn) =>
-      updateFn(_produtos ??= SacolaStruct());
+
+  void updateProdutos(Function(SacolaStruct) updateFn) {
+    updateFn(produtos ??= SacolaStruct());
+  }
+
   bool hasProdutos() => _produtos != null;
 
   // "dataCompra" field.
   String? _dataCompra;
   String get dataCompra => _dataCompra ?? '';
   set dataCompra(String? val) => _dataCompra = val;
+
   bool hasDataCompra() => _dataCompra != null;
 
   static PedidosStruct fromMap(Map<String, dynamic> data) => PedidosStruct(

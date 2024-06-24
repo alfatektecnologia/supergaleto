@@ -46,6 +46,8 @@ class _ShowItemsChurrasqueiraWidgetState
       _model.produtoName = widget.produtoName;
       setState(() {});
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

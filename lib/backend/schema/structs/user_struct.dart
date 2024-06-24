@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class UserStruct extends FFFirebaseStruct {
@@ -25,24 +23,28 @@ class UserStruct extends FFFirebaseStruct {
   String? _name;
   String get name => _name ?? '';
   set name(String? val) => _name = val;
+
   bool hasName() => _name != null;
 
   // "userId" field.
   String? _userId;
   String get userId => _userId ?? '';
   set userId(String? val) => _userId = val;
+
   bool hasUserId() => _userId != null;
 
   // "email" field.
   String? _email;
   String get email => _email ?? '';
   set email(String? val) => _email = val;
+
   bool hasEmail() => _email != null;
 
   // "isAdmin" field.
   bool? _isAdmin;
   bool get isAdmin => _isAdmin ?? false;
   set isAdmin(bool? val) => _isAdmin = val;
+
   bool hasIsAdmin() => _isAdmin != null;
 
   static UserStruct fromMap(Map<String, dynamic> data) => UserStruct(

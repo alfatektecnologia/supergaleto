@@ -65,6 +65,8 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ProdutoCardModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

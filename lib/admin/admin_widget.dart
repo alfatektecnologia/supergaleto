@@ -1,5 +1,5 @@
 import '/backend/backend.dart';
-import '/components/produto_card_listar_widget.dart';
+import '/components/edit_generico_widget.dart';
 import '/components/produto_card_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_radio_button.dart';
@@ -9,6 +9,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'admin_model.dart';
@@ -30,6 +31,15 @@ class _AdminWidgetState extends State<AdminWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AdminModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      FFAppState().photoFromFirebase =
+          'https://firebasestorage.googleapis.com/v0/b/supergaletto-39fa9.appspot.com/o/users%2FnBL82S7N8vanmHeuj8pMB3AC3nf2%2Fuploads%2Ffoto_padr%C3%A3o.jpg?alt=media&token=acd56d4c-9622-44c4-95b4-263c02bbd61d';
+      setState(() {});
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -256,7 +266,9 @@ class _AdminWidgetState extends State<AdminWidget> {
                           updateCallback: () => setState(() {}),
                           updateOnChange: true,
                           child: ProdutoCardWidget(
-                            imageUrl: FFAppState().photoFromFirebase,
+                            imageUrl: FFAppState().imageFromGallery == '\"\"'
+                                ? 'https://firebasestorage.googleapis.com/v0/b/supergaletto-39fa9.appspot.com/o/users%2FnBL82S7N8vanmHeuj8pMB3AC3nf2%2Fuploads%2Ffoto_padr%C3%A3o.jpg?alt=media&token=acd56d4c-9622-44c4-95b4-263c02bbd61d'
+                                : FFAppState().photoFromFirebase,
                             label1: 'Nome',
                             hint1: 'nome do produto',
                             label2: 'Descrição',
@@ -264,7 +276,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                             label4: 'Preço de venda',
                             hint4: 'Preço de venda',
                             label3: 'Preço de compra',
-                            hint3: 'Preço e compra',
+                            hint3: 'Preço de compra',
                             nroLinhas2: 4,
                             btSalvar: (onClick) async {},
                           ),
@@ -296,37 +308,377 @@ class _AdminWidgetState extends State<AdminWidget> {
                             snapshot.data!;
                         return ListView.builder(
                           padding: EdgeInsets.zero,
+                          primary: false,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           itemCount: listViewProdutosRecordList.length,
                           itemBuilder: (context, listViewIndex) {
                             final listViewProdutosRecord =
                                 listViewProdutosRecordList[listViewIndex];
-                            return ProdutoCardListarWidget(
-                              key: Key(
-                                  'Key61u_${listViewIndex}_of_${listViewProdutosRecordList.length}'),
-                              imageUrl: listViewProdutosRecord.photoUrl,
-                              label1: 'Produto',
-                              hint1: listViewProdutosRecord.name,
-                              label2: 'Descrição',
-                              hint2: listViewProdutosRecord.description,
-                              label4: 'Valor de compra',
-                              hint4: formatNumber(
-                                listViewProdutosRecord.price,
-                                formatType: FormatType.custom,
-                                currency: 'R\$ ',
-                                format: '0.00',
-                                locale: '',
+                            return Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 8.0, 8.0, 8.0),
+                              child: Card(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                elevation: 4.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 8.0, 0.0, 8.0),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.network(
+                                          listViewProdutosRecord.photoUrl,
+                                          width: 300.0,
+                                          height: 200.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 8.0, 8.0, 8.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            child: EditGenericoWidget(
+                                              key: Key(
+                                                  'Keyl8r_${listViewIndex}_of_${listViewProdutosRecordList.length}'),
+                                              label: 'Nome',
+                                              hint: listViewProdutosRecord.name,
+                                              textoDigitado:
+                                                  (inputTextoGeneric) async {
+                                                FFAppState()
+                                                    .updateProdutoStruct(
+                                                  (e) => e
+                                                    ..nome = inputTextoGeneric
+                                                    ..descricao =
+                                                        listViewProdutosRecord
+                                                            .description
+                                                    ..valor =
+                                                        listViewProdutosRecord
+                                                            .price
+                                                    ..isAtivo =
+                                                        listViewProdutosRecord
+                                                            .onSale
+                                                    ..valorVenda =
+                                                        listViewProdutosRecord
+                                                            .salePrice,
+                                                );
+                                                setState(() {});
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 8.0, 8.0, 8.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            child: EditGenericoWidget(
+                                              key: Key(
+                                                  'Keyk26_${listViewIndex}_of_${listViewProdutosRecordList.length}'),
+                                              label: 'Descrição',
+                                              hint: listViewProdutosRecord
+                                                  .description,
+                                              textoDigitado:
+                                                  (inputTextoGeneric) async {
+                                                FFAppState()
+                                                    .updateProdutoStruct(
+                                                  (e) => e
+                                                    ..nome =
+                                                        listViewProdutosRecord
+                                                            .name
+                                                    ..descricao =
+                                                        inputTextoGeneric
+                                                    ..valor =
+                                                        listViewProdutosRecord
+                                                            .price
+                                                    ..isAtivo =
+                                                        listViewProdutosRecord
+                                                            .onSale
+                                                    ..valorVenda =
+                                                        listViewProdutosRecord
+                                                            .salePrice,
+                                                );
+                                                setState(() {});
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 8.0, 8.0, 8.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            child: EditGenericoWidget(
+                                              key: Key(
+                                                  'Keyf18_${listViewIndex}_of_${listViewProdutosRecordList.length}'),
+                                              label: 'Valor de custo',
+                                              hint: listViewProdutosRecord.price
+                                                  .toString(),
+                                              textoDigitado:
+                                                  (inputTextoGeneric) async {
+                                                FFAppState()
+                                                    .updateProdutoStruct(
+                                                  (e) => e
+                                                    ..nome =
+                                                        listViewProdutosRecord
+                                                            .name
+                                                    ..descricao =
+                                                        listViewProdutosRecord
+                                                            .description
+                                                    ..valor = double.parse(
+                                                        (inputTextoGeneric!))
+                                                    ..isAtivo =
+                                                        listViewProdutosRecord
+                                                            .onSale
+                                                    ..valorVenda =
+                                                        listViewProdutosRecord
+                                                            .salePrice,
+                                                );
+                                                setState(() {});
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      inputTextoGeneric!,
+                                                      style: const TextStyle(
+                                                        color:
+                                                            Color(0xFFD2D8E7),
+                                                      ),
+                                                    ),
+                                                    duration: const Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondary,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 8.0, 8.0, 8.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            child: EditGenericoWidget(
+                                              key: Key(
+                                                  'Key5op_${listViewIndex}_of_${listViewProdutosRecordList.length}'),
+                                              label: 'Valor de venda',
+                                              hint: listViewProdutosRecord
+                                                  .salePrice
+                                                  .toString(),
+                                              textoDigitado:
+                                                  (inputTextoGeneric) async {
+                                                FFAppState()
+                                                    .updateProdutoStruct(
+                                                  (e) => e
+                                                    ..nome =
+                                                        listViewProdutosRecord
+                                                            .name
+                                                    ..descricao =
+                                                        listViewProdutosRecord
+                                                            .description
+                                                    ..valor =
+                                                        listViewProdutosRecord
+                                                            .price
+                                                    ..isAtivo =
+                                                        listViewProdutosRecord
+                                                            .onSale
+                                                    ..valorVenda = double.parse(
+                                                        (inputTextoGeneric!)),
+                                                );
+                                                setState(() {});
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 8.0, 8.0, 8.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Theme(
+                                            data: ThemeData(
+                                              checkboxTheme: CheckboxThemeData(
+                                                visualDensity:
+                                                    VisualDensity.compact,
+                                                materialTapTargetSize:
+                                                    MaterialTapTargetSize
+                                                        .shrinkWrap,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                              ),
+                                              unselectedWidgetColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                            ),
+                                            child: Checkbox(
+                                              value: _model.checkboxValueMap[
+                                                      listViewProdutosRecord] ??=
+                                                  true,
+                                              onChanged: (newValue) async {
+                                                setState(() => _model
+                                                            .checkboxValueMap[
+                                                        listViewProdutosRecord] =
+                                                    newValue!);
+
+                                                if (!newValue!) {
+                                                  FFAppState().Produto =
+                                                      ProdutoStruct(
+                                                    isAtivo: false,
+                                                  );
+                                                  setState(() {});
+                                                }
+                                              },
+                                              side: BorderSide(
+                                                width: 2,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                              ),
+                                              activeColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              checkColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .info,
+                                            ),
+                                          ),
+                                          Text(
+                                            'produto disponível',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Inter',
+                                                  letterSpacing: 0.0,
+                                                ),
+                                          ),
+                                          Expanded(
+                                            child: Align(
+                                              alignment: const AlignmentDirectional(
+                                                  1.0, 0.0),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 0.0, 8.0, 0.0),
+                                                child: FFButtonWidget(
+                                                  onPressed: () async {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          FFAppState()
+                                                              .textoDigitadoGeneric,
+                                                          style: TextStyle(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryText,
+                                                          ),
+                                                        ),
+                                                        duration: const Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            const Color(0xFFC3CBE8),
+                                                      ),
+                                                    );
+
+                                                    await listViewProdutosRecord
+                                                        .reference
+                                                        .update(
+                                                            createProdutosRecordData(
+                                                      name: FFAppState()
+                                                          .Produto
+                                                          .nome,
+                                                      description: FFAppState()
+                                                          .Produto
+                                                          .descricao,
+                                                      price: FFAppState()
+                                                          .Produto
+                                                          .valor,
+                                                      modifiedAt:
+                                                          getCurrentTimestamp,
+                                                      onSale: _model
+                                                              .checkboxValueMap[
+                                                          listViewProdutosRecord],
+                                                      salePrice: FFAppState()
+                                                          .Produto
+                                                          .valorVenda,
+                                                    ));
+                                                  },
+                                                  text: 'Atualizar',
+                                                  options: FFButtonOptions(
+                                                    height: 40.0,
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(24.0, 0.0,
+                                                                24.0, 0.0),
+                                                    iconPadding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                0.0, 0.0),
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    textStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .titleSmall
+                                                        .override(
+                                                          fontFamily: 'Inter',
+                                                          color: Colors.white,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                    elevation: 3.0,
+                                                    borderSide: const BorderSide(
+                                                      color: Colors.transparent,
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              label3: 'Valor de venda',
-                              hint3: formatNumber(
-                                listViewProdutosRecord.salePrice,
-                                formatType: FormatType.custom,
-                                currency: 'R\$ ',
-                                format: '0.00',
-                                locale: '',
-                              ),
-                              btSalvar: (onClick) async {},
                             );
                           },
                         );

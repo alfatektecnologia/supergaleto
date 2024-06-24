@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/components/produto_card_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -12,6 +13,10 @@ class AdminModel extends FlutterFlowModel<AdminWidget> {
   FormFieldController<String>? radioButtonValueController;
   // Model for produtoCard component.
   late ProdutoCardModel produtoCardModel;
+  // State field(s) for Checkbox widget.
+  Map<ProdutosRecord, bool> checkboxValueMap = {};
+  List<ProdutosRecord> get checkboxCheckedItems =>
+      checkboxValueMap.entries.where((e) => e.value).map((e) => e.key).toList();
 
   @override
   void initState(BuildContext context) {
