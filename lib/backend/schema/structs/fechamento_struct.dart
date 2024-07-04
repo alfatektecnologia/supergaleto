@@ -37,7 +37,7 @@ class FechamentoStruct extends FFFirebaseStruct {
   set pedidos(List<PedidosStruct>? val) => _pedidos = val;
 
   void updatePedidos(Function(List<PedidosStruct>) updateFn) {
-    updateFn(pedidos ??= []);
+    updateFn(_pedidos ??= []);
   }
 
   bool hasPedidos() => _pedidos != null;

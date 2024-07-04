@@ -392,6 +392,70 @@ class FFAppState extends ChangeNotifier {
     _textoDigitadoGeneric = value;
   }
 
+  String _pedidoUserName = '';
+  String get pedidoUserName => _pedidoUserName;
+  set pedidoUserName(String value) {
+    _pedidoUserName = value;
+  }
+
+  List<PedidosStruct> _ListaPedidosByDate = [];
+  List<PedidosStruct> get ListaPedidosByDate => _ListaPedidosByDate;
+  set ListaPedidosByDate(List<PedidosStruct> value) {
+    _ListaPedidosByDate = value;
+  }
+
+  void addToListaPedidosByDate(PedidosStruct value) {
+    ListaPedidosByDate.add(value);
+  }
+
+  void removeFromListaPedidosByDate(PedidosStruct value) {
+    ListaPedidosByDate.remove(value);
+  }
+
+  void removeAtIndexFromListaPedidosByDate(int index) {
+    ListaPedidosByDate.removeAt(index);
+  }
+
+  void updateListaPedidosByDateAtIndex(
+    int index,
+    PedidosStruct Function(PedidosStruct) updateFn,
+  ) {
+    ListaPedidosByDate[index] = updateFn(_ListaPedidosByDate[index]);
+  }
+
+  void insertAtIndexInListaPedidosByDate(int index, PedidosStruct value) {
+    ListaPedidosByDate.insert(index, value);
+  }
+
+  List<dynamic> _novaLista = [];
+  List<dynamic> get novaLista => _novaLista;
+  set novaLista(List<dynamic> value) {
+    _novaLista = value;
+  }
+
+  void addToNovaLista(dynamic value) {
+    novaLista.add(value);
+  }
+
+  void removeFromNovaLista(dynamic value) {
+    novaLista.remove(value);
+  }
+
+  void removeAtIndexFromNovaLista(int index) {
+    novaLista.removeAt(index);
+  }
+
+  void updateNovaListaAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    novaLista[index] = updateFn(_novaLista[index]);
+  }
+
+  void insertAtIndexInNovaLista(int index, dynamic value) {
+    novaLista.insert(index, value);
+  }
+
   final _categoriesManager = FutureRequestManager<List<CategoriasRecord>>();
   Future<List<CategoriasRecord>> categories({
     String? uniqueQueryKey,

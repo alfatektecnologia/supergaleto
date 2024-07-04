@@ -33,7 +33,7 @@ class SacolaStruct extends FFFirebaseStruct {
   set items(List<ItemDaSacolaStruct>? val) => _items = val;
 
   void updateItems(Function(List<ItemDaSacolaStruct>) updateFn) {
-    updateFn(items ??= []);
+    updateFn(_items ??= []);
   }
 
   bool hasItems() => _items != null;

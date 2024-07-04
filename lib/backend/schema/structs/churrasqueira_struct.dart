@@ -31,7 +31,7 @@ class ChurrasqueiraStruct extends FFFirebaseStruct {
   set itemsAssando(List<ItemAssandoStruct>? val) => _itemsAssando = val;
 
   void updateItemsAssando(Function(List<ItemAssandoStruct>) updateFn) {
-    updateFn(itemsAssando ??= []);
+    updateFn(_itemsAssando ??= []);
   }
 
   bool hasItemsAssando() => _itemsAssando != null;

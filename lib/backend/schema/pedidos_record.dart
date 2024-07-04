@@ -25,11 +25,6 @@ class PedidosRecord extends FirestoreRecord {
   SacolaStruct get sacola => _sacola ?? SacolaStruct();
   bool hasSacola() => _sacola != null;
 
-  // "data" field.
-  DateTime? _data;
-  DateTime? get data => _data;
-  bool hasData() => _data != null;
-
   // "userName" field.
   String? _userName;
   String get userName => _userName ?? '';
@@ -40,12 +35,17 @@ class PedidosRecord extends FirestoreRecord {
   bool get isClosed => _isClosed ?? false;
   bool hasIsClosed() => _isClosed != null;
 
+  // "data" field.
+  String? _data;
+  String get data => _data ?? '';
+  bool hasData() => _data != null;
+
   void _initializeFields() {
     _nroPedido = castToType<int>(snapshotData['nroPedido']);
     _sacola = SacolaStruct.maybeFromMap(snapshotData['sacola']);
-    _data = snapshotData['data'] as DateTime?;
     _userName = snapshotData['userName'] as String?;
     _isClosed = snapshotData['isClosed'] as bool?;
+    _data = snapshotData['data'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -85,17 +85,17 @@ class PedidosRecord extends FirestoreRecord {
 Map<String, dynamic> createPedidosRecordData({
   int? nroPedido,
   SacolaStruct? sacola,
-  DateTime? data,
   String? userName,
   bool? isClosed,
+  String? data,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'nroPedido': nroPedido,
       'sacola': SacolaStruct().toMap(),
-      'data': data,
       'userName': userName,
       'isClosed': isClosed,
+      'data': data,
     }.withoutNulls,
   );
 
@@ -112,14 +112,14 @@ class PedidosRecordDocumentEquality implements Equality<PedidosRecord> {
   bool equals(PedidosRecord? e1, PedidosRecord? e2) {
     return e1?.nroPedido == e2?.nroPedido &&
         e1?.sacola == e2?.sacola &&
-        e1?.data == e2?.data &&
         e1?.userName == e2?.userName &&
-        e1?.isClosed == e2?.isClosed;
+        e1?.isClosed == e2?.isClosed &&
+        e1?.data == e2?.data;
   }
 
   @override
   int hash(PedidosRecord? e) => const ListEquality()
-      .hash([e?.nroPedido, e?.sacola, e?.data, e?.userName, e?.isClosed]);
+      .hash([e?.nroPedido, e?.sacola, e?.userName, e?.isClosed, e?.data]);
 
   @override
   bool isValidKey(Object? o) => o is PedidosRecord;

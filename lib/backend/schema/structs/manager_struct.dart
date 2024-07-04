@@ -24,7 +24,7 @@ class ManagerStruct extends FFFirebaseStruct {
   set user(UserStruct? val) => _user = val;
 
   void updateUser(Function(UserStruct) updateFn) {
-    updateFn(user ??= UserStruct());
+    updateFn(_user ??= UserStruct());
   }
 
   bool hasUser() => _user != null;
@@ -35,7 +35,7 @@ class ManagerStruct extends FFFirebaseStruct {
   set sacola(SacolaStruct? val) => _sacola = val;
 
   void updateSacola(Function(SacolaStruct) updateFn) {
-    updateFn(sacola ??= SacolaStruct());
+    updateFn(_sacola ??= SacolaStruct());
   }
 
   bool hasSacola() => _sacola != null;
@@ -47,7 +47,7 @@ class ManagerStruct extends FFFirebaseStruct {
   set churrasqueira(ChurrasqueiraStruct? val) => _churrasqueira = val;
 
   void updateChurrasqueira(Function(ChurrasqueiraStruct) updateFn) {
-    updateFn(churrasqueira ??= ChurrasqueiraStruct());
+    updateFn(_churrasqueira ??= ChurrasqueiraStruct());
   }
 
   bool hasChurrasqueira() => _churrasqueira != null;

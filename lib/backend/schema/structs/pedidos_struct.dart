@@ -9,126 +9,128 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class PedidosStruct extends FFFirebaseStruct {
   PedidosStruct({
-    String? pedidoId,
-    String? userId,
-    String? sacolaId,
-    SacolaStruct? produtos,
-    String? dataCompra,
+    int? nroPedido,
+    SacolaStruct? sacola,
+    String? userName,
+    bool? isClosed,
+    String? data,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _pedidoId = pedidoId,
-        _userId = userId,
-        _sacolaId = sacolaId,
-        _produtos = produtos,
-        _dataCompra = dataCompra,
+  })  : _nroPedido = nroPedido,
+        _sacola = sacola,
+        _userName = userName,
+        _isClosed = isClosed,
+        _data = data,
         super(firestoreUtilData);
 
-  // "pedidoId" field.
-  String? _pedidoId;
-  String get pedidoId => _pedidoId ?? '';
-  set pedidoId(String? val) => _pedidoId = val;
+  // "nroPedido" field.
+  int? _nroPedido;
+  int get nroPedido => _nroPedido ?? 0;
+  set nroPedido(int? val) => _nroPedido = val;
 
-  bool hasPedidoId() => _pedidoId != null;
+  void incrementNroPedido(int amount) => nroPedido = nroPedido + amount;
 
-  // "userId" field.
-  String? _userId;
-  String get userId => _userId ?? '';
-  set userId(String? val) => _userId = val;
+  bool hasNroPedido() => _nroPedido != null;
 
-  bool hasUserId() => _userId != null;
+  // "sacola" field.
+  SacolaStruct? _sacola;
+  SacolaStruct get sacola => _sacola ?? SacolaStruct();
+  set sacola(SacolaStruct? val) => _sacola = val;
 
-  // "sacolaId" field.
-  String? _sacolaId;
-  String get sacolaId => _sacolaId ?? '';
-  set sacolaId(String? val) => _sacolaId = val;
-
-  bool hasSacolaId() => _sacolaId != null;
-
-  // "produtos" field.
-  SacolaStruct? _produtos;
-  SacolaStruct get produtos => _produtos ?? SacolaStruct();
-  set produtos(SacolaStruct? val) => _produtos = val;
-
-  void updateProdutos(Function(SacolaStruct) updateFn) {
-    updateFn(produtos ??= SacolaStruct());
+  void updateSacola(Function(SacolaStruct) updateFn) {
+    updateFn(_sacola ??= SacolaStruct());
   }
 
-  bool hasProdutos() => _produtos != null;
+  bool hasSacola() => _sacola != null;
 
-  // "dataCompra" field.
-  String? _dataCompra;
-  String get dataCompra => _dataCompra ?? '';
-  set dataCompra(String? val) => _dataCompra = val;
+  // "userName" field.
+  String? _userName;
+  String get userName => _userName ?? '';
+  set userName(String? val) => _userName = val;
 
-  bool hasDataCompra() => _dataCompra != null;
+  bool hasUserName() => _userName != null;
+
+  // "isClosed" field.
+  bool? _isClosed;
+  bool get isClosed => _isClosed ?? false;
+  set isClosed(bool? val) => _isClosed = val;
+
+  bool hasIsClosed() => _isClosed != null;
+
+  // "data" field.
+  String? _data;
+  String get data => _data ?? '';
+  set data(String? val) => _data = val;
+
+  bool hasData() => _data != null;
 
   static PedidosStruct fromMap(Map<String, dynamic> data) => PedidosStruct(
-        pedidoId: data['pedidoId'] as String?,
-        userId: data['userId'] as String?,
-        sacolaId: data['sacolaId'] as String?,
-        produtos: SacolaStruct.maybeFromMap(data['produtos']),
-        dataCompra: data['dataCompra'] as String?,
+        nroPedido: castToType<int>(data['nroPedido']),
+        sacola: SacolaStruct.maybeFromMap(data['sacola']),
+        userName: data['userName'] as String?,
+        isClosed: data['isClosed'] as bool?,
+        data: data['data'] as String?,
       );
 
   static PedidosStruct? maybeFromMap(dynamic data) =>
       data is Map ? PedidosStruct.fromMap(data.cast<String, dynamic>()) : null;
 
   Map<String, dynamic> toMap() => {
-        'pedidoId': _pedidoId,
-        'userId': _userId,
-        'sacolaId': _sacolaId,
-        'produtos': _produtos?.toMap(),
-        'dataCompra': _dataCompra,
+        'nroPedido': _nroPedido,
+        'sacola': _sacola?.toMap(),
+        'userName': _userName,
+        'isClosed': _isClosed,
+        'data': _data,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'pedidoId': serializeParam(
-          _pedidoId,
-          ParamType.String,
+        'nroPedido': serializeParam(
+          _nroPedido,
+          ParamType.int,
         ),
-        'userId': serializeParam(
-          _userId,
-          ParamType.String,
-        ),
-        'sacolaId': serializeParam(
-          _sacolaId,
-          ParamType.String,
-        ),
-        'produtos': serializeParam(
-          _produtos,
+        'sacola': serializeParam(
+          _sacola,
           ParamType.DataStruct,
         ),
-        'dataCompra': serializeParam(
-          _dataCompra,
+        'userName': serializeParam(
+          _userName,
+          ParamType.String,
+        ),
+        'isClosed': serializeParam(
+          _isClosed,
+          ParamType.bool,
+        ),
+        'data': serializeParam(
+          _data,
           ParamType.String,
         ),
       }.withoutNulls;
 
   static PedidosStruct fromSerializableMap(Map<String, dynamic> data) =>
       PedidosStruct(
-        pedidoId: deserializeParam(
-          data['pedidoId'],
-          ParamType.String,
+        nroPedido: deserializeParam(
+          data['nroPedido'],
+          ParamType.int,
           false,
         ),
-        userId: deserializeParam(
-          data['userId'],
-          ParamType.String,
-          false,
-        ),
-        sacolaId: deserializeParam(
-          data['sacolaId'],
-          ParamType.String,
-          false,
-        ),
-        produtos: deserializeStructParam(
-          data['produtos'],
+        sacola: deserializeStructParam(
+          data['sacola'],
           ParamType.DataStruct,
           false,
           structBuilder: SacolaStruct.fromSerializableMap,
         ),
-        dataCompra: deserializeParam(
-          data['dataCompra'],
+        userName: deserializeParam(
+          data['userName'],
+          ParamType.String,
+          false,
+        ),
+        isClosed: deserializeParam(
+          data['isClosed'],
+          ParamType.bool,
+          false,
+        ),
+        data: deserializeParam(
+          data['data'],
           ParamType.String,
           false,
         ),
@@ -140,35 +142,35 @@ class PedidosStruct extends FFFirebaseStruct {
   @override
   bool operator ==(Object other) {
     return other is PedidosStruct &&
-        pedidoId == other.pedidoId &&
-        userId == other.userId &&
-        sacolaId == other.sacolaId &&
-        produtos == other.produtos &&
-        dataCompra == other.dataCompra;
+        nroPedido == other.nroPedido &&
+        sacola == other.sacola &&
+        userName == other.userName &&
+        isClosed == other.isClosed &&
+        data == other.data;
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([pedidoId, userId, sacolaId, produtos, dataCompra]);
+  int get hashCode =>
+      const ListEquality().hash([nroPedido, sacola, userName, isClosed, data]);
 }
 
 PedidosStruct createPedidosStruct({
-  String? pedidoId,
-  String? userId,
-  String? sacolaId,
-  SacolaStruct? produtos,
-  String? dataCompra,
+  int? nroPedido,
+  SacolaStruct? sacola,
+  String? userName,
+  bool? isClosed,
+  String? data,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     PedidosStruct(
-      pedidoId: pedidoId,
-      userId: userId,
-      sacolaId: sacolaId,
-      produtos: produtos ?? (clearUnsetFields ? SacolaStruct() : null),
-      dataCompra: dataCompra,
+      nroPedido: nroPedido,
+      sacola: sacola ?? (clearUnsetFields ? SacolaStruct() : null),
+      userName: userName,
+      isClosed: isClosed,
+      data: data,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,
@@ -224,11 +226,11 @@ Map<String, dynamic> getPedidosFirestoreData(
   }
   final firestoreData = mapToFirestore(pedidos.toMap());
 
-  // Handle nested data for "produtos" field.
+  // Handle nested data for "sacola" field.
   addSacolaStructData(
     firestoreData,
-    pedidos.hasProdutos() ? pedidos.produtos : null,
-    'produtos',
+    pedidos.hasSacola() ? pedidos.sacola : null,
+    'sacola',
     forFieldValue,
   );
 
