@@ -171,6 +171,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(0.0, 170.0, 0.0, 0.0),
                     child: SingleChildScrollView(
+                      primary: false,
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,

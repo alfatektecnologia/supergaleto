@@ -269,6 +269,7 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                         }
                         List<CategoriasRecord> dropDownCategoriasRecordList =
                             snapshot.data!;
+
                         return FlutterFlowDropDown<String>(
                           controller: _model.dropDownValueController ??=
                               FormFieldController<String>(null),

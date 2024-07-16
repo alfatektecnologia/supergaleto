@@ -19,18 +19,9 @@ class ChurrasqueiraModel extends FlutterFlowModel<ChurrasqueiraWidget> {
       tabBarController != null ? tabBarController!.index : 0;
 
   // State field(s) for Checkbox widget.
-  Map<ProdutosRecord, bool> checkboxValueMap1 = {};
-  List<ProdutosRecord> get checkboxCheckedItems1 => checkboxValueMap1.entries
-      .where((e) => e.value)
-      .map((e) => e.key)
-      .toList();
-
-  // State field(s) for Checkbox widget.
-  Map<PedidosRecord, bool> checkboxValueMap2 = {};
-  List<PedidosRecord> get checkboxCheckedItems2 => checkboxValueMap2.entries
-      .where((e) => e.value)
-      .map((e) => e.key)
-      .toList();
+  Map<PedidosRecord, bool> checkboxValueMap = {};
+  List<PedidosRecord> get checkboxCheckedItems =>
+      checkboxValueMap.entries.where((e) => e.value).map((e) => e.key).toList();
 
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode;

@@ -456,6 +456,12 @@ class FFAppState extends ChangeNotifier {
     novaLista.insert(index, value);
   }
 
+  String _diaDaSemana = '';
+  String get diaDaSemana => _diaDaSemana;
+  set diaDaSemana(String value) {
+    _diaDaSemana = value;
+  }
+
   final _categoriesManager = FutureRequestManager<List<CategoriasRecord>>();
   Future<List<CategoriasRecord>> categories({
     String? uniqueQueryKey,

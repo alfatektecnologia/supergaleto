@@ -48,6 +48,8 @@ class _NewUserNameDialogWidgetState extends State<NewUserNameDialogWidget> {
       () async {
         _model.novaNome = _model.txfNewNameTextController.text;
         setState(() {});
+        FFAppState().pedidoUserName = _model.novaNome!;
+        setState(() {});
       },
     );
   }
@@ -162,11 +164,15 @@ class _NewUserNameDialogWidgetState extends State<NewUserNameDialogWidget> {
                             _model.novaNome =
                                 _model.txfNewNameTextController.text;
                             setState(() {});
+                            FFAppState().pedidoUserName = _model.novaNome!;
+                            setState(() {});
                           },
                         ),
                         onFieldSubmitted: (_) async {
                           _model.novaNome =
                               _model.txfNewNameTextController.text;
+                          setState(() {});
+                          FFAppState().pedidoUserName = _model.novaNome!;
                           setState(() {});
                         },
                         autofocus: true,
@@ -258,9 +264,15 @@ class _NewUserNameDialogWidgetState extends State<NewUserNameDialogWidget> {
                   ),
                   FFButtonWidget(
                     onPressed: () async {
-                      // Novo nome cliente
-                      FFAppState().pedidoUserName = _model.novaNome!;
-                      setState(() {});
+                      if (_model.txfNewNameTextController.text == '\"\"') {
+                        FFAppState().pedidoUserName = currentUserDisplayName;
+                        setState(() {});
+                      } else {
+                        // Novo nome cliente
+                        FFAppState().pedidoUserName = _model.novaNome!;
+                        setState(() {});
+                      }
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(

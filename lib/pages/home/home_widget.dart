@@ -43,6 +43,12 @@ class _HomeWidgetState extends State<HomeWidget> {
       // Categoria
       _model.categoria = 'Aves';
       setState(() {});
+      FFAppState().diaDaSemana = dateTimeFormat(
+        'EEEE',
+        getCurrentTimestamp,
+        locale: FFLocalizations.of(context).languageCode,
+      );
+      setState(() {});
       // Query products(initial category)
       _model.initialSetAves = await queryProdutosRecordOnce(
         queryBuilder: (produtosRecord) => produtosRecord
@@ -187,6 +193,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           body: SafeArea(
             top: true,
             child: SingleChildScrollView(
+              primary: false,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -238,7 +245,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                             .orderBy('nome'),
                       ),
                       padding: EdgeInsets.zero,
-                      shrinkWrap: true,
+                      primary: false,
                       reverse: false,
                       scrollDirection: Axis.horizontal,
                       builderDelegate:
@@ -372,10 +379,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                             child: Builder(
                               builder: (context) {
                                 final prods = _model.initialSettings.toList();
+
                                 return ListView.builder(
                                   padding: EdgeInsets.zero,
                                   primary: false,
-                                  shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
                                   itemCount: prods.length,
                                   itemBuilder: (context, prodsIndex) {

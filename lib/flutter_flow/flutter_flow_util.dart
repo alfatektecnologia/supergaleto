@@ -214,7 +214,7 @@ bool get isAndroid => !kIsWeb && Platform.isAndroid;
 bool get isiOS => !kIsWeb && Platform.isIOS;
 bool get isWeb => kIsWeb;
 
-const kBreakpointSmall = 393.0;
+const kBreakpointSmall = 500.0;
 const kBreakpointMedium = 1024.0;
 const kBreakpointLarge = 1440.0;
 bool isMobileWidth(BuildContext context) =>

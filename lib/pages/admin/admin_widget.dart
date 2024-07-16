@@ -259,31 +259,24 @@ class _AdminWidgetState extends State<AdminWidget> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      child: InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {},
-                        child: wrapWithModel(
-                          model: _model.produtoCardModel,
-                          updateCallback: () => setState(() {}),
-                          updateOnChange: true,
-                          child: ProdutoCardWidget(
-                            imageUrl: FFAppState().imageFromGallery == '\"\"'
-                                ? 'https://firebasestorage.googleapis.com/v0/b/supergaletto-39fa9.appspot.com/o/users%2FnBL82S7N8vanmHeuj8pMB3AC3nf2%2Fuploads%2Ffoto_padr%C3%A3o.jpg?alt=media&token=acd56d4c-9622-44c4-95b4-263c02bbd61d'
-                                : FFAppState().photoFromFirebase,
-                            label1: 'Nome',
-                            hint1: 'nome do produto',
-                            label2: 'Descrição',
-                            hint2: 'Descrição do produto',
-                            label4: 'Preço de venda',
-                            hint4: 'Preço de venda',
-                            label3: 'Preço de compra',
-                            hint3: 'Preço de compra',
-                            nroLinhas2: 4,
-                            btSalvar: (onClick) async {},
-                          ),
+                      child: wrapWithModel(
+                        model: _model.produtoCardModel,
+                        updateCallback: () => setState(() {}),
+                        updateOnChange: true,
+                        child: ProdutoCardWidget(
+                          imageUrl: FFAppState().imageFromGallery == '\"\"'
+                              ? 'https://firebasestorage.googleapis.com/v0/b/supergaletto-39fa9.appspot.com/o/users%2FnBL82S7N8vanmHeuj8pMB3AC3nf2%2Fuploads%2Ffoto_padr%C3%A3o.jpg?alt=media&token=acd56d4c-9622-44c4-95b4-263c02bbd61d'
+                              : FFAppState().photoFromFirebase,
+                          label1: 'Nome',
+                          hint1: 'nome do produto',
+                          label2: 'Descrição',
+                          hint2: 'Descrição do produto',
+                          label4: 'Preço de venda',
+                          hint4: 'Preço de venda',
+                          label3: 'Preço de compra',
+                          hint3: 'Preço de compra',
+                          nroLinhas2: 4,
+                          btSalvar: (onClick) async {},
                         ),
                       ),
                     ),
@@ -310,6 +303,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                         }
                         List<ProdutosRecord> listViewProdutosRecordList =
                             snapshot.data!;
+
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           primary: false,

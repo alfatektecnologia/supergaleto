@@ -78,6 +78,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
           );
         }
         int sacolaCount = snapshot.data!;
+
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -261,6 +262,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                     final listItensSacola =
                                         _model.listaDeItens?.items.toList() ??
                                             [];
+
                                     return ListView.builder(
                                       padding: EdgeInsets.zero,
                                       primary: false,
@@ -917,12 +919,11 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                               ).then((value) => setState(() {}));
                             }
                             if ((String var1) {
-                              return var1 == "Saturday" || var1 == "Sunday";
-                            }(dateTimeFormat(
-                              'EEEE',
-                              getCurrentTimestamp,
-                              locale: FFLocalizations.of(context).languageCode,
-                            ))) {
+                              return var1 == "saturday" ||
+                                  var1 == "sunday" ||
+                                  var1 == "sábado" ||
+                                  var1 == "domingo";
+                            }(FFAppState().diaDaSemana)) {
                               if (FFAppState().TotalSacola > 0.0) {
                                 // Save pedido
 

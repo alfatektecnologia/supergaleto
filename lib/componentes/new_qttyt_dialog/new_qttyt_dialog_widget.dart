@@ -169,6 +169,7 @@ class _NewQttytDialogWidgetState extends State<NewQttytDialogWidget> {
                           setState(() {});
                         },
                         autofocus: true,
+                        textInputAction: TextInputAction.done,
                         obscureText: false,
                         decoration: InputDecoration(
                           labelText: 'Qdade?',
@@ -215,6 +216,8 @@ class _NewQttytDialogWidgetState extends State<NewQttytDialogWidget> {
                               fontFamily: 'Inter',
                               letterSpacing: 0.0,
                             ),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         validator: _model.txfNewQttyTextControllerValidator
                             .asValidator(context),
                       ),
@@ -255,70 +258,35 @@ class _NewQttytDialogWidgetState extends State<NewQttytDialogWidget> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  StreamBuilder<ProdutosRecord>(
-                    stream: ProdutosRecord.getDocument(
-                        widget.productDocument!.reference),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 50.0,
-                            height: 50.0,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                FlutterFlowTheme.of(context).primary,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                      final buttonProdutosRecord = snapshot.data!;
-                      return FFButtonWidget(
-                        onPressed: () async {
-                          await widget.productDocument!.reference
-                              .update(createProdutosRecordData(
-                            qdade: int.parse((_model.novaQdade!)),
-                          ));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                _model.novaQdade!,
-                                style: TextStyle(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              duration: const Duration(milliseconds: 4000),
-                              backgroundColor: const Color(0xFF4969EA),
-                            ),
-                          );
-                          Navigator.pop(context);
-                        },
-                        text: widget.confirmar!,
-                        options: FFButtonOptions(
-                          height: 40.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              24.0, 0.0, 24.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).success,
-                          textStyle: FlutterFlowTheme.of(context)
-                              .titleSmall
-                              .override(
+                  FFButtonWidget(
+                    onPressed: () async {
+                      await widget.productDocument!.reference
+                          .update(createProdutosRecordData(
+                        qdade: int.parse((_model.novaQdade!)),
+                      ));
+                      Navigator.pop(context);
+                    },
+                    text: widget.confirmar!,
+                    options: FFButtonOptions(
+                      height: 40.0,
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                      iconPadding:
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                      color: FlutterFlowTheme.of(context).success,
+                      textStyle:
+                          FlutterFlowTheme.of(context).titleSmall.override(
                                 fontFamily: 'Inter',
                                 color: FlutterFlowTheme.of(context).secondary,
                                 letterSpacing: 0.0,
                               ),
-                          elevation: 3.0,
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      );
-                    },
+                      elevation: 3.0,
+                      borderSide: const BorderSide(
+                        color: Colors.transparent,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
                   ),
                 ],
               ),

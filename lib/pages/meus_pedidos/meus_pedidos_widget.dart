@@ -62,6 +62,7 @@ class _MeusPedidosWidgetState extends State<MeusPedidosWidget> {
           );
         }
         List<PedidosRecord> meusPedidosPedidosRecordList = snapshot.data!;
+
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -157,6 +158,7 @@ class _MeusPedidosWidgetState extends State<MeusPedidosWidget> {
                         builder: (context) {
                           final listPedidos =
                               meusPedidosPedidosRecordList.toList();
+
                           return ListView.builder(
                             padding: EdgeInsets.zero,
                             primary: false,
@@ -298,6 +300,7 @@ class _MeusPedidosWidgetState extends State<MeusPedidosWidget> {
                                               final items = listPedidosItem
                                                   .sacola.items
                                                   .toList();
+
                                               return ListView.builder(
                                                 padding: EdgeInsets.zero,
                                                 primary: false,

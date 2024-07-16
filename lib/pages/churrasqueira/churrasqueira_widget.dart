@@ -1,5 +1,4 @@
 import '/backend/backend.dart';
-import '/componentes/edit_qdade/edit_qdade_widget.dart';
 import '/componentes/new_qttyt_dialog/new_qttyt_dialog_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -8,7 +7,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'churrasqueira_model.dart';
 export 'churrasqueira_model.dart';
 
@@ -32,7 +30,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
 
     _model.tabBarController = TabController(
       vsync: this,
-      length: 4,
+      length: 3,
       initialIndex: 0,
     )..addListener(() => setState(() {}));
     _model.textController ??= TextEditingController();
@@ -61,8 +59,6 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return StreamBuilder<List<ProdutosRecord>>(
       stream: queryProdutosRecord(),
       builder: (context, snapshot) {
@@ -84,6 +80,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
           );
         }
         List<ProdutosRecord> churrasqueiraProdutosRecordList = snapshot.data!;
+
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -216,9 +213,6 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                             padding: const EdgeInsets.all(4.0),
                             tabs: const [
                               Tab(
-                                text: 'Abastecer',
-                              ),
-                              Tab(
                                 text: 'Visualizar',
                               ),
                               Tab(
@@ -230,12 +224,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                             ],
                             controller: _model.tabBarController,
                             onTap: (i) async {
-                              [
-                                () async {},
-                                () async {},
-                                () async {},
-                                () async {}
-                              ][i]();
+                              [() async {}, () async {}, () async {}][i]();
                             },
                           ),
                         ),
@@ -243,262 +232,6 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                           child: TabBarView(
                             controller: _model.tabBarController,
                             children: [
-                              SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          4.0, 0.0, 4.0, 0.0),
-                                      child: Builder(
-                                        builder: (context) {
-                                          final listaProdutos =
-                                              churrasqueiraProdutosRecordList
-                                                  .map((e) => e)
-                                                  .toList();
-                                          return ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            primary: false,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemCount: listaProdutos.length,
-                                            itemBuilder:
-                                                (context, listaProdutosIndex) {
-                                              final listaProdutosItem =
-                                                  listaProdutos[
-                                                      listaProdutosIndex];
-                                              return Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        4.0, 0.0, 4.0, 0.0),
-                                                child: InkWell(
-                                                  splashColor:
-                                                      Colors.transparent,
-                                                  focusColor:
-                                                      Colors.transparent,
-                                                  hoverColor:
-                                                      Colors.transparent,
-                                                  highlightColor:
-                                                      Colors.transparent,
-                                                  onTap: () async {
-                                                    FFAppState()
-                                                        .updateDadosItensAssandoStruct(
-                                                      (e) => e
-                                                        ..name =
-                                                            listaProdutosItem
-                                                                .name
-                                                        ..foto =
-                                                            listaProdutosItem.photoUrl,
-                                                    );
-                                                    setState(() {});
-                                                  },
-                                                  child: Card(
-                                                    clipBehavior: Clip
-                                                        .antiAliasWithSaveLayer,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    elevation: 4.0,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  8.0,
-                                                                  8.0,
-                                                                  8.0,
-                                                                  8.0),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            8.0,
-                                                                            8.0,
-                                                                            8.0,
-                                                                            8.0),
-                                                                child:
-                                                                    ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                  child: Image
-                                                                      .network(
-                                                                    listaProdutosItem.photoUrl,
-                                                                    width:
-                                                                        150.0,
-                                                                    height:
-                                                                        100.0,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                child: Text(
-                                                                  listaProdutosItem
-                                                                      .name,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Inter',
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Expanded(
-                                                            child:
-                                                                EditQdadeWidget(
-                                                              key: Key(
-                                                                  'Keynmp_${listaProdutosIndex}_of_${listaProdutos.length}'),
-                                                              textoDigitado:
-                                                                  (textoQdade) async {
-                                                                FFAppState()
-                                                                        .qdade =
-                                                                    int.parse(
-                                                                        (textoQdade!));
-                                                                setState(() {});
-                                                                ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(
-                                                                  SnackBar(
-                                                                    content:
-                                                                        Text(
-                                                                      FFAppState()
-                                                                          .qdade
-                                                                          .toString(),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primaryText,
-                                                                      ),
-                                                                    ),
-                                                                    duration: const Duration(
-                                                                        milliseconds:
-                                                                            4000),
-                                                                    backgroundColor:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .secondary,
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        24.0,
-                                                                        0.0,
-                                                                        24.0,
-                                                                        0.0),
-                                                            child: Theme(
-                                                              data: ThemeData(
-                                                                checkboxTheme:
-                                                                    CheckboxThemeData(
-                                                                  visualDensity:
-                                                                      VisualDensity
-                                                                          .compact,
-                                                                  materialTapTargetSize:
-                                                                      MaterialTapTargetSize
-                                                                          .shrinkWrap,
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            4.0),
-                                                                  ),
-                                                                ),
-                                                                unselectedWidgetColor:
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryText,
-                                                              ),
-                                                              child: Checkbox(
-                                                                value: _model
-                                                                        .checkboxValueMap1[
-                                                                    listaProdutosItem] ??= false,
-                                                                onChanged:
-                                                                    (newValue) async {
-                                                                  setState(() =>
-                                                                      _model.checkboxValueMap1[
-                                                                              listaProdutosItem] =
-                                                                          newValue!);
-                                                                  if (newValue!) {
-                                                                    // Update qdade em produtos
-
-                                                                    await listaProdutosItem
-                                                                        .reference
-                                                                        .update(
-                                                                            createProdutosRecordData(
-                                                                      qdade: FFAppState()
-                                                                          .qdade,
-                                                                    ));
-                                                                    FFAppState()
-                                                                            .isSaved =
-                                                                        true;
-                                                                    setState(
-                                                                        () {});
-                                                                  }
-                                                                },
-                                                                side:
-                                                                    BorderSide(
-                                                                  width: 2,
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryText,
-                                                                ),
-                                                                activeColor:
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .success,
-                                                                checkColor:
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .info,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               Column(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -531,6 +264,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                           final gridView =
                                               churrasqueiraProdutosRecordList
                                                   .toList();
+
                                           return GridView.builder(
                                             padding: EdgeInsets.zero,
                                             gridDelegate:
@@ -735,6 +469,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                 ],
                               ),
                               SingleChildScrollView(
+                                primary: false,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -773,6 +508,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                           List<PedidosRecord>
                                               listViewPedidosRecordList =
                                               snapshot.data!;
+
                                           return ListView.builder(
                                             padding: EdgeInsets.zero,
                                             primary: false,
@@ -888,63 +624,86 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                                                           0.0,
                                                                     ),
                                                               ),
-                                                              Theme(
-                                                                data: ThemeData(
-                                                                  checkboxTheme:
-                                                                      CheckboxThemeData(
-                                                                    visualDensity:
-                                                                        VisualDensity
-                                                                            .compact,
-                                                                    materialTapTargetSize:
-                                                                        MaterialTapTargetSize
-                                                                            .shrinkWrap,
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              4.0),
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Theme(
+                                                                    data:
+                                                                        ThemeData(
+                                                                      checkboxTheme:
+                                                                          CheckboxThemeData(
+                                                                        visualDensity:
+                                                                            VisualDensity.compact,
+                                                                        materialTapTargetSize:
+                                                                            MaterialTapTargetSize.shrinkWrap,
+                                                                        shape:
+                                                                            RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(4.0),
+                                                                        ),
+                                                                      ),
+                                                                      unselectedWidgetColor:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .secondaryText,
+                                                                    ),
+                                                                    child:
+                                                                        Checkbox(
+                                                                      value: _model
+                                                                              .checkboxValueMap[listViewPedidosRecord] ??=
+                                                                          false,
+                                                                      onChanged:
+                                                                          (newValue) async {
+                                                                        setState(() =>
+                                                                            _model.checkboxValueMap[listViewPedidosRecord] =
+                                                                                newValue!);
+                                                                        if (newValue!) {
+                                                                          await listViewPedidosRecord
+                                                                              .reference
+                                                                              .update(createPedidosRecordData(
+                                                                            isClosed:
+                                                                                true,
+                                                                          ));
+                                                                        }
+                                                                      },
+                                                                      side:
+                                                                          BorderSide(
+                                                                        width:
+                                                                            2,
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .secondaryText,
+                                                                      ),
+                                                                      activeColor:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .primary,
+                                                                      checkColor:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .info,
                                                                     ),
                                                                   ),
-                                                                  unselectedWidgetColor:
-                                                                      FlutterFlowTheme.of(
+                                                                  Align(
+                                                                    alignment:
+                                                                        const AlignmentDirectional(
+                                                                            1.0,
+                                                                            0.0),
+                                                                    child: Text(
+                                                                      'pago',
+                                                                      style: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .secondaryText,
-                                                                ),
-                                                                child: Checkbox(
-                                                                  value: _model
-                                                                          .checkboxValueMap2[
-                                                                      listViewPedidosRecord] ??= false,
-                                                                  onChanged:
-                                                                      (newValue) async {
-                                                                    setState(() =>
-                                                                        _model.checkboxValueMap2[listViewPedidosRecord] =
-                                                                            newValue!);
-                                                                    if (newValue!) {
-                                                                      await listViewPedidosRecord
-                                                                          .reference
-                                                                          .update(
-                                                                              createPedidosRecordData(
-                                                                        isClosed:
-                                                                            true,
-                                                                      ));
-                                                                    }
-                                                                  },
-                                                                  side:
-                                                                      BorderSide(
-                                                                    width: 2,
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryText,
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Inter',
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                          ),
+                                                                    ),
                                                                   ),
-                                                                  activeColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary,
-                                                                  checkColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .info,
-                                                                ),
+                                                                ],
                                                               ),
                                                             ],
                                                           ),
@@ -1013,11 +772,13 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                                                       .sacola
                                                                       .items
                                                                       .toList();
+
                                                               return ListView
                                                                   .builder(
                                                                 padding:
                                                                     EdgeInsets
                                                                         .zero,
+                                                                primary: false,
                                                                 shrinkWrap:
                                                                     true,
                                                                 scrollDirection:
@@ -1100,6 +861,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                 ),
                               ),
                               SingleChildScrollView(
+                                primary: false,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -1223,6 +985,18 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                           ),
                                           FFButtonWidget(
                                             onPressed: () async {
+                                              if (_model.dataVenda == null ||
+                                                  _model.dataVenda == '') {
+                                                _model.dataVenda =
+                                                    dateTimeFormat(
+                                                  'd/M/y',
+                                                  getCurrentTimestamp,
+                                                  locale: FFLocalizations.of(
+                                                          context)
+                                                      .languageCode,
+                                                );
+                                                setState(() {});
+                                              }
                                               _model.pedidosByDate =
                                                   await queryPedidosRecordOnce(
                                                 queryBuilder: (pedidosRecord) =>
@@ -1241,7 +1015,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                               _model.totalFromFirebase =
                                                   await actions.getTotal(
                                                 context,
-                                                '2/7/2024',
+                                                _model.dataVenda,
                                               );
                                               _model.totalVendasByDay =
                                                   _model.totalFromFirebase;
@@ -1358,162 +1132,181 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                         ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 16.0),
-                                      child: Builder(
-                                        builder: (context) {
-                                          final listPedidos =
-                                              _model.pedidosByDate?.toList() ??
-                                                  [];
-                                          return ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            primary: false,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemCount: listPedidos.length,
-                                            itemBuilder:
-                                                (context, listPedidosIndex) {
-                                              final listPedidosItem =
-                                                  listPedidos[listPedidosIndex];
-                                              return Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 0.0, 8.0, 0.0),
-                                                child: Card(
-                                                  clipBehavior: Clip
-                                                      .antiAliasWithSaveLayer,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  elevation: 4.0,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(8.0, 8.0,
-                                                                8.0, 8.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Expanded(
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              Text(
-                                                                listPedidosItem
-                                                                    .nroPedido
-                                                                    .toString(),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .start,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
-                                                              ),
-                                                            ],
-                                                          ),
+                                    SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 0.0, 16.0),
+                                            child: Builder(
+                                              builder: (context) {
+                                                final listPedidos = _model
+                                                        .pedidosByDate
+                                                        ?.toList() ??
+                                                    [];
+
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount: listPedidos.length,
+                                                  itemBuilder: (context,
+                                                      listPedidosIndex) {
+                                                    final listPedidosItem =
+                                                        listPedidos[
+                                                            listPedidosIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8.0,
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0),
+                                                      child: Card(
+                                                        clipBehavior: Clip
+                                                            .antiAliasWithSaveLayer,
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        elevation: 4.0,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
                                                         ),
-                                                        Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      8.0,
+                                                                      8.0,
+                                                                      8.0,
+                                                                      8.0),
                                                           child: Row(
                                                             mainAxisSize:
                                                                 MainAxisSize
                                                                     .max,
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
-                                                                    .center,
+                                                                    .spaceBetween,
                                                             children: [
-                                                              Align(
-                                                                alignment:
-                                                                    const AlignmentDirectional(
-                                                                        0.0,
-                                                                        0.0),
-                                                                child: Text(
-                                                                  listPedidosItem
-                                                                      .sacola
-                                                                      .items
-                                                                      .length
-                                                                      .toString(),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .end,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Inter',
-                                                                        letterSpacing:
-                                                                            0.0,
+                                                              Expanded(
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Text(
+                                                                      listPedidosItem
+                                                                          .nroPedido
+                                                                          .toString(),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .start,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Inter',
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                          ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Align(
+                                                                      alignment:
+                                                                          const AlignmentDirectional(
+                                                                              0.0,
+                                                                              0.0),
+                                                                      child:
+                                                                          Text(
+                                                                        listPedidosItem
+                                                                            .sacola
+                                                                            .items
+                                                                            .length
+                                                                            .toString(),
+                                                                        textAlign:
+                                                                            TextAlign.end,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Inter',
+                                                                              letterSpacing: 0.0,
+                                                                            ),
                                                                       ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
-                                                            children: [
-                                                              Text(
-                                                                formatNumber(
-                                                                  listPedidosItem
-                                                                      .sacola
-                                                                      .total,
-                                                                  formatType:
-                                                                      FormatType
-                                                                          .custom,
-                                                                  currency:
-                                                                      'R\$ ',
-                                                                  format:
-                                                                      '0.00',
-                                                                  locale: '',
-                                                                ),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .end,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      letterSpacing:
-                                                                          0.0,
                                                                     ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Text(
+                                                                      formatNumber(
+                                                                        listPedidosItem
+                                                                            .sacola
+                                                                            .total,
+                                                                        formatType:
+                                                                            FormatType.custom,
+                                                                        currency:
+                                                                            'R\$ ',
+                                                                        format:
+                                                                            '0.00',
+                                                                        locale:
+                                                                            '',
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .end,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Inter',
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                          ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Divider(

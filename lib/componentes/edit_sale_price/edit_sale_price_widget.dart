@@ -94,6 +94,7 @@ class _EditSalePriceWidgetState extends State<EditSalePriceWidget> {
               fontFamily: 'Inter',
               letterSpacing: 0.0,
             ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         validator:
             _model.txtSalesPriceTextControllerValidator.asValidator(context),
       ),

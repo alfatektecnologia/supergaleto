@@ -45,9 +45,6 @@ class _EditGenericoWidgetState extends State<EditGenericoWidget> {
     _model.editexGenericoTextController ??=
         TextEditingController(text: widget.hint);
     _model.editexGenericoFocusNode ??= FocusNode();
-    _model.editexGenericoFocusNode!.addListener(
-      () async {},
-    );
   }
 
   @override
