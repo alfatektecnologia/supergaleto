@@ -12,7 +12,6 @@ class ChurrasqueiraModel extends FlutterFlowModel<ChurrasqueiraWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // State field(s) for TabBar widget.
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
@@ -37,7 +36,6 @@ class ChurrasqueiraModel extends FlutterFlowModel<ChurrasqueiraWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     tabBarController?.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();

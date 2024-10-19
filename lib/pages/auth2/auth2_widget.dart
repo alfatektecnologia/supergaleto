@@ -34,7 +34,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
       vsync: this,
       length: 2,
       initialIndex: 0,
-    )..addListener(() => setState(() {}));
+    )..addListener(() => safeSetState(() {}));
     _model.etNameTextController ??= TextEditingController();
     _model.etNameFocusNode ??= FocusNode();
 
@@ -131,9 +131,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -659,7 +657,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     24.0),
                                                             suffixIcon: InkWell(
                                                               onTap: () =>
-                                                                  setState(
+                                                                  safeSetState(
                                                                 () => _model
                                                                         .passwordCreateVisibility =
                                                                     !_model
@@ -769,7 +767,8 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     currentUserEmail,
                                                                 isAdmin: false,
                                                               );
-                                                              setState(() {});
+                                                              safeSetState(
+                                                                  () {});
 
                                                               context.goNamedAuth(
                                                                   'Home',
@@ -1132,7 +1131,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                         24.0),
                                                             suffixIcon: InkWell(
                                                               onTap: () =>
-                                                                  setState(
+                                                                  safeSetState(
                                                                 () => _model
                                                                         .passwordVisibility =
                                                                     !_model

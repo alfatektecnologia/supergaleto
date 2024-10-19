@@ -462,6 +462,12 @@ class FFAppState extends ChangeNotifier {
     _diaDaSemana = value;
   }
 
+  bool _isCadastro = false;
+  bool get isCadastro => _isCadastro;
+  set isCadastro(bool value) {
+    _isCadastro = value;
+  }
+
   final _categoriesManager = FutureRequestManager<List<CategoriasRecord>>();
   Future<List<CategoriasRecord>> categories({
     String? uniqueQueryKey,

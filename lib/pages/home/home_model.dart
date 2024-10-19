@@ -23,7 +23,6 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
   UsersRecord? checkAdmin;
   // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
@@ -43,7 +42,6 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     for (var s in listViewStreamSubscriptions1) {
       s?.cancel();
     }

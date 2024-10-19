@@ -42,13 +42,13 @@ class _HomeWidgetState extends State<HomeWidget> {
       ).then((s) => s.firstOrNull);
       // Categoria
       _model.categoria = 'Aves';
-      setState(() {});
+      safeSetState(() {});
       FFAppState().diaDaSemana = dateTimeFormat(
-        'EEEE',
+        "EEEE",
         getCurrentTimestamp,
         locale: FFLocalizations.of(context).languageCode,
       );
-      setState(() {});
+      safeSetState(() {});
       // Query products(initial category)
       _model.initialSetAves = await queryProdutosRecordOnce(
         queryBuilder: (produtosRecord) => produtosRecord
@@ -59,12 +59,16 @@ class _HomeWidgetState extends State<HomeWidget> {
             .where(
               'qdade',
               isGreaterThan: 0,
+            )
+            .where(
+              'on_sale',
+              isEqualTo: true,
             ),
       );
       // Initial products to list
       _model.initialSettings =
           _model.initialSetAves!.toList().cast<ProdutosRecord>();
-      setState(() {});
+      safeSetState(() {});
       if (currentUserUid == _model.checkAdmin?.uid) {
         if (_model.checkAdmin?.isAdmin == true) {
           // Update user
@@ -74,7 +78,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               ..isAdmin = _model.checkAdmin?.isAdmin,
           );
           FFAppState().pedidoUserName = currentUserDisplayName;
-          setState(() {});
+          safeSetState(() {});
         }
       }
     });
@@ -92,9 +96,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -295,7 +297,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     listViewCategoriasRecord.nome,
                                     'Aves',
                                   );
-                                  setState(() {});
+                                  safeSetState(() {});
                                   _model.resultProdByCategory =
                                       await queryProdutosRecordOnce(
                                     queryBuilder: (produtosRecord) =>
@@ -307,15 +309,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                             .where(
                                               'qdade',
                                               isGreaterThan: 0,
+                                            )
+                                            .where(
+                                              'on_sale',
+                                              isEqualTo: true,
                                             ),
                                   );
                                   _model.initialSettings = _model
                                       .resultProdByCategory!
                                       .toList()
                                       .cast<ProdutosRecord>();
-                                  setState(() {});
+                                  safeSetState(() {});
 
-                                  setState(() {});
+                                  safeSetState(() {});
                                 },
                                 text: listViewCategoriasRecord.nome,
                                 options: FFButtonOptions(
@@ -733,7 +739,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 FFAppState().deleteCarrinho();
                                 FFAppState().Carrinho = [];
 
-                                setState(() {});
+                                safeSetState(() {});
                               },
                               child: Text(
                                 formatNumber(

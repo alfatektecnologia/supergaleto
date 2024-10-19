@@ -99,7 +99,7 @@ class _ProdutoCardListarWidgetState extends State<ProdutoCardListarWidget> {
                   if (selectedMedia != null &&
                       selectedMedia.every(
                           (m) => validateFileFormat(m.storagePath, context))) {
-                    setState(() => _model.isDataUploading = true);
+                    safeSetState(() => _model.isDataUploading = true);
                     var selectedUploadedFiles = <FFUploadedFile>[];
 
                     try {
@@ -122,12 +122,12 @@ class _ProdutoCardListarWidgetState extends State<ProdutoCardListarWidget> {
                       _model.isDataUploading = false;
                     }
                     if (selectedUploadedFiles.length == selectedMedia.length) {
-                      setState(() {
+                      safeSetState(() {
                         _model.uploadedLocalFile = selectedUploadedFiles.first;
                       });
                       showUploadMessage(context, 'Success!');
                     } else {
-                      setState(() {});
+                      safeSetState(() {});
                       showUploadMessage(context, 'Failed to upload data');
                       return;
                     }
@@ -152,18 +152,18 @@ class _ProdutoCardListarWidgetState extends State<ProdutoCardListarWidget> {
               children: [
                 wrapWithModel(
                   model: _model.edProdutoNameModel,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: EditComponentWidget(
                     label: widget.label1,
                     hint: widget.hint1,
                     icon: (onClick) async {},
                     texto: (texto2callback) async {
                       _model.textoFromTextfield = texto2callback;
-                      setState(() {});
+                      safeSetState(() {});
                       FFAppState().updateProdutoStruct(
                         (e) => e..nome = texto2callback,
                       );
-                      setState(() {});
+                      safeSetState(() {});
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -181,52 +181,52 @@ class _ProdutoCardListarWidgetState extends State<ProdutoCardListarWidget> {
                 ),
                 wrapWithModel(
                   model: _model.edDiscricaoModel,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: EditComponentWidget(
                     label: widget.label2,
                     hint: widget.hint2,
                     icon: (onClick) async {},
                     texto: (texto2callback) async {
                       _model.textoFromTextfield = texto2callback;
-                      setState(() {});
+                      safeSetState(() {});
                       FFAppState().updateProdutoStruct(
                         (e) => e..descricao = texto2callback,
                       );
-                      setState(() {});
+                      safeSetState(() {});
                     },
                   ),
                 ),
                 wrapWithModel(
                   model: _model.edValorCompraModel,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: EditComponentWidget(
                     label: widget.label3,
                     hint: widget.hint3,
                     icon: (onClick) async {},
                     texto: (texto2callback) async {
                       _model.textoFromTextfield = texto2callback;
-                      setState(() {});
+                      safeSetState(() {});
                       FFAppState().updateProdutoStruct(
                         (e) => e..valor = double.parse(texto2callback),
                       );
-                      setState(() {});
+                      safeSetState(() {});
                     },
                   ),
                 ),
                 wrapWithModel(
                   model: _model.edValorVendaModel,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: EditComponentWidget(
                     label: widget.label4,
                     hint: widget.hint4,
                     icon: (onClick) async {},
                     texto: (texto2callback) async {
                       _model.textoFromTextfield = texto2callback;
-                      setState(() {});
+                      safeSetState(() {});
                       FFAppState().updateProdutoStruct(
                         (e) => e..valorVenda = double.parse(texto2callback),
                       );
-                      setState(() {});
+                      safeSetState(() {});
                     },
                   ),
                 ),

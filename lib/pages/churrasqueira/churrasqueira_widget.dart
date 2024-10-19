@@ -32,18 +32,18 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
       vsync: this,
       length: 3,
       initialIndex: 0,
-    )..addListener(() => setState(() {}));
+    )..addListener(() => safeSetState(() {}));
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
     _model.textFieldFocusNode!.addListener(
       () async {
         _model.dataVenda = _model.textController.text;
-        setState(() {});
+        safeSetState(() {});
       },
     );
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {
           _model.textController?.text = dateTimeFormat(
-            'd/M/y',
+            "d/M/y",
             getCurrentTimestamp,
             locale: FFLocalizations.of(context).languageCode,
           );
@@ -60,7 +60,12 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<ProdutosRecord>>(
-      stream: queryProdutosRecord(),
+      stream: queryProdutosRecord(
+        queryBuilder: (produtosRecord) => produtosRecord.where(
+          'on_sale',
+          isEqualTo: true,
+        ),
+      ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -82,9 +87,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
         List<ProdutosRecord> churrasqueiraProdutosRecordList = snapshot.data!;
 
         return GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -241,7 +244,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                         0.0, 16.0, 0.0, 16.0),
                                     child: Text(
                                       dateTimeFormat(
-                                        'd/M/y',
+                                        "d/M/y",
                                         getCurrentTimestamp,
                                         locale: FFLocalizations.of(context)
                                             .languageCode,
@@ -396,9 +399,8 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                                                               Directionality.of(context)),
                                                                       child:
                                                                           GestureDetector(
-                                                                        onTap: () => _model.unfocusNode.canRequestFocus
-                                                                            ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                                            : FocusScope.of(context).unfocus(),
+                                                                        onTap: () =>
+                                                                            FocusScope.of(dialogContext).unfocus(),
                                                                         child:
                                                                             NewQttytDialogWidget(
                                                                           title:
@@ -418,9 +420,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                                                       ),
                                                                     );
                                                                   },
-                                                                ).then((value) =>
-                                                                    setState(
-                                                                        () {}));
+                                                                );
                                                               },
                                                               child: ClipRRect(
                                                                 borderRadius:
@@ -658,7 +658,7 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                                                           false,
                                                                       onChanged:
                                                                           (newValue) async {
-                                                                        setState(() =>
+                                                                        safeSetState(() =>
                                                                             _model.checkboxValueMap[listViewPedidosRecord] =
                                                                                 newValue!);
                                                                         if (newValue!) {
@@ -887,13 +887,13 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                                   () async {
                                                     _model.dataVenda = _model
                                                         .textController.text;
-                                                    setState(() {});
+                                                    safeSetState(() {});
                                                   },
                                                 ),
                                                 onFieldSubmitted: (_) async {
                                                   _model.dataVenda = _model
                                                       .textController.text;
-                                                  setState(() {});
+                                                  safeSetState(() {});
                                                 },
                                                 autofocus: true,
                                                 obscureText: false,
@@ -989,13 +989,13 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                                   _model.dataVenda == '') {
                                                 _model.dataVenda =
                                                     dateTimeFormat(
-                                                  'd/M/y',
+                                                  "d/M/y",
                                                   getCurrentTimestamp,
                                                   locale: FFLocalizations.of(
                                                           context)
                                                       .languageCode,
                                                 );
-                                                setState(() {});
+                                                safeSetState(() {});
                                               }
                                               _model.pedidosByDate =
                                                   await queryPedidosRecordOnce(
@@ -1019,9 +1019,9 @@ class _ChurrasqueiraWidgetState extends State<ChurrasqueiraWidget>
                                               );
                                               _model.totalVendasByDay =
                                                   _model.totalFromFirebase;
-                                              setState(() {});
+                                              safeSetState(() {});
 
-                                              setState(() {});
+                                              safeSetState(() {});
                                             },
                                             text: 'Buscar',
                                             options: FFButtonOptions(

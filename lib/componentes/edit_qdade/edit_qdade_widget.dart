@@ -39,7 +39,7 @@ class _EditQdadeWidgetState extends State<EditQdadeWidget> {
         // Atualiza qdade
         FFAppState().qdade =
             int.parse(_model.edtQdaddeFrangoTextController.text);
-        setState(() {});
+        safeSetState(() {});
       },
     );
   }
@@ -67,14 +67,14 @@ class _EditQdadeWidgetState extends State<EditQdadeWidget> {
               // Atualiza qdade
               FFAppState().qdade =
                   int.parse(_model.edtQdaddeFrangoTextController.text);
-              setState(() {});
+              safeSetState(() {});
             },
           ),
           onFieldSubmitted: (_) async {
             // Atualiza qdade
             FFAppState().qdade =
                 int.parse(_model.edtQdaddeFrangoTextController.text);
-            setState(() {});
+            safeSetState(() {});
           },
           autofocus: true,
           textInputAction: TextInputAction.next,

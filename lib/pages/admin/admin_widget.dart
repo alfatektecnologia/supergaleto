@@ -36,7 +36,7 @@ class _AdminWidgetState extends State<AdminWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().photoFromFirebase =
           'https://firebasestorage.googleapis.com/v0/b/supergaletto-39fa9.appspot.com/o/users%2FnBL82S7N8vanmHeuj8pMB3AC3nf2%2Fuploads%2Ffoto_padr%C3%A3o.jpg?alt=media&token=acd56d4c-9622-44c4-95b4-263c02bbd61d';
-      setState(() {});
+      safeSetState(() {});
     });
   }
 
@@ -52,9 +52,7 @@ class _AdminWidgetState extends State<AdminWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).alternate,
@@ -220,9 +218,14 @@ class _AdminWidgetState extends State<AdminWidget> {
                       ),
                       FlutterFlowRadioButton(
                         options: ['Cadastrar', 'Listar'].toList(),
-                        onChanged: (val) => setState(() {}),
+                        onChanged: (val) async {
+                          safeSetState(() {});
+                          FFAppState().isCadastro =
+                              !(FFAppState().isCadastro ?? true);
+                          safeSetState(() {});
+                        },
                         controller: _model.radioButtonValueController ??=
-                            FormFieldController<String>('Cadastrar'),
+                            FormFieldController<String>(null),
                         optionHeight: 32.0,
                         textStyle:
                             FlutterFlowTheme.of(context).labelMedium.override(
@@ -234,21 +237,19 @@ class _AdminWidgetState extends State<AdminWidget> {
                                   fontFamily: 'Inter',
                                   letterSpacing: 0.0,
                                 ),
-                        textPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
                         buttonPosition: RadioButtonPosition.left,
                         direction: Axis.horizontal,
                         radioButtonColor: FlutterFlowTheme.of(context).primary,
                         inactiveRadioButtonColor:
                             FlutterFlowTheme.of(context).secondaryText,
-                        toggleable: true,
+                        toggleable: false,
                         horizontalAlignment: WrapAlignment.start,
                         verticalAlignment: WrapCrossAlignment.start,
                       ),
                     ],
                   ),
                 ),
-                if (_model.radioButtonValue == 'Cadastrar')
+                if (FFAppState().isCadastro == true)
                   Padding(
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
@@ -261,7 +262,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                       ),
                       child: wrapWithModel(
                         model: _model.produtoCardModel,
-                        updateCallback: () => setState(() {}),
+                        updateCallback: () => safeSetState(() {}),
                         updateOnChange: true,
                         child: ProdutoCardWidget(
                           imageUrl: FFAppState().imageFromGallery == '\"\"'
@@ -281,7 +282,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                       ),
                     ),
                   ),
-                if (_model.radioButtonValue == 'Listar')
+                if (FFAppState().isCadastro == false)
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
                     child: StreamBuilder<List<ProdutosRecord>>(
@@ -372,7 +373,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                                                         listViewProdutosRecord
                                                             .salePrice,
                                                 );
-                                                setState(() {});
+                                                safeSetState(() {});
                                               },
                                             ),
                                           ),
@@ -412,7 +413,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                                                         listViewProdutosRecord
                                                             .salePrice,
                                                 );
-                                                setState(() {});
+                                                safeSetState(() {});
                                               },
                                             ),
                                           ),
@@ -452,7 +453,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                                                         listViewProdutosRecord
                                                             .salePrice,
                                                 );
-                                                setState(() {});
+                                                safeSetState(() {});
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
@@ -511,7 +512,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                                                     ..valorVenda = double.parse(
                                                         (inputTextoGeneric!)),
                                                 );
-                                                setState(() {});
+                                                safeSetState(() {});
                                               },
                                             ),
                                           ),
@@ -547,7 +548,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                                                       listViewProdutosRecord] ??=
                                                   true,
                                               onChanged: (newValue) async {
-                                                setState(() => _model
+                                                safeSetState(() => _model
                                                             .checkboxValueMap[
                                                         listViewProdutosRecord] =
                                                     newValue!);
@@ -557,7 +558,7 @@ class _AdminWidgetState extends State<AdminWidget> {
                                                       ProdutoStruct(
                                                     isAtivo: false,
                                                   );
-                                                  setState(() {});
+                                                  safeSetState(() {});
                                                 }
                                               },
                                               side: BorderSide(

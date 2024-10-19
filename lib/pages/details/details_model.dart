@@ -11,7 +11,6 @@ class DetailsModel extends FlutterFlowModel<DetailsWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // State field(s) for CountController widget.
   int? countControllerValue;
   // State field(s) for CheckboxGroup widget.
@@ -30,7 +29,6 @@ class DetailsModel extends FlutterFlowModel<DetailsWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     displayTotalModel.dispose();
   }
 }

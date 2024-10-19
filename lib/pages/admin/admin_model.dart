@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 class AdminModel extends FlutterFlowModel<AdminWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // State field(s) for RadioButton widget.
   FormFieldController<String>? radioButtonValueController;
   // Model for produtoCard component.
@@ -25,7 +24,6 @@ class AdminModel extends FlutterFlowModel<AdminWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     produtoCardModel.dispose();
   }
 

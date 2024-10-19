@@ -51,9 +51,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -310,7 +308,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                                 count: _model
                                                     .countControllerValue ??= 1,
                                                 updateCount: (count) =>
-                                                    setState(() => _model
+                                                    safeSetState(() => _model
                                                             .countControllerValue =
                                                         count),
                                                 stepSize: 1,
@@ -355,7 +353,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                   child: FlutterFlowCheckboxGroup(
                     options: const ['Sem batatas', 'Bem moreninho', 'Tamanho médio'],
                     onChanged: (val) =>
-                        setState(() => _model.checkboxGroupValues = val),
+                        safeSetState(() => _model.checkboxGroupValues = val),
                     controller: _model.checkboxGroupValueController ??=
                         FormFieldController<List<String>>(
                       [],
@@ -418,7 +416,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                   ),
                                   wrapWithModel(
                                     model: _model.displayTotalModel,
-                                    updateCallback: () => setState(() {}),
+                                    updateCallback: () => safeSetState(() {}),
                                     child: DisplayTotalWidget(
                                       parameter1: widget.produto?.salePrice,
                                       parameter2: _model.countControllerValue,
@@ -439,12 +437,12 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                       _model.valueItemSacola =
                                           widget.produto!.salePrice *
                                               (_model.countControllerValue!);
-                                      setState(() {});
+                                      safeSetState(() {});
                                       // update total
                                       FFAppState().TotalSacola =
                                           FFAppState().TotalSacola +
                                               _model.valueItemSacola!;
-                                      setState(() {});
+                                      safeSetState(() {});
                                       // Adding items to Cart
                                       FFAppState()
                                           .addToCarrinho(ItemDaSacolaStruct(
@@ -452,7 +450,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                         valor: _model.valueItemSacola,
                                         qdade: _model.countControllerValue,
                                         data: dateTimeFormat(
-                                          'd/M/y',
+                                          "d/M/y",
                                           getCurrentTimestamp,
                                           locale: FFLocalizations.of(context)
                                               .languageCode,
@@ -469,7 +467,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                                           ..total = FFAppState().TotalSacola
                                           ..userId = currentUserUid,
                                       );
-                                      setState(() {});
+                                      safeSetState(() {});
                                       // updated produto qdade
 
                                       await widget.produto!.reference.update({

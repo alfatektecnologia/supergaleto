@@ -110,7 +110,7 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                     if (selectedMedia != null &&
                         selectedMedia.every((m) =>
                             validateFileFormat(m.storagePath, context))) {
-                      setState(() => _model.isDataUploading1 = true);
+                      safeSetState(() => _model.isDataUploading1 = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
 
                       try {
@@ -134,13 +134,13 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                       }
                       if (selectedUploadedFiles.length ==
                           selectedMedia.length) {
-                        setState(() {
+                        safeSetState(() {
                           _model.uploadedLocalFile1 =
                               selectedUploadedFiles.first;
                         });
                         showUploadMessage(context, 'Success!');
                       } else {
-                        setState(() {});
+                        safeSetState(() {});
                         showUploadMessage(context, 'Failed to upload data');
                         return;
                       }
@@ -165,18 +165,18 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                 children: [
                   wrapWithModel(
                     model: _model.edProdutoNameModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: EditComponentWidget(
                       label: widget.label1,
                       hint: widget.hint1,
                       icon: (onClick) async {},
                       texto: (texto2callback) async {
                         _model.textoFromTextfield = texto2callback;
-                        setState(() {});
+                        safeSetState(() {});
                         FFAppState().updateProdutoStruct(
                           (e) => e..nome = texto2callback,
                         );
-                        setState(() {});
+                        safeSetState(() {});
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -194,52 +194,52 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                   ),
                   wrapWithModel(
                     model: _model.edDiscricaoModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: EditComponentWidget(
                       label: widget.label2,
                       hint: widget.hint2,
                       icon: (onClick) async {},
                       texto: (texto2callback) async {
                         _model.textoFromTextfield = texto2callback;
-                        setState(() {});
+                        safeSetState(() {});
                         FFAppState().updateProdutoStruct(
                           (e) => e..descricao = texto2callback,
                         );
-                        setState(() {});
+                        safeSetState(() {});
                       },
                     ),
                   ),
                   wrapWithModel(
                     model: _model.edValorCompraModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: EditComponentWidget(
                       label: widget.label3,
                       hint: widget.hint3,
                       icon: (onClick) async {},
                       texto: (texto2callback) async {
                         _model.textoFromTextfield = texto2callback;
-                        setState(() {});
+                        safeSetState(() {});
                         FFAppState().updateProdutoStruct(
                           (e) => e..valor = double.parse(texto2callback),
                         );
-                        setState(() {});
+                        safeSetState(() {});
                       },
                     ),
                   ),
                   wrapWithModel(
                     model: _model.edValorVendaModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: EditComponentWidget(
                       label: widget.label4,
                       hint: widget.hint4,
                       icon: (onClick) async {},
                       texto: (texto2callback) async {
                         _model.textoFromTextfield = texto2callback;
-                        setState(() {});
+                        safeSetState(() {});
                         FFAppState().updateProdutoStruct(
                           (e) => e..valorVenda = double.parse(texto2callback),
                         );
-                        setState(() {});
+                        safeSetState(() {});
                       },
                     ),
                   ),
@@ -276,13 +276,13 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                           options: dropDownCategoriasRecordList
                               .map((e) => e.nome)
                               .toList()
-                              .sortedList((e) => e),
+                              .sortedList(keyOf: (e) => e, desc: false),
                           onChanged: (val) async {
-                            setState(() => _model.dropDownValue = val);
+                            safeSetState(() => _model.dropDownValue = val);
                             FFAppState().updateProdutoStruct(
                               (e) => e..categoria = _model.dropDownValue,
                             );
-                            setState(() {});
+                            safeSetState(() {});
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
@@ -358,7 +358,7 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                         if (confirmDialogResponse) {
                           // Salva no firestore
                           {
-                            setState(() => _model.isDataUploading2 = true);
+                            safeSetState(() => _model.isDataUploading2 = true);
                             var selectedUploadedFiles = <FFUploadedFile>[];
                             var selectedFiles = <SelectedFile>[];
                             var downloadUrls = <String>[];
@@ -385,13 +385,13 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                             if (selectedUploadedFiles.length ==
                                     selectedFiles.length &&
                                 downloadUrls.length == selectedFiles.length) {
-                              setState(() {
+                              safeSetState(() {
                                 _model.uploadedLocalFile2 =
                                     selectedUploadedFiles.first;
                                 _model.uploadedFileUrl2 = downloadUrls.first;
                               });
                             } else {
-                              setState(() {});
+                              safeSetState(() {});
                               return;
                             }
                           }
@@ -411,7 +411,7 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                               ..valorVenda = double.parse(
                                   _model.edValorVendaModel.textController.text),
                           );
-                          setState(() {});
+                          safeSetState(() {});
                           // Save product to firebase
 
                           var produtosRecordReference =
@@ -441,7 +441,7 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                                   ),
                                   produtosRecordReference);
                           // Elimina dados
-                          setState(() {
+                          safeSetState(() {
                             _model.isDataUploading2 = false;
                             _model.uploadedLocalFile2 =
                                 FFUploadedFile(bytes: Uint8List.fromList([]));
@@ -449,14 +449,14 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                           });
 
                           // Elimina outro dado
-                          setState(() {
+                          safeSetState(() {
                             _model.isDataUploading1 = false;
                             _model.uploadedLocalFile1 =
                                 FFUploadedFile(bytes: Uint8List.fromList([]));
                           });
 
                           // Limpa campos de textos
-                          setState(() {
+                          safeSetState(() {
                             _model.edProdutoNameModel.textController?.clear();
                             _model.edDiscricaoModel.textController?.clear();
                             _model.edValorCompraModel.textController?.clear();
@@ -464,7 +464,7 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                           });
                         }
 
-                        setState(() {});
+                        safeSetState(() {});
                       },
                       text: 'SALVAR',
                       options: FFButtonOptions(

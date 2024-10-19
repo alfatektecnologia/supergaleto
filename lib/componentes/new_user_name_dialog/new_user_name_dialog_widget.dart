@@ -47,9 +47,9 @@ class _NewUserNameDialogWidgetState extends State<NewUserNameDialogWidget> {
     _model.txfNewNameFocusNode!.addListener(
       () async {
         _model.novaNome = _model.txfNewNameTextController.text;
-        setState(() {});
+        safeSetState(() {});
         FFAppState().pedidoUserName = _model.novaNome!;
-        setState(() {});
+        safeSetState(() {});
       },
     );
   }
@@ -163,17 +163,17 @@ class _NewUserNameDialogWidgetState extends State<NewUserNameDialogWidget> {
                           () async {
                             _model.novaNome =
                                 _model.txfNewNameTextController.text;
-                            setState(() {});
+                            safeSetState(() {});
                             FFAppState().pedidoUserName = _model.novaNome!;
-                            setState(() {});
+                            safeSetState(() {});
                           },
                         ),
                         onFieldSubmitted: (_) async {
                           _model.novaNome =
                               _model.txfNewNameTextController.text;
-                          setState(() {});
+                          safeSetState(() {});
                           FFAppState().pedidoUserName = _model.novaNome!;
-                          setState(() {});
+                          safeSetState(() {});
                         },
                         autofocus: true,
                         obscureText: false,
@@ -266,11 +266,11 @@ class _NewUserNameDialogWidgetState extends State<NewUserNameDialogWidget> {
                     onPressed: () async {
                       if (_model.txfNewNameTextController.text == '\"\"') {
                         FFAppState().pedidoUserName = currentUserDisplayName;
-                        setState(() {});
+                        safeSetState(() {});
                       } else {
                         // Novo nome cliente
                         FFAppState().pedidoUserName = _model.novaNome!;
-                        setState(() {});
+                        safeSetState(() {});
                       }
 
                       ScaffoldMessenger.of(context).showSnackBar(

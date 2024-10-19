@@ -44,7 +44,7 @@ class _ShowItemsChurrasqueiraWidgetState
       _model.fotoUrl = widget.image;
       _model.isChecked = false;
       _model.produtoName = widget.produtoName;
-      setState(() {});
+      safeSetState(() {});
     });
   }
 
@@ -118,7 +118,7 @@ class _ShowItemsChurrasqueiraWidgetState
                         name: widget.produtoName,
                         foto: widget.image,
                       );
-                      setState(() {});
+                      safeSetState(() {});
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -134,13 +134,13 @@ class _ShowItemsChurrasqueiraWidgetState
                     },
                     child: wrapWithModel(
                       model: _model.editQdadeModel,
-                      updateCallback: () => setState(() {}),
+                      updateCallback: () => safeSetState(() {}),
                       child: EditQdadeWidget(
                         textoDigitado: (textoQdade) async {
                           _model.textQdade = textoQdade;
-                          setState(() {});
+                          safeSetState(() {});
                           FFAppState().qdade = int.parse((textoQdade!));
-                          setState(() {});
+                          safeSetState(() {});
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(

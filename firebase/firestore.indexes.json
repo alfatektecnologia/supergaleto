@@ -51,6 +51,10 @@
           "order": "ASCENDING"
         },
         {
+          "fieldPath": "on_sale",
+          "order": "ASCENDING"
+        },
+        {
           "fieldPath": "qdade",
           "order": "ASCENDING"
         }

@@ -48,7 +48,7 @@ class _NewQttytDialogWidgetState extends State<NewQttytDialogWidget> {
     _model.txfNewQttyFocusNode!.addListener(
       () async {
         _model.novaQdade = _model.txfNewQttyTextController.text;
-        setState(() {});
+        safeSetState(() {});
       },
     );
   }
@@ -160,13 +160,13 @@ class _NewQttytDialogWidgetState extends State<NewQttytDialogWidget> {
                           () async {
                             _model.novaQdade =
                                 _model.txfNewQttyTextController.text;
-                            setState(() {});
+                            safeSetState(() {});
                           },
                         ),
                         onFieldSubmitted: (_) async {
                           _model.novaQdade =
                               _model.txfNewQttyTextController.text;
-                          setState(() {});
+                          safeSetState(() {});
                         },
                         autofocus: true,
                         textInputAction: TextInputAction.done,

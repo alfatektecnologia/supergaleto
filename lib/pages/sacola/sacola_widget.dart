@@ -39,10 +39,10 @@ class _SacolaWidgetState extends State<SacolaWidget> {
       _model.updateListaDeItensStruct(
         (e) => e..items = widget.itensSacola!.items.toList(),
       );
-      setState(() {});
+      safeSetState(() {});
       _model.countPedidos = await queryPedidosRecordCount();
       _model.nroPedido = _model.countPedidos;
-      setState(() {});
+      safeSetState(() {});
     });
   }
 
@@ -567,14 +567,14 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                                                         .TotalSacola +
                                                                     (-listItensSacolaItem
                                                                         .valor);
-                                                            setState(() {});
+                                                            safeSetState(() {});
                                                             // Item2delete
                                                             _model
                                                                 .item2delete = widget
                                                                     .itensSacola
                                                                     ?.items[
                                                                 listItensSacolaIndex];
-                                                            setState(() {});
+                                                            safeSetState(() {});
                                                             // deleteFromList
                                                             _model
                                                                 .updateListaDeItensStruct(
@@ -585,7 +585,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                                                           .item2delete),
                                                                 ),
                                                             );
-                                                            setState(() {});
+                                                            safeSetState(() {});
                                                             // update carrinho
                                                             FFAppState()
                                                                 .removeFromCarrinho(
@@ -612,7 +612,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                                                   .item2delete
                                                                   ?.referenceProd,
                                                             ));
-                                                            setState(() {});
+                                                            safeSetState(() {});
                                                           },
                                                           child: Icon(
                                                             Icons
@@ -916,7 +916,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                     ),
                                   );
                                 },
-                              ).then((value) => setState(() {}));
+                              );
                             }
                             if ((String var1) {
                               return var1 == "saturday" ||
@@ -938,7 +938,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                     create: true,
                                   ),
                                   data: dateTimeFormat(
-                                    'd/M/y',
+                                    "d/M/y",
                                     getCurrentTimestamp,
                                     locale: FFLocalizations.of(context)
                                         .languageCode,
@@ -956,7 +956,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                             create: true,
                                           ),
                                           data: dateTimeFormat(
-                                            'd/M/y',
+                                            "d/M/y",
                                             getCurrentTimestamp,
                                             locale: FFLocalizations.of(context)
                                                 .languageCode,
@@ -991,7 +991,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                   FFAppState().deleteTotalSacola();
                                   FFAppState().TotalSacola = 0.0;
 
-                                  setState(() {});
+                                  safeSetState(() {});
 
                                   context.pushNamed('Home');
                                 } else {
@@ -1005,7 +1005,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                   FFAppState().deleteTotalSacola();
                                   FFAppState().TotalSacola = 0.0;
 
-                                  setState(() {});
+                                  safeSetState(() {});
 
                                   context.pushNamed('Home');
                                 }
@@ -1020,7 +1020,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                 FFAppState().deleteTotalSacola();
                                 FFAppState().TotalSacola = 0.0;
 
-                                setState(() {});
+                                safeSetState(() {});
 
                                 context.pushNamed('Home');
                               }
@@ -1064,7 +1064,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                       create: true,
                                     ),
                                     data: dateTimeFormat(
-                                      'd/M/y',
+                                      "d/M/y",
                                       getCurrentTimestamp,
                                       locale: FFLocalizations.of(context)
                                           .languageCode,
@@ -1082,7 +1082,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                               create: true,
                                             ),
                                             data: dateTimeFormat(
-                                              'd/M/y',
+                                              "d/M/y",
                                               getCurrentTimestamp,
                                               locale:
                                                   FFLocalizations.of(context)
@@ -1120,7 +1120,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                     FFAppState().deleteTotalSacola();
                                     FFAppState().TotalSacola = 0.0;
 
-                                    setState(() {});
+                                    safeSetState(() {});
 
                                     context.pushNamed('Home');
                                   }
@@ -1135,7 +1135,7 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                   FFAppState().deleteTotalSacola();
                                   FFAppState().TotalSacola = 0.0;
 
-                                  setState(() {});
+                                  safeSetState(() {});
 
                                   context.pushNamed('Home');
                                 }
@@ -1150,20 +1150,20 @@ class _SacolaWidgetState extends State<SacolaWidget> {
                                 FFAppState().deleteTotalSacola();
                                 FFAppState().TotalSacola = 0.0;
 
-                                setState(() {});
+                                safeSetState(() {});
 
                                 context.pushNamed('Home');
                               }
                             }
 
-                            setState(() {});
+                            safeSetState(() {});
                           },
                           text: (String var1) {
                             return var1 == "Saturday" || var1 == "Sunday"
                                 ? "Finalizar pedidor"
                                 : "Encomendar";
                           }(dateTimeFormat(
-                            'EEEE',
+                            "EEEE",
                             getCurrentTimestamp,
                             locale: FFLocalizations.of(context).languageCode,
                           )),

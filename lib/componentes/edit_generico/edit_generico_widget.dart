@@ -39,7 +39,7 @@ class _EditGenericoWidgetState extends State<EditGenericoWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.textoDigitado = widget.hint;
-      setState(() {});
+      safeSetState(() {});
     });
 
     _model.editexGenericoTextController ??=
