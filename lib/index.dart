@@ -9,3 +9,4 @@ export '/pages/admin/admin_widget.dart' show AdminWidget;
 export '/pages/churrasqueira/churrasqueira_widget.dart'
     show ChurrasqueiraWidget;
 export '/pages/meus_pedidos/meus_pedidos_widget.dart' show MeusPedidosWidget;
+export '/promotion/promotion_widget.dart' show PromotionWidget;

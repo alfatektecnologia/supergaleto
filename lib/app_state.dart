@@ -468,6 +468,12 @@ class FFAppState extends ChangeNotifier {
     _isCadastro = value;
   }
 
+  bool _cadastroImg = false;
+  bool get cadastroImg => _cadastroImg;
+  set cadastroImg(bool value) {
+    _cadastroImg = value;
+  }
+
   final _categoriesManager = FutureRequestManager<List<CategoriasRecord>>();
   Future<List<CategoriasRecord>> categories({
     String? uniqueQueryKey,

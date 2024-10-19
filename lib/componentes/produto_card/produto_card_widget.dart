@@ -102,6 +102,8 @@ class _ProdutoCardWidgetState extends State<ProdutoCardWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
+                    FFAppState().cadastroImg = true;
+                    safeSetState(() {});
                     final selectedMedia =
                         await selectMediaWithSourceBottomSheet(
                       context: context,

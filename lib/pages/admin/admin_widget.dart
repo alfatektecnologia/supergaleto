@@ -195,29 +195,11 @@ class _AdminWidgetState extends State<AdminWidget> {
                   padding: const EdgeInsetsDirectional.fromSTEB(8.0, 16.0, 8.0, 0.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Align(
-                        alignment: const AlignmentDirectional(-1.0, -1.0),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            'Tipo de ação:',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Inter',
-                                  fontSize: 16.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ),
-                      ),
                       FlutterFlowRadioButton(
-                        options: ['Cadastrar', 'Listar'].toList(),
+                        options: ['Cadastrar', 'Listar', 'Promoção'].toList(),
                         onChanged: (val) async {
                           safeSetState(() {});
                           FFAppState().isCadastro =

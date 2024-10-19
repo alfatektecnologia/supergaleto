@@ -134,6 +134,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'MeusPedidos',
           path: '/meusPedidos',
           builder: (context, params) => const MeusPedidosWidget(),
+        ),
+        FFRoute(
+          name: 'promotion',
+          path: '/promotion',
+          builder: (context, params) => const PromotionWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
